@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240">
+  <rect width="400" height="240" rx="16" fill="#FCE8EC"/>
+  <rect x="90" y="65" width="220" height="115" rx="12" fill="#4A2C1D"/>
+  <rect x="106" y="81" width="88" height="38" rx="6" fill="#B5601E"/>
+  <rect x="206" y="81" width="88" height="38" rx="6" fill="#B5601E"/>
+  <rect x="106" y="128" width="88" height="38" rx="6" fill="#FFF8EE"/>
+  <rect x="206" y="128" width="88" height="38" rx="6" fill="#FFF8EE"/>
+  <circle cx="150" cy="100" r="8" fill="#FFF8EE"/>
+  <circle cx="250" cy="147" r="8" fill="#4A2C1D"/>
+  <text x="200" y="212" text-anchor="middle" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#4A2C1D">Brownie &amp; Cookie Assortment</text>
+</svg>
