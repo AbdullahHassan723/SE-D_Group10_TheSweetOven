@@ -40,7 +40,7 @@
 
 # | Abdullah Shahid | 26i-3211 | Menu, Item details, Custom cake request | |
 
-# | Aymen Niaz | 26i-3164 | Cart, Checkout, Order confirmation | |
+# | Aymen Niaz | 26i-3164 | Cart, Checkout, Order-Confirmation | Cart, Checkout, Order-Confirmation with localStorage, SWEET10, delivery areas, JazzCash/Easypaisa, order ID TSO-YYYY-XXXX |
 
 # | Noor Maryam | 26i-3207 | Offers and combos, Party calculator, FAQ | |
 

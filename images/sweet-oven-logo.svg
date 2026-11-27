@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80" role="img" aria-label="The Sweet Oven logo">
+  <circle cx="40" cy="40" r="38" fill="#FFF8EE" stroke="#B5601E" stroke-width="3"/>
+  <path d="M18 48 C18 32, 62 32, 62 48 Z" fill="#F3B6C0" stroke="#4A2C1D" stroke-width="2.5"/>
+  <rect x="16" y="47" width="48" height="13" rx="4" fill="#B5601E" stroke="#4A2C1D" stroke-width="2.5"/>
+  <circle cx="40" cy="24" r="5" fill="#B5601E" stroke="#4A2C1D" stroke-width="2"/>
+  <path d="M27 39 Q33 34 40 39 Q47 44 53 39" fill="none" stroke="#4A2C1D" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="29" cy="53.5" r="2" fill="#FFF8EE"/>
+  <circle cx="40" cy="53.5" r="2" fill="#FFF8EE"/>
+  <circle cx="51" cy="53.5" r="2" fill="#FFF8EE"/>
+</svg>
