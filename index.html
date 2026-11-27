@@ -3,14 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Sweet Oven</title>
+  <title>The Sweet Oven | Home Bakery</title>
+
+  <!-- Google Fonts: Playfair Display (headings) & Nunito (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Shared Custom Stylesheet (loaded AFTER Bootstrap) -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>The Sweet Oven</h1>
-    <nav></nav>
+  <!-- Accessibility skip link -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- COPY FROM HERE: Shared Header (Root / index.html version) -->
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <!-- Brand logo and name -->
+        <a class="navbar-brand" href="index.html">
+          <img src="images/logo.svg" alt="The Sweet Oven logo" class="brand-logo" width="42" height="42">
+          <span>The Sweet Oven</span>
+        </a>
+
+        <!-- Mobile hamburger toggle button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible navigation links -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 mt-3 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/offers.html">Offers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-cart" href="pages/cart.html">Cart</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
-  <main></main>
-  <footer></footer>
+  <!-- COPY TO HERE -->
+
+  <!-- Main page content -->
+  <main id="main-content" class="py-5">
+    <div class="container">
+      <!-- Hero starter section -->
+      <section class="section-highlight p-4 p-md-5 mb-5">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <span class="badge badge-pink rounded-pill px-3 py-2 mb-3">Fresh from our home oven</span>
+            <h1 class="display-5 mb-3">Warm, handcrafted bakes for every week &amp; celebration</h1>
+            <p class="lead mb-4">
+              Welcome to The Sweet Oven. Explore weekly artisan loaves, pastries, combo boxes, and custom cakes made to order.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <a href="pages/menu.html" class="btn btn-bakery">Browse Menu</a>
+              <a href="pages/offers.html" class="btn btn-outline-bakery">View Weekly Offers</a>
+            </div>
+          </div>
+          <div class="col-lg-4 text-center">
+            <img src="images/logo.svg" alt="The Sweet Oven emblem" class="img-fluid" width="160" height="160">
+          </div>
+        </div>
+      </section>
+
+      <!-- Sample shared component cards -->
+      <section aria-labelledby="featured-heading">
+        <h2 id="featured-heading" class="h3 mb-4">Quick Links &amp; Highlights</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card card-hover h-100">
+              <div class="card-header">Weekly Menu</div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="h5 card-title">Artisan Bakes &amp; Cakes</h3>
+                <p class="card-text text-muted-bakery flex-grow-1">
+                  Discover sourdough loaves, cinnamon rolls, brownies, and custom celebration cakes.
+                </p>
+                <a href="pages/menu.html" class="btn btn-bakery align-self-start">Explore Menu</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card card-hover h-100">
+              <div class="card-header">Special Combos</div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="h5 card-title">Deals &amp; Party Boxes</h3>
+                <p class="card-text text-muted-bakery flex-grow-1">
+                  Save on weekend bakery bundles and family treat boxes baked fresh every morning.
+                </p>
+                <a href="pages/offers.html" class="btn btn-outline-bakery align-self-start">See Offers</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card card-hover h-100">
+              <div class="card-header">Customer Account</div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="h5 card-title">Orders &amp; Reviews</h3>
+                <p class="card-text text-muted-bakery flex-grow-1">
+                  Sign in to track your weekly orders, leave a review, or manage your saved favorites.
+                </p>
+                <a href="pages/login.html" class="btn btn-pink align-self-start">Go to Login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- COPY FROM HERE: Shared Footer (Root / index.html version) -->
+  <footer class="site-footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Bakery brand & hours -->
+        <div class="col-md-4">
+          <h2 class="footer-heading">The Sweet Oven</h2>
+          <p class="mb-2">Handcrafted weekly bakes, pastries, and custom cakes.</p>
+          <p class="mb-1"><strong>Opening Hours:</strong></p>
+          <p class="mb-1">Mon – Sat: 8:00 AM – 8:00 PM</p>
+          <p class="mb-0">Sunday: 9:00 AM – 5:00 PM</p>
+        </div>
+
+        <!-- Contact details -->
+        <div class="col-md-4">
+          <h2 class="footer-heading">Contact Us</h2>
+          <p class="mb-2">
+            <strong>Phone:</strong>
+            <a href="tel:+923001234567">+92 300 1234567</a>
+          </p>
+          <p class="mb-0">Fresh pickups &amp; local delivery available daily.</p>
+        </div>
+
+        <!-- Quick footer links -->
+        <div class="col-md-4">
+          <h2 class="footer-heading">Quick Links</h2>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+            <li><a href="pages/about.html">About</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+            <li><a href="pages/faq.html">FAQ</a></li>
+            <li><a href="pages/reviews.html">Reviews</a></li>
+            <li><a href="pages/my-orders.html">My orders</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="footer-divider my-4">
+
+      <div class="text-center footer-copyright">
+        <small>&copy; 2026 The Sweet Oven. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+  <!-- COPY TO HERE -->
+
+  <!-- Bootstrap 5.3.3 JS Bundle via CDN (for navbar toggle & interactive components) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
