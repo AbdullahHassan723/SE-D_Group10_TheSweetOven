@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Basket — The Sweet Oven</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cart.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="brand-link" href="../index.html">
+          <img src="../images/sweet-oven-logo.svg" alt="The Sweet Oven logo" width="44" height="44">
+          <span class="brand-text">
+            <strong>The Sweet Oven</strong>
+            <small>Home Bakery &bull; Islamabad</small>
+          </span>
+        </a>
+
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-controls="primaryMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+
+        <ul class="nav-links" id="primaryMenu">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="offers.html">Offers</a></li>
+          <li><a href="cart.html" class="active" aria-current="page">Cart <span class="nav-badge" id="navCartCount">0</span></a></li>
+          <li><a href="checkout.html">Checkout</a></li>
+          <li><a href="order-confirmation.html">Orders</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4 py-md-5">
+    <div class="container">
+      <nav aria-label="Order progress" class="order-steps mb-4">
+        <ol class="steps-list">
+          <li class="step-item is-active"><a href="cart.html"><span>1</span> Basket</a></li>
+          <li class="step-item"><a href="checkout.html"><span>2</span> Checkout</a></li>
+          <li class="step-item"><a href="order-confirmation.html"><span>3</span> Confirmation</a></li>
+        </ol>
+      </nav>
+
+      <section class="page-intro mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2">
+          <div>
+            <p class="eyebrow mb-1">Freshly Baked to Order</p>
+            <h1 class="page-title mb-1">Your Bakery Basket</h1>
+            <p class="page-subtitle mb-0">Review your handmade treats, adjust quantities, or apply promo code <strong>SWEET10</strong> for 10% off.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-brown btn-sm" id="clearCartBtn">Clear Basket</button>
+          </div>
+        </div>
+      </section>
+
+      <div id="cartFeedback" class="feedback-banner d-none" role="status" aria-live="polite"></div>
+
+      <div class="row g-4 align-items-start">
+        <section class="col-lg-8" aria-label="Shopping cart items">
+          <div id="cartItemsContainer" class="cart-list"></div>
+
+          <div id="emptyCartState" class="empty-cart-card d-none">
+            <img src="../images/cinnamon-rolls.svg" alt="Empty bakery basket illustration" width="140" height="105">
+            <h2>Your oven basket is empty</h2>
+            <p>Looks like you have not added any cakes, pastries, or brownies yet. Add fresh treats below or restore our sample basket.</p>
+            <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+              <a href="#quickAddSection" class="btn btn-caramel">Browse Fresh Treats</a>
+              <button type="button" class="btn btn-outline-brown" id="restoreSampleBtn">Restore Sample Basket</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="col-lg-4" aria-label="Order summary">
+          <div class="summary-card">
+            <h2 class="summary-title">Order Summary</h2>
+
+            <form id="promoForm" class="promo-form mb-3" novalidate>
+              <label for="promoInput" class="form-label fw-semibold">Promo Code</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="promoInput"
+                  class="form-control"
+                  placeholder="Enter SWEET10"
+                  autocomplete="off"
+                >
+                <button type="submit" class="btn btn-caramel" id="applyPromoBtn">Apply</button>
+              </div>
+              <div id="promoFeedback" class="form-text mt-1" aria-live="polite">Use <strong>SWEET10</strong> to save 10% on your basket.</div>
+              <button type="button" class="btn btn-link btn-sm p-0 mt-1 text-decoration-none d-none" id="removePromoBtn">Remove promo code</button>
+            </form>
+
+            <dl class="summary-rows">
+              <div class="summary-row">
+                <dt>Items (<span id="summaryItemCount">0</span>)</dt>
+                <dd id="summarySubtotal">PKR 0</dd>
+              </div>
+              <div class="summary-row discount-row d-none" id="discountRow">
+                <dt>Discount (<span id="appliedCodeLabel">SWEET10</span> &bull; 10%)</dt>
+                <dd id="summaryDiscount">- PKR 0</dd>
+              </div>
+              <div class="summary-row">
+                <dt>Delivery Fee</dt>
+                <dd class="text-muted-brown">Calculated at checkout</dd>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-row total-row">
+                <dt>Estimated Total</dt>
+                <dd id="summaryTotal">PKR 0</dd>
+              </div>
+            </dl>
+
+            <a href="checkout.html" id="proceedCheckoutBtn" class="btn btn-caramel w-100 btn-lg mt-2">
+              Proceed to Checkout
+            </a>
+            <p class="small text-center mt-2 mb-0 bakery-note">Baked fresh within 24 hours &bull; Cash on Delivery &amp; Online Transfer</p>
+          </div>
+        </aside>
+      </div>
+
+      <section id="quickAddSection" class="quick-add-section mt-5" aria-label="Add more bakery items">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+          <div>
+            <h2 class="section-heading mb-1">Fresh From the Oven</h2>
+            <p class="mb-0 text-muted-brown">Need a little extra sweetness? Add another handmade favourite to your basket.</p>
+          </div>
+          <div class="search-box">
+            <label for="bakerySearchInput" class="visually-hidden">Search bakery treats</label>
+            <input
+              type="search"
+              id="bakerySearchInput"
+              class="form-control"
+              placeholder="Search cakes, brownies, rolls..."
+            >
+          </div>
+        </div>
+
+        <div id="quickAddGrid" class="row g-3"></div>
+        <div id="noSearchResults" class="no-results-card d-none" role="status" aria-live="polite">
+          <p class="mb-2 fw-semibold">No bakery items match "<span id="searchQueryText"></span>".</p>
+          <button type="button" class="btn btn-outline-brown btn-sm" id="clearSearchBtn">Show All Treats</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer mt-5">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <h2 class="footer-brand">The Sweet Oven</h2>
+          <p class="mb-1">Small-batch home bakery crafting cakes, pastries, and warm treats in Islamabad.</p>
+          <p class="mb-0 small">Kitchen Pickup: Street 14, Sector F-8/3, Islamabad &bull; Daily 10:00 AM &ndash; 9:00 PM</p>
+        </div>
+        <div class="col-md-4">
+          <h3 class="footer-heading">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="cart.html">Basket</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+            <li><a href="order-confirmation.html">Order Confirmation</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 text-md-end">
+          <p class="mb-1 fw-semibold">Orders &amp; Custom Inquiries</p>
+          <p class="mb-1 small">hello@thesweetoven.pk</p>
+          <p class="mb-0 small">+92 300 5550192</p>
+        </div>
+      </div>
+      <div class="footer-bottom mt-4 pt-3">
+        <p class="mb-0 small">&copy; 2026 The Sweet Oven &bull; Built by Group 10 (Cart, Checkout &amp; Confirmation by Aymen Niaz, 26i-3164)</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/cart.js"></script>
+</body>
+</html>

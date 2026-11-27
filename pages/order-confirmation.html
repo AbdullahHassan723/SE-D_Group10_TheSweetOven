@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation — The Sweet Oven</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/order-confirmation.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="brand-link" href="../index.html">
+          <img src="../images/sweet-oven-logo.svg" alt="The Sweet Oven logo" width="44" height="44">
+          <span class="brand-text">
+            <strong>The Sweet Oven</strong>
+            <small>Home Bakery &bull; Islamabad</small>
+          </span>
+        </a>
+
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-controls="primaryMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+
+        <ul class="nav-links" id="primaryMenu">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="offers.html">Offers</a></li>
+          <li><a href="cart.html">Cart <span class="nav-badge" id="navCartCount">0</span></a></li>
+          <li><a href="checkout.html">Checkout</a></li>
+          <li><a href="order-confirmation.html" class="active" aria-current="page">Orders</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4 py-md-5">
+    <div class="container">
+      <nav aria-label="Order progress" class="order-steps mb-4 no-print">
+        <ol class="steps-list">
+          <li class="step-item"><a href="cart.html"><span>1</span> Basket</a></li>
+          <li class="step-item"><a href="checkout.html"><span>2</span> Checkout</a></li>
+          <li class="step-item is-active"><a href="order-confirmation.html"><span>3</span> Confirmation</a></li>
+        </ol>
+      </nav>
+
+      <section class="lookup-bar mb-4 no-print" aria-label="Find a saved order">
+        <form id="orderLookupForm" class="row g-2 align-items-end" novalidate>
+          <div class="col-sm-8 col-md-5">
+            <label for="orderLookupInput" class="form-label fw-semibold mb-1">Look Up Saved Order ID</label>
+            <input
+              type="text"
+              id="orderLookupInput"
+              class="form-control"
+              placeholder="e.g. TSO-2026-4821"
+              autocomplete="off"
+            >
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-outline-brown">Find Order</button>
+          </div>
+          <div class="col-12">
+            <p id="lookupFeedback" class="small mb-0 d-none" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+
+      <section id="noOrderState" class="no-order-card d-none" aria-label="No order found">
+        <img src="../images/chocolate-fudge-cake.svg" alt="The Sweet Oven chocolate fudge cake illustration" width="140" height="105">
+        <h1 class="mt-3">No recent bakery order found</h1>
+        <p class="text-muted-brown mx-auto" style="max-width: 520px;">
+          Place an order from your basket and checkout to view your official Order ID, baking timeline, and receipt here.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+          <a href="cart.html" class="btn btn-caramel">Go to Basket</a>
+          <a href="../index.html" class="btn btn-outline-brown">Back to Home</a>
+        </div>
+      </section>
+
+      <div id="orderConfirmationContent" class="d-none">
+        <section class="confirmation-hero mb-4">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+              <span class="status-pill" id="orderStatusBadge">Confirmed &mdash; Baking Soon</span>
+              <h1 class="page-title mt-2 mb-1">Thank you, <span id="customerGreetingName">Guest</span>!</h1>
+              <p class="mb-0 text-muted-brown">
+                Your order <strong id="orderIdDisplay">TSO-2026-0000</strong> was placed on <span id="orderDateDisplay"></span>.
+              </p>
+            </div>
+            <div class="d-flex flex-wrap gap-2 no-print">
+              <button type="button" class="btn btn-outline-brown" id="copyOrderIdBtn">Copy Order ID</button>
+              <button type="button" class="btn btn-caramel" id="printReceiptBtn">Print Receipt</button>
+            </div>
+          </div>
+          <p id="copyFeedback" class="small fw-semibold text-success mt-2 mb-0 d-none" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="timeline-card mb-4" aria-label="Baking and delivery progress">
+          <h2 class="section-subtitle mb-3">From Our Oven to Your Table</h2>
+          <ol id="bakingTimeline" class="timeline-grid list-unstyled mb-0"></ol>
+        </section>
+
+        <div class="row g-4 align-items-start">
+          <section class="col-lg-7" aria-label="Ordered items">
+            <div class="receipt-card">
+              <h2 class="section-subtitle pb-2 mb-3 border-bottom">Items in Your Order</h2>
+              <ul id="orderedItemsList" class="ordered-items-list list-unstyled mb-0"></ul>
+            </div>
+          </section>
+
+          <aside class="col-lg-5" aria-label="Order totals and delivery details">
+            <div class="receipt-card mb-4">
+              <h2 class="section-subtitle pb-2 mb-3 border-bottom">Payment &amp; Total Summary</h2>
+              <dl class="summary-rows mb-0">
+                <div class="summary-row">
+                  <dt>Items (<span id="confirmItemCount">0</span>)</dt>
+                  <dd id="confirmSubtotal">PKR 0</dd>
+                </div>
+                <div class="summary-row discount-row d-none" id="confirmDiscountRow">
+                  <dt>Promo (<span id="confirmPromoCode">SWEET10</span>)</dt>
+                  <dd id="confirmDiscount">- PKR 0</dd>
+                </div>
+                <div class="summary-row">
+                  <dt>Delivery Fee</dt>
+                  <dd id="confirmDeliveryFee">PKR 0</dd>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total-row">
+                  <dt>Total Paid / Due</dt>
+                  <dd id="confirmTotal">PKR 0</dd>
+                </div>
+              </dl>
+              <div class="payment-pill mt-3">
+                <div><strong>Payment Method:</strong> <span id="confirmPaymentMethod"></span></div>
+                <div><strong>Reference:</strong> <span id="confirmPaymentRef"></span></div>
+              </div>
+            </div>
+
+            <div class="receipt-card">
+              <h2 class="section-subtitle pb-2 mb-3 border-bottom">Delivery &amp; Contact Details</h2>
+              <dl class="detail-list mb-0">
+                <div>
+                  <dt>Customer</dt>
+                  <dd id="confirmCustomerName"></dd>
+                </div>
+                <div>
+                  <dt>Phone &amp; Email</dt>
+                  <dd id="confirmCustomerContact"></dd>
+                </div>
+                <div>
+                  <dt>Area &amp; Schedule</dt>
+                  <dd id="confirmSchedule"></dd>
+                </div>
+                <div>
+                  <dt>Address / Pickup</dt>
+                  <dd id="confirmAddress"></dd>
+                </div>
+                <div id="confirmNotesBlock" class="d-none">
+                  <dt>Special Notes</dt>
+                  <dd id="confirmNotes"></dd>
+                </div>
+              </dl>
+            </div>
+          </aside>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-4 no-print">
+          <a href="cart.html" class="btn btn-caramel">Start Another Order</a>
+          <a href="../index.html" class="btn btn-outline-brown">Return to Home</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer mt-5 no-print">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <h2 class="footer-brand">The Sweet Oven</h2>
+          <p class="mb-1">Small-batch home bakery crafting cakes, pastries, and warm treats in Islamabad.</p>
+          <p class="mb-0 small">Kitchen Pickup: Street 14, Sector F-8/3, Islamabad &bull; Daily 10:00 AM &ndash; 9:00 PM</p>
+        </div>
+        <div class="col-md-4">
+          <h3 class="footer-heading">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="cart.html">Basket</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+            <li><a href="order-confirmation.html">Order Confirmation</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 text-md-end">
+          <p class="mb-1 fw-semibold">Orders &amp; Custom Inquiries</p>
+          <p class="mb-1 small">hello@thesweetoven.pk</p>
+          <p class="mb-0 small">+92 300 5550192</p>
+        </div>
+      </div>
+      <div class="footer-bottom mt-4 pt-3">
+        <p class="mb-0 small">&copy; 2026 The Sweet Oven &bull; Built by Group 10 (Cart, Checkout &amp; Confirmation by Aymen Niaz, 26i-3164)</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/order-confirmation.js"></script>
+</body>
+</html>
