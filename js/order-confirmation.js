@@ -32,8 +32,8 @@
     }
   ];
 
-  var navToggle = document.getElementById("navToggle");
-  var primaryMenu = document.getElementById("primaryMenu");
+  var navbarToggler = document.querySelector(".navbar-toggler");
+  var mainNavbar = document.getElementById("mainNavbar");
   var navCartCount = document.getElementById("navCartCount");
 
   var orderLookupForm = document.getElementById("orderLookupForm");
@@ -259,11 +259,23 @@
     lookupFeedback.classList.add(isError ? "text-danger" : "text-success", "fw-semibold");
   }
 
-  navToggle.addEventListener("click", function () {
-    var expanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!expanded));
-    primaryMenu.classList.toggle("is-open", !expanded);
-  });
+  function initNavbarToggle() {
+    if (!navbarToggler || !mainNavbar) {
+      return;
+    }
+    navbarToggler.addEventListener("click", function () {
+      var isOpen = mainNavbar.classList.toggle("show");
+      navbarToggler.setAttribute("aria-expanded", String(isOpen));
+    });
+    mainNavbar.addEventListener("click", function (event) {
+      if (event.target.closest(".nav-link") && mainNavbar.classList.contains("show")) {
+        mainNavbar.classList.remove("show");
+        navbarToggler.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  initNavbarToggle();
 
   orderLookupForm.addEventListener("submit", function (event) {
     event.preventDefault();
