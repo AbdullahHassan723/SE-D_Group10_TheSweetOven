@@ -28,6 +28,12 @@
 
 # |---------|----------|------|--------|
 
+# | Shopping Cart, Quantity Controls, Promo Code (`SWEET10`), PKR 1,000 Minimum Order, Catalog Search, `localStorage` State | Cart & Calculations | `pages/cart.html` | Aymen Niaz (`26i-3164`) |
+
+# | Delivery Zones & Time Slots, Payment Methods (COD, JazzCash/Easypaisa, IBFT), Form & Minimum Order Validation, Draft Persistence | Checkout & Validation | `pages/checkout.html` | Aymen Niaz (`26i-3164`) |
+
+# | Order ID (`TSO-YYYY-XXXX`) Receipt, Saved Order Lookup, 4-Stage Baking Timeline, Print & Copy Receipt, Vanilla JS Mobile Nav | Order Confirmation | `pages/order-confirmation.html` | Aymen Niaz (`26i-3164`) |
+
 # 
 
 # \## Contribution Table
@@ -40,7 +46,7 @@
 
 # | Abdullah Shahid | 26i-3211 | Menu, Item details, Custom cake request | |
 
-# | Aymen Niaz | 26i-3164 | Cart, Checkout, Order confirmation | |
+# | Aymen Niaz | 26i-3164 | Cart, Checkout, Order-Confirmation | Cart, Checkout, Order-Confirmation with shared styles.css/header/footer, vanilla JS mobile nav, PKR 1,000 minimum order, localStorage, SWEET10, delivery areas, JazzCash/Easypaisa/IBFT, order ID TSO-YYYY-XXXX |
 
 # | Noor Maryam | 26i-3207 | Offers and combos, Party calculator, FAQ | |
 
