@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="cakeSliceIconTitle">
+  <title id="cakeSliceIconTitle">Custom cakes slice icon</title>
+  <circle cx="32" cy="32" r="30" fill="#FCE8EC" stroke="#B5601E" stroke-width="2.5"/>
+  <!-- Cake slice wedge -->
+  <path d="M16 32 L46 21 L46 44 L16 44 Z" fill="#FFF8EE" stroke="#4A2C1D" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Chocolate sponge & caramel filling layer -->
+  <rect x="16" y="34" width="30" height="4" fill="#B5601E"/>
+  <path d="M16 32 L46 21 L46 27 L16 34 Z" fill="#F3B6C0" stroke="#4A2C1D" stroke-width="1.8" stroke-linejoin="round"/>
+  <line x1="16" y1="44" x2="46" y2="44" stroke="#4A2C1D" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Top berry -->
+  <circle cx="38" cy="19" r="3.2" fill="#B5601E" stroke="#4A2C1D" stroke-width="1.6"/>
+</svg>

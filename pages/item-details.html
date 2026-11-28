@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details | The Sweet Oven</title>
+
+  <!-- Google Fonts: Playfair Display (headings) & Nunito (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS via CDN (CSS only, no Bootstrap JS) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Shared Custom Stylesheet (loaded AFTER Bootstrap) -->
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- Page-Specific Stylesheet -->
+  <link rel="stylesheet" href="../css/item-details.css">
+</head>
+<body>
+  <!-- Accessibility skip link -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Shared Header (pages/ folder version) -->
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <img src="../images/logo.svg" alt="The Sweet Oven logo" class="brand-logo" width="42" height="42">
+          <span>The Sweet Oven</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 mt-3 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="offers.html">Offers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-cart" href="cart.html">
+                Cart <span class="badge badge-pink rounded-pill ms-1" id="navCartCount">0</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" class="py-4 py-md-5">
+    <div class="container">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="mb-4">
+        <ol class="breadcrumb bakery-breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="menu.html">Menu</a></li>
+          <li class="breadcrumb-item active" aria-current="page" id="breadcrumbItemName">Item Details</li>
+        </ol>
+      </nav>
+
+      <!-- Invalid Item Fallback State -->
+      <section id="itemNotFound" class="card text-center p-5 my-4 d-none" role="status" aria-live="polite">
+        <img src="../images/cinnamon-rolls.svg" alt="Bakery item not found illustration" width="150" height="112" class="mx-auto mb-3">
+        <h1 class="h3 mb-2">We Could Not Find That Bakery Treat</h1>
+        <p id="notFoundMessage" class="text-muted-bakery mb-4">
+          The item link may be outdated or removed from this week's oven list. Browse our full menu to pick a fresh bake.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <a href="menu.html" class="btn btn-pink">Back to Full Menu</a>
+          <a href="custom-cake.html" class="btn btn-outline-bakery">Design Your Cake</a>
+        </div>
+      </section>
+
+      <!-- Main Item Details Container -->
+      <div id="itemDetailContent">
+        <div id="detailFeedback" class="detail-feedback d-none mb-4" role="status" aria-live="polite"></div>
+
+        <section class="row g-4 align-items-start mb-5" aria-labelledby="detailTitle">
+          <!-- Visual Showcase Column (Soft Peach Box) -->
+          <div class="col-lg-5">
+            <div class="card detail-media-card p-3 p-md-4 position-relative">
+              <div class="detail-peach-box p-4 text-center position-relative">
+                <span id="detailBadge" class="detail-badge d-none"></span>
+                <button
+                  type="button"
+                  id="detailFavoriteBtn"
+                  class="detail-favorite-btn"
+                  aria-pressed="false"
+                  aria-label="Save item to favourites"
+                >
+                  ♡
+                </button>
+                <img
+                  id="detailImage"
+                  src="../images/chocolate-fudge-cake.svg"
+                  alt="Bakery treat preview"
+                  class="detail-img mx-auto my-2"
+                  width="320"
+                  height="240"
+                >
+              </div>
+              <div class="detail-highlights mt-3 pt-3 border-top text-start">
+                <ul id="detailHighlightsList" class="list-unstyled small mb-0 d-flex flex-column gap-2"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Purchase & Customization Column -->
+          <div class="col-lg-7">
+            <div class="card p-4 p-md-5">
+              <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                <span id="detailCategory" class="detail-category-tag">Cakes</span>
+                <span id="detailPrepTime" class="small fw-semibold text-muted-bakery"></span>
+              </div>
+
+              <h1 id="detailTitle" class="h2 mb-2">Chocolate Cake</h1>
+
+              <!-- Pink/Red Price & 5 Gold Stars Rating -->
+              <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                <span id="detailUnitPrice" class="detail-price-highlight">Rs. 1,800</span>
+                <div class="detail-rating-row" id="detailRating">
+                  <span class="stars-gold" aria-hidden="true">★★★★★</span>
+                  <span id="detailRatingText" class="fw-bold">4.8 (1.2k reviews)</span>
+                </div>
+              </div>
+
+              <p id="detailShortDesc" class="fs-6 fw-semibold mb-2"></p>
+              <p id="detailDescription" class="text-muted-bakery mb-4"></p>
+
+              <!-- Size / Variant Selection -->
+              <div class="mb-4">
+                <span class="form-label d-block">Choose Size / Pack</span>
+                <div id="variantList" class="row g-2" role="radiogroup" aria-label="Item size or pack options"></div>
+              </div>
+
+              <!-- Quantity Stepper beside Wide Pink Add to Cart Button -->
+              <form id="detailOrderForm" novalidate>
+                <div class="mb-3">
+                  <label for="detailQtyInput" class="form-label">Quantity (1–20)</label>
+                  <div class="d-flex flex-column flex-sm-row align-items-stretch gap-2">
+                    <div class="qty-stepper">
+                      <button type="button" id="qtyDecreaseBtn" class="btn btn-outline-bakery" aria-label="Decrease quantity">&minus;</button>
+                      <input
+                        type="number"
+                        id="detailQtyInput"
+                        class="form-control text-center qty-input-box"
+                        min="1"
+                        max="20"
+                        step="1"
+                        value="1"
+                      >
+                      <button type="button" id="qtyIncreaseBtn" class="btn btn-outline-bakery" aria-label="Increase quantity">+</button>
+                    </div>
+                    <button type="submit" id="addToBasketBtn" class="btn btn-pink btn-lg flex-grow-1">
+                      Add to Cart
+                    </button>
+                  </div>
+                  <div id="qtyErrorMsg" class="invalid-feedback d-block mt-1"></div>
+                </div>
+
+                <!-- Optional Gift Note -->
+                <div class="mb-3">
+                  <label for="detailNoteInput" class="form-label">
+                    Gift Card / Cake Note <span class="fw-normal text-muted-bakery">(Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="detailNoteInput"
+                    class="form-control"
+                    maxlength="80"
+                    placeholder="e.g., Happy Birthday Sana! — Love, Ayesha"
+                  >
+                  <div class="form-text text-end">
+                    <span id="noteCharCount">0</span>/80 characters
+                  </div>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top">
+                  <div>
+                    <span class="small text-muted-bakery d-block">Subtotal for Selection</span>
+                    <strong id="detailSubtotal" class="fs-5">Rs. 1,800</strong>
+                  </div>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" id="openAllergenModalBtn" class="btn btn-outline-bakery btn-sm">
+                      Allergen &amp; Details Modal
+                    </button>
+                    <a href="custom-cake.html" class="btn btn-outline-bakery btn-sm">
+                      Design Custom Cake
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interactive Info Tabs (Ingredients | Allergens | Storage) -->
+        <section class="card p-4 p-md-5 mb-5" aria-label="Ingredients, allergens, and storage tabs">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <h2 class="h4 mb-0">Bake Details &amp; Allergen Guide</h2>
+            <span class="small text-muted-bakery">Select a tab below</span>
+          </div>
+
+          <div class="detail-tablist mb-3" role="tablist" aria-label="Product specifications">
+            <button
+              type="button"
+              id="tab-ingredients"
+              class="detail-tab-btn is-active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-ingredients"
+              data-tab="ingredients"
+            >
+              Ingredients
+            </button>
+            <button
+              type="button"
+              id="tab-allergens"
+              class="detail-tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-allergens"
+              data-tab="allergens"
+            >
+              Allergens
+            </button>
+            <button
+              type="button"
+              id="tab-storage"
+              class="detail-tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-storage"
+              data-tab="storage"
+            >
+              Baker's Note &amp; Storage
+            </button>
+          </div>
+
+          <!-- Panel 1: Ingredients -->
+          <div id="panel-ingredients" class="detail-tabpanel p-3 p-md-4" role="tabpanel" aria-labelledby="tab-ingredients">
+            <h3 class="h5 mb-2">Fresh Bakery Ingredients</h3>
+            <ul id="detailIngredientsList" class="mb-0 ps-3 d-flex flex-column gap-2"></ul>
+          </div>
+
+          <!-- Panel 2: Allergens -->
+          <div id="panel-allergens" class="detail-tabpanel p-3 p-md-4 d-none" role="tabpanel" aria-labelledby="tab-allergens">
+            <h3 class="h5 mb-2">Allergen Information</h3>
+            <div id="detailAllergensBadges" class="d-flex flex-wrap gap-2 mb-3"></div>
+            <ul id="detailAllergensList" class="mb-2 ps-3 d-flex flex-column gap-1"></ul>
+            <p id="detailAllergenNote" class="small text-muted-bakery mb-0"></p>
+          </div>
+
+          <!-- Panel 3: Storage & Baker's Note -->
+          <div id="panel-storage" class="detail-tabpanel p-3 p-md-4 d-none" role="tabpanel" aria-labelledby="tab-storage">
+            <h3 class="h5 mb-2">Baker's Serving Tip &amp; Storage</h3>
+            <p id="detailBakerNote" class="mb-2"></p>
+            <p class="small text-muted-bakery mb-0"><strong>Storage:</strong> <span id="detailStorage"></span></p>
+          </div>
+        </section>
+
+        <!-- "You might also like" — 3 Compact Square Thumbnails -->
+        <section class="mb-5" aria-labelledby="relatedHeading">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 id="relatedHeading" class="h4 mb-0">You might also like</h2>
+            <a href="menu.html" class="small fw-bold text-decoration-none">View Full Menu &rarr;</a>
+          </div>
+          <div id="relatedItemsGrid" class="row g-3"></div>
+        </section>
+
+        <!-- Recently Viewed Items (persisted in localStorage) -->
+        <section id="recentSection" class="d-none" aria-labelledby="recentHeading">
+          <h2 id="recentHeading" class="h5 mb-3">Recently Viewed Items</h2>
+          <div id="recentItemsList" class="row g-3"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Allergen & Full Details Modal (Vanilla JS, no Bootstrap JS) -->
+  <div id="allergenModal" class="bakery-modal-backdrop d-none" role="dialog" aria-modal="true" aria-labelledby="allergenModalTitle" aria-hidden="true">
+    <div class="bakery-modal-dialog card p-4 p-md-5">
+      <button type="button" id="closeAllergenModalBtn" class="bakery-modal-close" aria-label="Close allergen and nutrition modal">
+        &times;
+      </button>
+      <span class="detail-category-tag d-block mb-1">Kitchen Allergen &amp; Care Guide</span>
+      <h2 id="allergenModalTitle" class="h3 mb-3">Allergen Summary</h2>
+      <div id="allergenModalBadges" class="d-flex flex-wrap gap-2 mb-3"></div>
+      <p id="allergenModalNote" class="mb-3"></p>
+      <div class="modal-info-box p-3 mb-3">
+        <p class="fw-bold mb-1">Ingredients</p>
+        <ul id="allergenModalIngredients" class="mb-0 ps-3 small"></ul>
+      </div>
+      <div class="modal-info-box p-3 mb-4">
+        <p class="fw-bold mb-1">Freshness &amp; Storage</p>
+        <p id="allergenModalStorage" class="small text-muted-bakery mb-0"></p>
+      </div>
+      <div class="text-end">
+        <button type="button" id="confirmAllergenModalBtn" class="btn btn-pink">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Footer (pages/ folder version) -->
+  <footer class="site-footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h2 class="footer-heading">The Sweet Oven</h2>
+          <p class="mb-2">Handcrafted weekly bakes, pastries, and custom cakes.</p>
+          <p class="mb-1"><strong>Opening Hours:</strong></p>
+          <p class="mb-1">Mon – Sat: 8:00 AM – 8:00 PM</p>
+          <p class="mb-0">Sunday: 9:00 AM – 5:00 PM</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Contact Us</h2>
+          <p class="mb-2">
+            <strong>Phone:</strong>
+            <a href="tel:+923001234567">+92 300 1234567</a>
+          </p>
+          <p class="mb-0">Fresh pickups &amp; local delivery available daily.</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Quick Links</h2>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="my-orders.html">My orders</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="footer-divider my-4">
+
+      <div class="text-center footer-copyright">
+        <small>&copy; 2026 The Sweet Oven. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/bakery-data.js"></script>
+  <script src="../js/bakery-shared.js"></script>
+  <script src="../js/item-details.js"></script>
+</body>
+</html>

@@ -1,0 +1,709 @@
+/* ==========================================================================
+   The Sweet Oven - Home Page Stylesheet (index.html)
+   Loaded AFTER Bootstrap 5.3.3 CSS & css/styles.css
+   ========================================================================== */
+
+/* Brand label adapts cleanly to mobile prototype ("Bakery") vs desktop */
+.brand-name-mobile {
+  display: none;
+}
+
+@media (max-width: 575.98px) {
+  .brand-name-desktop {
+    display: none;
+  }
+
+  .brand-name-mobile {
+    display: inline;
+  }
+}
+
+.theme-toggle-btn {
+  background-color: var(--color-pink-soft);
+  border: 1.5px solid var(--color-brown);
+  color: var(--color-brown);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.38rem 0.85rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+}
+
+/* Visible :focus-visible outlines (3px caramel #B5601E with offset) */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.navbar-toggler:focus-visible,
+.theme-toggle-btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.carousel-btn:focus-visible,
+.carousel-dot:focus-visible,
+.filter-pill:focus-visible {
+  outline: 3px solid #B5601E;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(243, 182, 192, 0.45);
+}
+
+/* Main section ordering: on mobile, 3-icon Highlights sit right after Hero so Best Sellers & extras sit below the fold */
+.home-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-section {
+  order: 1;
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink-soft) 100%);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.highlights-section {
+  order: 2;
+}
+
+.best-sellers-section {
+  order: 3;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.schedule-section {
+  order: 4;
+}
+
+.quotes-section {
+  order: 5;
+}
+
+.newsletter-section {
+  order: 6;
+}
+
+@media (min-width: 992px) {
+  .best-sellers-section {
+    order: 2;
+  }
+
+  .highlights-section {
+    order: 3;
+  }
+}
+
+/* Remembered Visit Banner */
+.visit-greeting-bar {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-pink);
+  border-left: 5px solid var(--color-caramel);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.95rem;
+  color: var(--color-brown);
+  font-weight: 700;
+  font-size: 0.92rem;
+  display: inline-block;
+}
+
+/* Hero Grid: 1-column mobile stack (Title -> Image -> Full-width Order Now), 2-column desktop */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.hero-heading-block {
+  order: 1;
+}
+
+.hero-media-block {
+  order: 2;
+}
+
+.hero-cta-block {
+  order: 3;
+}
+
+@media (min-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    column-gap: 3rem;
+    row-gap: 1.5rem;
+  }
+
+  .hero-heading-block {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    order: initial;
+  }
+
+  .hero-cta-block {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    order: initial;
+  }
+
+  .hero-media-block {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    order: initial;
+  }
+}
+
+.eyebrow-pill {
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  padding: 0.32rem 0.85rem;
+  border-radius: 999px;
+}
+
+.hero-title {
+  font-size: clamp(2.35rem, 4.5vw, 3.6rem);
+  color: var(--color-brown);
+  line-height: 1.1;
+}
+
+.hero-lead {
+  font-size: 1.06rem;
+  color: var(--color-muted);
+  max-width: 34rem;
+}
+
+.hero-illustration {
+  width: 100%;
+  max-width: 470px;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-order-btn {
+  min-width: 11.5rem;
+  font-size: 1.08rem;
+  padding: 0.72rem 1.75rem;
+  border: 2px solid var(--color-brown);
+}
+
+.hero-meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.4rem;
+  font-size: 0.93rem;
+  color: var(--color-brown);
+}
+
+.hero-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.meta-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-caramel);
+  flex-shrink: 0;
+}
+
+/* Best Sellers Carousel (3 product cards in a row on desktop) */
+.best-sellers-carousel {
+  background-color: var(--color-cream);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.carousel-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carousel-btn {
+  background-color: var(--color-surface);
+  color: var(--color-brown);
+  border: 1.5px solid var(--color-brown);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.85rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.carousel-btn:hover:not(:disabled) {
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.35s ease;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+.carousel-status-hint {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.carousel-dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-brown);
+  background-color: var(--color-surface);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.carousel-dot.is-active {
+  background-color: var(--color-caramel);
+  border-color: var(--color-caramel);
+  transform: scale(1.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    transition: none;
+  }
+}
+
+/* Filterable Product Cards */
+.filter-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-pill {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-brown);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.filter-pill:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+.filter-pill.is-active {
+  background-color: var(--color-brown);
+  border-color: var(--color-brown);
+  color: var(--color-cream);
+}
+
+.bake-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bake-card-media {
+  background-color: var(--color-cream);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+.bake-card-media img {
+  width: 100%;
+  max-width: 210px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.bake-tag {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+}
+
+.bake-meta {
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.bake-price {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-caramel-dark);
+}
+
+/* 3 Small Round Icons Row (Desktop) / Rounded Card Icon Rows (Mobile) */
+.highlights-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  max-width: 54rem;
+  margin: 0 auto;
+}
+
+.highlight-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.65rem;
+}
+
+.highlight-icon-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-pink);
+  box-shadow: var(--shadow-soft);
+  padding: 0.35rem;
+}
+
+.highlight-icon-circle img {
+  width: 54px;
+  height: 54px;
+  display: block;
+}
+
+.highlight-caption {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-brown);
+  margin: 0;
+}
+
+.highlight-subtext {
+  font-size: 0.84rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+@media (max-width: 575.98px) {
+  .highlights-card {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    background-color: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.15rem 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .highlight-item {
+    flex-direction: row;
+    text-align: left;
+    gap: 0.9rem;
+  }
+
+  .highlight-icon-circle {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+  }
+
+  .highlight-icon-circle img {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* Weekly Bake Schedule */
+.schedule-card {
+  height: 100%;
+  padding: 1.2rem;
+  position: relative;
+}
+
+.schedule-card.is-today {
+  border: 2px solid var(--color-caramel);
+  background-color: var(--color-pink-soft);
+}
+
+.today-pill {
+  background-color: var(--color-caramel);
+  color: #FFFFFF;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+/* Customer Highlights */
+.quote-card {
+  height: 100%;
+  padding: 1.35rem;
+}
+
+.quote-stars {
+  color: var(--color-caramel);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* Newsletter & Feedback */
+.newsletter-box {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-pink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.empty-state-box {
+  background-color: var(--color-surface);
+  border: 1.5px dashed var(--color-input-border);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.25rem;
+  text-align: center;
+}
+
+.status-toast {
+  background-color: var(--color-brown);
+  color: var(--color-cream);
+  border-left: 5px solid var(--color-pink);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  font-weight: 600;
+}
+
+.field-error-msg {
+  color: #9E2A2B;
+  font-size: 0.86rem;
+  font-weight: 700;
+  margin-top: 0.35rem;
+}
+
+/* ==========================================================================
+   Cozy Dark Theme (data-theme="cozy") — High-Contrast Warm Espresso Palette
+   ========================================================================== */
+[data-theme="cozy"] body {
+  background-color: #2B180F;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header {
+  background-color: #3D2417;
+  border-bottom-color: #F3B6C0;
+}
+
+[data-theme="cozy"] .site-header .navbar-brand,
+[data-theme="cozy"] .site-header .nav-link {
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header .nav-link:hover {
+  background-color: #5C3825;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header .nav-link.active,
+[data-theme="cozy"] .site-header .nav-link[aria-current="page"] {
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+}
+
+[data-theme="cozy"] .site-header .navbar-toggler {
+  border-color: #FFF8EE;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23FFF8EE' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.4' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+[data-theme="cozy"] .theme-toggle-btn {
+  background-color: #4A2C1D;
+  border-color: #F3B6C0;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .theme-toggle-btn:hover {
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+}
+
+[data-theme="cozy"] h1,
+[data-theme="cozy"] h2,
+[data-theme="cozy"] h3,
+[data-theme="cozy"] h4,
+[data-theme="cozy"] .hero-title,
+[data-theme="cozy"] .highlight-caption {
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .hero-section {
+  background: linear-gradient(135deg, #2B180F 0%, #4A2C1D 100%);
+  border-bottom-color: #6B4431;
+}
+
+[data-theme="cozy"] .best-sellers-section {
+  background-color: #361F14;
+  border-color: #6B4431;
+}
+
+[data-theme="cozy"] .section-highlight {
+  background-color: #3D2417;
+  border-color: #B5601E;
+}
+
+[data-theme="cozy"] .best-sellers-carousel {
+  background-color: #2B180F;
+  border-color: #7D523B;
+}
+
+[data-theme="cozy"] .card,
+[data-theme="cozy"] .bakery-card,
+[data-theme="cozy"] .newsletter-box,
+[data-theme="cozy"] .empty-state-box,
+[data-theme="cozy"] .visit-greeting-bar {
+  background-color: #4A2C1D;
+  border-color: #7D523B;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .schedule-card.is-today {
+  background-color: #5C3724;
+  border-color: #F3B6C0;
+}
+
+@media (max-width: 575.98px) {
+  [data-theme="cozy"] .highlights-card {
+    background-color: #4A2C1D;
+    border-color: #7D523B;
+  }
+}
+
+[data-theme="cozy"] .bake-card-media {
+  background-color: #FFF8EE;
+}
+
+[data-theme="cozy"] .text-muted-bakery,
+[data-theme="cozy"] .hero-lead,
+[data-theme="cozy"] .bake-meta,
+[data-theme="cozy"] .carousel-status-hint,
+[data-theme="cozy"] .highlight-subtext {
+  color: #F3D9CE;
+}
+
+[data-theme="cozy"] .hero-meta-strip {
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .bake-price,
+[data-theme="cozy"] .quote-stars {
+  color: #F3B6C0;
+}
+
+[data-theme="cozy"] .btn-outline-bakery,
+[data-theme="cozy"] .carousel-btn,
+[data-theme="cozy"] .filter-pill {
+  background-color: #361F14;
+  border-color: #F3B6C0;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .btn-outline-bakery:hover,
+[data-theme="cozy"] .carousel-btn:hover:not(:disabled),
+[data-theme="cozy"] .filter-pill:hover {
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+}
+
+[data-theme="cozy"] .filter-pill.is-active {
+  background-color: #B5601E;
+  border-color: #F3B6C0;
+  color: #FFFFFF;
+}
+
+[data-theme="cozy"] .form-label {
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .form-control,
+[data-theme="cozy"] .form-select {
+  background-color: #2B180F;
+  color: #FFF8EE;
+  border-color: #B5601E;
+}
+
+[data-theme="cozy"] .form-control::placeholder {
+  color: #DFCBB7;
+}
+
+[data-theme="cozy"] .field-error-msg {
+  color: #FFB4B4;
+}
+
+[data-theme="cozy"] .status-toast {
+  background-color: #2B180F;
+  border-color: #F3B6C0;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] a:focus-visible,
+[data-theme="cozy"] button:focus-visible,
+[data-theme="cozy"] .btn:focus-visible,
+[data-theme="cozy"] .navbar-toggler:focus-visible,
+[data-theme="cozy"] .theme-toggle-btn:focus-visible,
+[data-theme="cozy"] input:focus-visible,
+[data-theme="cozy"] select:focus-visible,
+[data-theme="cozy"] .carousel-btn:focus-visible,
+[data-theme="cozy"] .carousel-dot:focus-visible,
+[data-theme="cozy"] .filter-pill:focus-visible {
+  outline: 3px solid #B5601E;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(255, 248, 238, 0.35);
+}

@@ -1,0 +1,279 @@
+/* ==========================================================================
+   The Sweet Oven - Login Page Stylesheet (pages/login.html)
+   Loaded AFTER css/styles.css
+   Palette: Cream #FFF8EE, Brown #4A2C1D, Caramel #B5601E, Pink #F3B6C0
+   ========================================================================== */
+
+.login-main {
+  background-color: #FFF8EE;
+}
+
+.auth-card {
+  background-color: #FFFFFF;
+  border: 1.5px solid #F3B6C0;
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(74, 44, 29, 0.08);
+}
+
+.auth-card-eyebrow {
+  display: inline-block;
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* Header Logged-In Status ("Hi, <name> | Logout") */
+.site-header .nav-auth-status {
+  color: #4A2C1D;
+  font-weight: 700;
+  background-color: #FFF8EE;
+  border: 1.5px solid #F3B6C0;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+}
+
+.nav-auth-logout-btn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0.1rem 0.25rem;
+  color: #B5601E;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.nav-auth-logout-btn:hover {
+  color: #4A2C1D;
+}
+
+.nav-auth-logout-btn:focus-visible {
+  outline: 3px solid #B5601E;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(243, 182, 192, 0.55);
+}
+
+/* Login / Sign Up Tabs */
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background-color: #FFF8EE;
+  border: 1.5px solid #F3B6C0;
+  border-radius: 0.75rem;
+  padding: 0.35rem;
+}
+
+.auth-tab-btn {
+  appearance: none;
+  border: 0;
+  background-color: transparent;
+  color: #4A2C1D;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-tab-btn:hover {
+  background-color: rgba(243, 182, 192, 0.35);
+}
+
+.auth-tab-btn.is-active {
+  background-color: #B5601E;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(74, 44, 29, 0.16);
+}
+
+.auth-tab-btn:focus-visible {
+  outline: 3px solid #4A2C1D;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(243, 182, 192, 0.65);
+}
+
+/* Password Input With Inside Show / Hide Button */
+.password-field-wrap {
+  position: relative;
+}
+
+.password-field-wrap .form-control {
+  padding-right: 4.5rem;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  appearance: none;
+  background-color: #FFF8EE;
+  border: 1px solid #DFCBB7;
+  color: #4A2C1D;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  line-height: 1.3;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.password-toggle-btn:hover {
+  background-color: #F3B6C0;
+  border-color: #B5601E;
+  color: #4A2C1D;
+}
+
+.password-toggle-btn:focus-visible {
+  outline: 3px solid #B5601E;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(243, 182, 192, 0.65);
+}
+
+/* Green Login Button */
+.btn-login-green {
+  background-color: #198754;
+  border: 2px solid #198754;
+  color: #FFFFFF;
+  font-weight: 700;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.5rem;
+}
+
+.btn-login-green:hover,
+.btn-login-green:focus {
+  background-color: #146C43;
+  border-color: #146C43;
+  color: #FFFFFF;
+}
+
+.btn-login-green:disabled {
+  background-color: #5C9E7E;
+  border-color: #5C9E7E;
+  color: #FFFFFF;
+  opacity: 0.85;
+}
+
+/* Forgot Password Link & Panel */
+.forgot-link {
+  color: #B5601E;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: underline;
+  border-radius: 0.25rem;
+}
+
+.forgot-link:hover {
+  color: #4A2C1D;
+}
+
+.forgot-panel {
+  background-color: #FFF8EE;
+  border: 1.5px solid #F3B6C0;
+  border-radius: 0.9rem;
+  padding: 1.25rem;
+}
+
+/* Feedback Messages */
+.auth-feedback {
+  border-radius: 0.65rem;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.auth-feedback-error {
+  background-color: #FDECEC;
+  border: 1.5px solid #DC3545;
+  color: #9B1C27;
+}
+
+.auth-feedback-success {
+  background-color: #E8F7EE;
+  border: 1.5px solid #198754;
+  color: #145A32;
+}
+
+/* Red Field Error State */
+.form-control.is-invalid-field {
+  border-color: #DC3545;
+  background-color: #FFF5F5;
+  color: #4A2C1D;
+}
+
+.form-control.is-invalid-field:focus {
+  border-color: #DC3545;
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.22);
+}
+
+.field-error-text {
+  color: #B02A37;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 0.3rem;
+  min-height: 1.15rem;
+}
+
+/* Logged-in Member View */
+.points-card {
+  background-color: #FFF8EE;
+  border: 2px solid #F3B6C0;
+  border-radius: 0.9rem;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.points-value {
+  color: #B5601E;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.points-pill {
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* Cake Showcase (Right on Desktop, Below on Mobile) */
+.cake-showcase-card {
+  background-color: #FCE8EC;
+  border: 2px solid #F3B6C0;
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(74, 44, 29, 0.08);
+  color: #4A2C1D;
+}
+
+.cake-showcase-img {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  border: 2px solid #FFFFFF;
+  background-color: #FFF8EE;
+  box-shadow: 0 6px 18px rgba(74, 44, 29, 0.1);
+}
+
+.cake-showcase-badge {
+  background-color: #FFFFFF;
+  border: 1px solid #B5601E;
+  color: #4A2C1D;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+}

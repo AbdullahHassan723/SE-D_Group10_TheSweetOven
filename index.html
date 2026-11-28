@@ -3,14 +3,350 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Sweet Oven</title>
+  <title>The Sweet Oven | Home Bakery in Islamabad</title>
+
+  <!-- Google Fonts: Playfair Display (headings) & Nunito (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS via CDN (CSS only, no Bootstrap JS) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Shared Custom Stylesheet (loaded AFTER Bootstrap) -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Page-Specific Stylesheet -->
+  <link rel="stylesheet" href="css/home.css">
+
+  <!-- Apply saved theme before first paint without a flash -->
+  <script>
+    try {
+      if (window.localStorage && localStorage.getItem("sweetOvenTheme") === "cozy") {
+        document.documentElement.setAttribute("data-theme", "cozy");
+      }
+    } catch (error) {
+      // Fall back to default light theme if localStorage is unavailable
+    }
+  </script>
 </head>
 <body>
-  <header>
-    <h1>The Sweet Oven</h1>
-    <nav></nav>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Shared Header (root folder version) -->
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img src="images/logo.svg" alt="The Sweet Oven logo" class="brand-logo" width="42" height="42">
+          <span class="brand-name-desktop">The Sweet Oven</span>
+          <span class="brand-name-mobile">Bakery</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 mt-3 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/contact.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/offers.html">Offers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <button type="button" id="themeToggleBtn" class="btn btn-sm theme-toggle-btn" aria-pressed="false" aria-label="Switch to cozy dark theme">
+                Cozy Theme
+              </button>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-cart" href="pages/cart.html">
+                Cart (<span id="navCartCount">0</span>)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
-  <main></main>
-  <footer></footer>
+
+  <main id="main-content" class="home-main">
+    <!-- Hero Section -->
+    <section class="hero-section py-4 py-lg-5" aria-labelledby="heroHeading">
+      <div class="container">
+        <div id="visitGreetingBanner" class="visit-greeting-bar mb-3 mb-lg-4" role="status" aria-live="polite">
+          Welcome to The Sweet Oven
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-heading-block">
+            <span class="eyebrow-pill mb-2 d-none d-sm-inline-block">Small-Batch Home Bakery &bull; Islamabad</span>
+            <h1 id="heroHeading" class="hero-title mb-2 mb-lg-3">Fresh cakes!</h1>
+            <p class="hero-lead mb-0 d-none d-sm-block">
+              Handcrafted daily in Sector F-8/3 using real cultured butter, Belgian dark cocoa, and zero preservatives. Order weekly favourites or book a custom celebration cake across Islamabad and Rawalpindi.
+            </p>
+          </div>
+
+          <div class="hero-media-block text-center">
+            <img
+              src="images/hero-oven-spread.svg"
+              alt="Freshly baked Belgian chocolate cake, red velvet cupcake, and butter croissant from The Sweet Oven"
+              class="hero-illustration"
+              width="520"
+              height="380"
+            >
+          </div>
+
+          <div class="hero-cta-block">
+            <div class="d-flex flex-column flex-sm-row flex-wrap gap-3 align-items-stretch align-items-sm-center">
+              <a href="pages/menu.html" class="btn btn-pink btn-lg hero-order-btn">Order Now</a>
+              <a href="pages/contact.html" class="btn btn-outline-bakery btn-lg d-none d-sm-inline-flex">Delivery Zones &amp; Contact</a>
+            </div>
+            <div class="hero-meta-strip mt-3 d-none d-sm-flex" aria-label="Bakery highlights">
+              <span class="hero-meta-item"><span class="meta-dot" aria-hidden="true"></span>Pickup in F-8/3 (Free)</span>
+              <span class="hero-meta-item"><span class="meta-dot" aria-hidden="true"></span>Code <strong>SWEET10</strong> for 10% off</span>
+              <span class="hero-meta-item"><span class="meta-dot" aria-hidden="true"></span>Daily 8 AM &ndash; 8 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Sellers: 3 Cards in a Row Carousel + Filterable Bakes (below the fold on mobile) -->
+    <section id="best-sellers" class="best-sellers-section py-5" aria-labelledby="bestSellersHeading">
+      <div class="container">
+        <div class="row align-items-end g-3 mb-4">
+          <div class="col-md-6">
+            <span class="badge badge-pink rounded-pill mb-2">Customer Favourites</span>
+            <h2 id="bestSellersHeading" class="h2 mb-1">Best Sellers</h2>
+            <p class="text-muted-bakery mb-0">Three fresh picks per slide in PKR. Click Add to update your cart.</p>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex justify-content-md-end align-items-center gap-2">
+              <div class="carousel-controls" aria-label="Best Sellers carousel controls">
+                <button type="button" id="carouselPrevBtn" class="carousel-btn" aria-label="Previous best sellers">
+                  &larr; Prev
+                </button>
+                <button type="button" id="carouselNextBtn" class="carousel-btn" aria-label="Next best sellers">
+                  Next &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="homeCartToast" class="status-toast mb-3 d-none" role="status" aria-live="polite"></div>
+
+        <!-- Best Sellers Carousel (3 product cards in a row on desktop) -->
+        <div
+          id="bestSellersCarousel"
+          class="best-sellers-carousel mb-5"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Best Sellers"
+        >
+          <p id="carouselLiveRegion" class="visually-hidden" aria-live="polite"></p>
+
+          <div id="carouselViewport" class="carousel-viewport">
+            <div id="carouselTrack" class="carousel-track"></div>
+          </div>
+
+          <div id="carouselEmptyState" class="empty-state-box mt-2 d-none" role="status" aria-live="polite">
+            <h3 class="h5 mb-2">Best Sellers Tray Is Being Restocked</h3>
+            <p class="text-muted-bakery mb-0">Our oven list is currently empty. Check back soon or reach out via our Contact page for custom orders.</p>
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
+            <span id="carouselStatusHint" class="carousel-status-hint">
+              Auto-advances every 5 seconds &bull; Pauses on hover or focus
+            </span>
+            <div id="carouselDots" class="carousel-dots" role="group" aria-label="Select a best sellers slide"></div>
+          </div>
+        </div>
+
+        <!-- Search, Category Filter & Sort for All Featured Bakes -->
+        <div class="row align-items-end g-3 mb-3">
+          <div class="col-lg-5">
+            <h3 class="h4 mb-1">Browse &amp; Filter Fresh Bakes</h3>
+            <p class="text-muted-bakery small mb-0">Filter by category, search by flavour, or sort by PKR price.</p>
+          </div>
+          <div class="col-lg-7">
+            <div class="row g-2">
+              <div class="col-sm-7">
+                <label for="homeSearchInput" class="form-label">Search bakes</label>
+                <input
+                  type="search"
+                  id="homeSearchInput"
+                  class="form-control"
+                  placeholder="Try chocolate, lotus, croissant..."
+                >
+              </div>
+              <div class="col-sm-5">
+                <label for="homeSortSelect" class="form-label">Sort by</label>
+                <select id="homeSortSelect" class="form-select">
+                  <option value="featured">Recommended</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="categoryFilterBar" class="filter-pill-group mb-4" role="group" aria-label="Filter bakery items by category"></div>
+
+        <div id="featuredBakesGrid" class="row g-4"></div>
+
+        <div id="featuredEmptyState" class="empty-state-box mt-3 d-none" role="status" aria-live="polite">
+          <h3 class="h5 mb-2">No treats matched your search</h3>
+          <p class="text-muted-bakery mb-3" id="featuredEmptyText">Try another keyword or clear your category filter to see all fresh bakes.</p>
+          <button type="button" id="resetFeaturedBtn" class="btn btn-bakery">Show All Featured Bakes</button>
+        </div>
+
+        <div class="text-center mt-4 pt-2">
+          <a href="pages/cart.html" class="btn btn-outline-bakery me-2">View My Basket</a>
+          <a href="pages/menu.html" class="btn btn-pink">Explore Full Menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 Small Round Icons Row (Desktop) / Rounded Card Icon Rows (Mobile right under Hero) -->
+    <section class="highlights-section py-4 py-lg-5" aria-labelledby="highlightsHeading">
+      <div class="container">
+        <h2 id="highlightsHeading" class="visually-hidden">Why choose The Sweet Oven</h2>
+        <div id="bakeryHighlightsGrid" class="highlights-card"></div>
+      </div>
+    </section>
+
+    <!-- Weekly Bake Schedule (Rendered from JS array) -->
+    <section class="schedule-section py-5" aria-labelledby="scheduleHeading">
+      <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-4">
+          <div>
+            <h2 id="scheduleHeading" class="h2 mb-1">Weekly Bake Schedule</h2>
+            <p class="text-muted-bakery mb-0">Plan ahead for weekend family dinners or weekday tea-time pickups.</p>
+          </div>
+          <a href="pages/contact.html" class="btn btn-outline-bakery btn-sm">Check Delivery Slots</a>
+        </div>
+        <div id="weeklyScheduleGrid" class="row g-3"></div>
+      </div>
+    </section>
+
+    <!-- Customer Words (Rendered from JS array) -->
+    <section class="quotes-section py-5 section-highlight mx-2 mx-md-4 mb-5" aria-labelledby="quotesHeading">
+      <div class="container">
+        <div class="text-center mb-4">
+          <h2 id="quotesHeading" class="h2 mb-1">Loved Across Islamabad &amp; Rawalpindi</h2>
+          <p class="text-muted-bakery mb-0">Notes from families who celebrate birthdays and chai evenings with us.</p>
+        </div>
+        <div id="customerQuotesGrid" class="row g-4"></div>
+        <div class="text-center mt-4">
+          <a href="pages/reviews.html" class="btn btn-outline-bakery">Read More Reviews</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weekly Bake Alert Signup (with localStorage persistence & validation) -->
+    <section class="newsletter-section pb-5" aria-labelledby="newsletterHeading">
+      <div class="container">
+        <div class="newsletter-box p-4 p-md-5">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+              <span class="badge badge-pink rounded-pill mb-2">Friday Menu Drop</span>
+              <h2 id="newsletterHeading" class="h3 mb-2">Get Weekly Bake Alerts &amp; Seasonal Offers</h2>
+              <p class="text-muted-bakery mb-0">
+                Receive our weekly cake slot openings, Ramadan/Eid pre-order dates, and subscriber-only PKR bundles.
+              </p>
+            </div>
+            <div class="col-lg-6">
+              <form id="newsletterForm" novalidate>
+                <div class="row g-2 align-items-end">
+                  <div class="col-sm-8">
+                    <label for="newsletterEmail" class="form-label">Email address</label>
+                    <input
+                      type="email"
+                      id="newsletterEmail"
+                      class="form-control"
+                      placeholder="ayesha@example.com"
+                      autocomplete="email"
+                      required
+                    >
+                  </div>
+                  <div class="col-sm-4">
+                    <button type="submit" class="btn btn-bakery w-100">Join List</button>
+                  </div>
+                </div>
+                <div id="newsletterError" class="field-error-msg d-none" role="alert"></div>
+                <div id="newsletterSuccess" class="status-toast mt-3 d-none" role="status" aria-live="polite">
+                  <span id="newsletterSuccessText"></span>
+                  <button type="button" id="unsubscribeNewsletterBtn" class="btn btn-pink btn-sm ms-2">Unsubscribe</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer (root folder version) -->
+  <footer class="site-footer py-4 py-md-5 mt-auto">
+    <div class="container">
+      <div class="footer-mobile-hours d-md-none text-center mb-3">
+        <p class="mb-0 fw-bold">Open: Mon to Sun, 8am to 8pm.</p>
+      </div>
+
+      <div class="row g-4 d-none d-md-flex">
+        <div class="col-md-4">
+          <h2 class="footer-heading">The Sweet Oven</h2>
+          <p class="mb-2">Handcrafted weekly bakes, pastries, and custom cakes.</p>
+          <p class="mb-1"><strong>Opening Hours:</strong></p>
+          <p class="mb-0">Open: Mon to Sun, 8am to 8pm.</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Contact Us</h2>
+          <p class="mb-2">
+            <strong>Phone:</strong>
+            <a href="tel:+923001234567">+92 300 1234567</a>
+          </p>
+          <p class="mb-0">Fresh pickups in F-8/3 &amp; local delivery available daily.</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Quick Links</h2>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+            <li><a href="pages/about.html">About</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+            <li><a href="pages/faq.html">FAQ</a></li>
+            <li><a href="pages/reviews.html">Reviews</a></li>
+            <li><a href="pages/my-orders.html">My orders</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="footer-divider my-3 my-md-4 d-none d-md-block">
+
+      <div class="text-center footer-copyright">
+        <small>&copy; 2026 The Sweet Oven. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-nav.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>

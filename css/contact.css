@@ -1,0 +1,354 @@
+/* ==========================================================================
+   The Sweet Oven - Contact & Delivery Stylesheet (pages/contact.html)
+   Loaded AFTER Bootstrap 5.3.3 CSS & ../css/styles.css
+   ========================================================================== */
+
+.brand-name-mobile {
+  display: none;
+}
+
+@media (max-width: 575.98px) {
+  .brand-name-desktop {
+    display: none;
+  }
+
+  .brand-name-mobile {
+    display: inline;
+  }
+}
+
+.theme-toggle-btn {
+  background-color: var(--color-pink-soft);
+  border: 1.5px solid var(--color-brown);
+  color: var(--color-brown);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.38rem 0.85rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+}
+
+/* Visible :focus-visible outlines (3px caramel #B5601E with offset) */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.navbar-toggler:focus-visible,
+.theme-toggle-btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.zone-filter-btn:focus-visible {
+  outline: 3px solid #B5601E;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(243, 182, 192, 0.45);
+}
+
+.eyebrow-pill {
+  display: inline-block;
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+  font-weight: 700;
+  font-size: 0.84rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+}
+
+.contact-form-section,
+.delivery-checker-section {
+  max-width: 58rem;
+}
+
+.send-btn {
+  min-width: 10rem;
+  border: 2px solid var(--color-brown);
+}
+
+.contact-section-divider {
+  border: 0;
+  border-top: 2px solid var(--color-border);
+  opacity: 1;
+}
+
+/* Delivery Checker (4 States) */
+.checker-card {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-pink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.delivery-result-line {
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
+}
+
+.delivery-result-line.is-served {
+  border-color: var(--color-caramel);
+  background-color: var(--color-pink-soft);
+}
+
+.delivery-result-line.is-unserved {
+  border-color: #9E2A2B;
+  background-color: #FFF1F0;
+}
+
+.delivery-result-line.is-saved {
+  border-color: var(--color-brown);
+  border-left: 5px solid var(--color-caramel);
+}
+
+/* Direct Channels & Guidelines */
+.channel-card {
+  height: 100%;
+  padding: 1.2rem;
+  border-top: 4px solid var(--color-caramel);
+}
+
+.guideline-card {
+  height: 100%;
+  padding: 1.2rem;
+}
+
+/* Delivery Zone Filters & Cards */
+.zone-search-box {
+  min-width: 210px;
+}
+
+.zone-filter-btn {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-brown);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.38rem 0.88rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.zone-filter-btn:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+.zone-filter-btn.is-active {
+  background-color: var(--color-brown);
+  border-color: var(--color-brown);
+  color: var(--color-cream);
+}
+
+.zone-card {
+  height: 100%;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.zone-card.is-preferred {
+  border: 2px solid var(--color-caramel);
+  background-color: var(--color-pink-soft);
+}
+
+.zone-fee {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-caramel-dark);
+}
+
+/* Validation & Status Banners */
+.field-error-msg {
+  color: #9E2A2B;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 0.3rem;
+}
+
+.is-invalid-field {
+  border-color: #9E2A2B !important;
+}
+
+.form-status-banner {
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  font-weight: 700;
+}
+
+.form-status-banner.is-success {
+  background-color: var(--color-brown);
+  color: var(--color-cream);
+  border-left: 5px solid var(--color-pink);
+}
+
+.form-status-banner.is-error {
+  background-color: #FFF1F0;
+  color: #9E2A2B;
+  border: 1.5px solid #9E2A2B;
+}
+
+.inquiry-item-card {
+  padding: 0.9rem 1rem;
+  border-left: 4px solid var(--color-caramel);
+}
+
+.empty-state-box {
+  background-color: var(--color-cream);
+  border: 1.5px dashed var(--color-input-border);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.1rem;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Cozy Dark Theme (data-theme="cozy") — High-Contrast Warm Espresso Palette
+   ========================================================================== */
+[data-theme="cozy"] body {
+  background-color: #2B180F;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header {
+  background-color: #3D2417;
+  border-bottom-color: #F3B6C0;
+}
+
+[data-theme="cozy"] .site-header .navbar-brand,
+[data-theme="cozy"] .site-header .nav-link {
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header .nav-link:hover {
+  background-color: #5C3825;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header .nav-link.active,
+[data-theme="cozy"] .site-header .nav-link[aria-current="page"] {
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+}
+
+[data-theme="cozy"] .site-header .navbar-toggler {
+  border-color: #FFF8EE;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .site-header .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23FFF8EE' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.4' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+[data-theme="cozy"] .theme-toggle-btn {
+  background-color: #4A2C1D;
+  border-color: #F3B6C0;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .theme-toggle-btn:hover {
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+}
+
+[data-theme="cozy"] h1,
+[data-theme="cozy"] h2,
+[data-theme="cozy"] h3,
+[data-theme="cozy"] h4 {
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .card,
+[data-theme="cozy"] .checker-card,
+[data-theme="cozy"] .empty-state-box {
+  background-color: #4A2C1D;
+  border-color: #7D523B;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .card-header {
+  background-color: #5C3724;
+  border-bottom-color: #7D523B;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .delivery-result-line {
+  background-color: #2B180F;
+  border-color: #7D523B;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .delivery-result-line.is-served,
+[data-theme="cozy"] .zone-card.is-preferred {
+  background-color: #5C3724;
+  border-color: #F3B6C0;
+}
+
+[data-theme="cozy"] .delivery-result-line.is-unserved {
+  background-color: #4D1F1F;
+  border-color: #F3B6C0;
+}
+
+[data-theme="cozy"] .text-muted-bakery {
+  color: #F3D9CE;
+}
+
+[data-theme="cozy"] .zone-fee {
+  color: #F3B6C0;
+}
+
+[data-theme="cozy"] .btn-outline-bakery,
+[data-theme="cozy"] .zone-filter-btn {
+  background-color: #361F14;
+  border-color: #F3B6C0;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .btn-outline-bakery:hover,
+[data-theme="cozy"] .zone-filter-btn:hover {
+  background-color: #F3B6C0;
+  color: #4A2C1D;
+}
+
+[data-theme="cozy"] .zone-filter-btn.is-active {
+  background-color: #B5601E;
+  border-color: #F3B6C0;
+  color: #FFFFFF;
+}
+
+[data-theme="cozy"] .form-label {
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .form-control,
+[data-theme="cozy"] .form-select {
+  background-color: #2B180F;
+  color: #FFF8EE;
+  border-color: #B5601E;
+}
+
+[data-theme="cozy"] .form-control::placeholder {
+  color: #DFCBB7;
+}
+
+[data-theme="cozy"] .field-error-msg {
+  color: #FFB4B4;
+}
+
+[data-theme="cozy"] .form-status-banner.is-success {
+  background-color: #2B180F;
+  border-color: #F3B6C0;
+  color: #FFF8EE;
+}
+
+[data-theme="cozy"] .form-status-banner.is-error {
+  background-color: #4D1F1F;
+  border-color: #FFB4B4;
+  color: #FFB4B4;
+}

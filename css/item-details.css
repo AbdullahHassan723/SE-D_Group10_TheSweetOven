@@ -1,0 +1,281 @@
+/* ==========================================================================
+   The Sweet Oven - Item Detail Page Styles
+   ========================================================================== */
+
+.bakery-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  color: var(--color-muted);
+}
+
+.detail-media-card {
+  background-color: var(--color-surface);
+}
+
+/* Soft peach showcase box matching prototype */
+.detail-peach-box {
+  background-color: #FCE8D5;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.detail-img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+.detail-badge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+.detail-favorite-btn {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-brown);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.detail-favorite-btn:hover,
+.detail-favorite-btn.is-favorite {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+}
+
+.detail-category-tag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-caramel-dark);
+}
+
+.detail-price-highlight {
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #C23B5A;
+}
+
+.detail-rating-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.stars-gold {
+  color: #D99212;
+  letter-spacing: 0.06em;
+  font-size: 1rem;
+}
+
+.variant-option-btn {
+  width: 100%;
+  text-align: left;
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  color: var(--color-brown);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.variant-option-btn:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+.variant-option-btn.is-selected {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+  box-shadow: inset 0 0 0 1px var(--color-caramel);
+}
+
+.qty-stepper {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.qty-stepper .btn {
+  min-width: 44px;
+  padding: 0.45rem 0.75rem;
+}
+
+.qty-input-box {
+  width: 68px;
+  font-weight: 700;
+}
+
+.detail-feedback {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-caramel);
+  border-left: 6px solid var(--color-caramel);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.detail-feedback.is-error {
+  border-color: #9B2C2C;
+  border-left-color: #9B2C2C;
+  background-color: #FFF5F5;
+}
+
+/* Interactive Tabs (Ingredients | Allergens | Storage) */
+.detail-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.65rem;
+}
+
+.detail-tab-btn {
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-brown);
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.detail-tab-btn:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+.detail-tab-btn.is-active {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+}
+
+.detail-tabpanel {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.allergen-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+  border: 1px solid rgba(74, 44, 29, 0.18);
+  border-radius: 999px;
+  padding: 0.28rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* "You might also like" compact square thumbnails */
+.like-thumb-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem;
+  text-decoration: none;
+  color: var(--color-brown);
+}
+
+.like-thumb-box {
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+  background-color: #FCE8D5;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+}
+
+.like-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Allergen & Details Modal */
+.bakery-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background-color: rgba(74, 44, 29, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.bakery-modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-pink);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 44px rgba(74, 44, 29, 0.25);
+}
+
+.bakery-modal-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.95rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-cream);
+  color: var(--color-brown);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bakery-modal-close:hover {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+}
+
+.modal-info-box {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}

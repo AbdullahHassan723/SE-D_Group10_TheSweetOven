@@ -1,0 +1,336 @@
+/* ==========================================================================
+   The Sweet Oven - Menu Page Styles
+   ========================================================================== */
+
+.menu-hero {
+  box-shadow: var(--shadow-soft);
+}
+
+.category-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.category-pill {
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-brown);
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.category-pill:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+/* Selected chip in brand pink with dark brown accessible contrast */
+.category-pill.is-active {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+  color: var(--color-brown);
+}
+
+.dietary-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.42rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dietary-chip input {
+  margin-top: 0;
+  cursor: pointer;
+}
+
+.menu-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-card-media {
+  position: relative;
+  background-color: #FCE8D5;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.85rem;
+  text-align: center;
+}
+
+.menu-card-img {
+  width: 100%;
+  max-height: 185px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.menu-card-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 44, 29, 0.15);
+}
+
+.favorite-toggle-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-brown);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+
+.favorite-toggle-btn:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+  transform: scale(1.06);
+}
+
+.favorite-toggle-btn.is-favorite {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+  color: var(--color-brown);
+}
+
+.menu-card-category {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-caramel-dark);
+}
+
+.menu-card-rating {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-brown);
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+
+.stars-gold {
+  color: #D99212;
+  letter-spacing: 0.05em;
+}
+
+.menu-card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.menu-card-title a {
+  color: var(--color-brown);
+  text-decoration: none;
+}
+
+.menu-card-title a:hover {
+  color: var(--color-caramel-dark);
+  text-decoration: underline;
+}
+
+.menu-card-meta {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.menu-card-price {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #B83352;
+}
+
+.menu-feedback {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-caramel);
+  border-left: 6px solid var(--color-caramel);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.menu-feedback.is-error {
+  border-color: #9B2C2C;
+  border-left-color: #9B2C2C;
+  background-color: #FFF5F5;
+}
+
+.custom-cake-banner {
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-pink-soft) 100%);
+  border: 1.5px solid var(--color-pink);
+}
+
+#favoritesOnlyBtn.is-active {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+  color: var(--color-brown);
+}
+
+/* --------------------------------------------------------------------------
+   Vanilla JS Quick-View / Details Modal
+   -------------------------------------------------------------------------- */
+.bakery-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background-color: rgba(74, 44, 29, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.bakery-modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-pink);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 44px rgba(74, 44, 29, 0.25);
+}
+
+.bakery-modal-close {
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-cream);
+  color: var(--color-brown);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bakery-modal-close:hover {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+}
+
+.modal-peach-box {
+  background-color: #FCE8D5;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.modal-item-img {
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.modal-price-highlight {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #B83352;
+}
+
+.rating-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-brown);
+}
+
+.modal-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-tab-btn {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  color: var(--color-brown);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-tab-btn.is-active {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+}
+
+.modal-tabpanel {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.modal-qty-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.45rem;
+}
+
+.modal-qty-num {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.allergen-pill {
+  display: inline-block;
+  background-color: var(--color-pink-soft);
+  border: 1px solid var(--color-pink);
+  color: var(--color-brown);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin: 0.15rem 0.25rem 0.15rem 0;
+}

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About the Baker | The Sweet Oven</title>
+
+  <!-- Google Fonts: Playfair Display (headings) & Nunito (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS via CDN (CSS only, no Bootstrap JS) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Shared Custom Stylesheet (loaded AFTER Bootstrap) -->
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- Page-Specific Stylesheet -->
+  <link rel="stylesheet" href="../css/about.css">
+
+  <!-- Apply saved theme before first paint without a flash -->
+  <script>
+    try {
+      if (window.localStorage && localStorage.getItem("sweetOvenTheme") === "cozy") {
+        document.documentElement.setAttribute("data-theme", "cozy");
+      }
+    } catch (error) {
+      // Fall back to default light theme if localStorage is unavailable
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Shared Header (pages/ folder version) -->
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <img src="../images/logo.svg" alt="The Sweet Oven logo" class="brand-logo" width="42" height="42">
+          <span class="brand-name-desktop">The Sweet Oven</span>
+          <span class="brand-name-mobile">Bakery</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 mt-3 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="offers.html">Offers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <button type="button" id="themeToggleBtn" class="btn btn-sm theme-toggle-btn" aria-pressed="false" aria-label="Switch to cozy dark theme">
+                Cozy Theme
+              </button>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-cart" href="cart.html">
+                Cart (<span id="navCartCount">0</span>)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- Section 1: Meet the baker (Chef hat on left, bio on right) -->
+    <section class="about-hero py-5" aria-labelledby="meetBakerHeading">
+      <div class="container">
+        <h1 id="meetBakerHeading" class="display-5 mb-4">Meet the baker.</h1>
+        <div class="row align-items-center g-4 g-lg-5">
+          <div class="col-md-5 col-lg-4 text-center">
+            <img
+              src="../images/chef-hat.svg"
+              alt="Baker chef hat emblem for Hira Salman at The Sweet Oven"
+              class="chef-hat-illustration"
+              width="320"
+              height="280"
+            >
+          </div>
+          <div class="col-md-7 col-lg-8">
+            <span class="eyebrow-pill mb-3">Sector F-8/3 &bull; Home Kitchen Since 2021</span>
+            <p class="lead mb-3">
+              Founded in 2021 by home pastry chef <strong>Hira Salman</strong> in Street 14, Sector F-8/3, Islamabad, The Sweet Oven began with one convection oven, handwritten family recipes, and a promise never to cut corners with shortening or artificial essence.
+            </p>
+            <p class="text-muted-bakery mb-3">
+              Every sponge, brownie tray, and Lotus tres leches tub is mixed by hand in small daily batches using real cultured butter and 54% Belgian dark cocoa &mdash; serving hundreds of families across Islamabad and Rawalpindi.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <a href="contact.html" class="btn btn-outline-bakery">Visit or Contact Kitchen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: How we bake (3 square boxes joined by arrows + Pink "See our menu" button) -->
+    <section class="py-5 bg-white border-top border-bottom" aria-labelledby="processHeading">
+      <div class="container">
+        <div class="text-center mb-4">
+          <h2 id="processHeading" class="h2 mb-2">How we bake.</h2>
+          <p class="text-muted-bakery mb-0">Three simple steps from fresh pantry ingredients to your table.</p>
+        </div>
+
+        <ol id="bakingStepsFlow" class="baking-flow list-unstyled mb-4" aria-label="Three-step baking process"></ol>
+
+        <div class="text-center pt-2">
+          <a href="menu.html" class="btn btn-pink btn-lg see-menu-btn">See our menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bakery Stats (Rendered from JS array) -->
+    <section class="py-5" aria-labelledby="statsHeading">
+      <div class="container">
+        <h2 id="statsHeading" class="visually-hidden">Bakery highlights in numbers</h2>
+        <div id="bakerStatsGrid" class="row g-3 g-md-4"></div>
+      </div>
+    </section>
+
+    <!-- Journey Timeline (Rendered from JS array) -->
+    <section class="py-5 bg-white border-top border-bottom" aria-labelledby="timelineHeading">
+      <div class="container">
+        <div class="row align-items-center g-4 mb-4">
+          <div class="col-lg-8">
+            <h2 id="timelineHeading" class="h2 mb-1">From One Home Oven to Islamabad's Favourite Table</h2>
+            <p class="text-muted-bakery mb-0">Milestones that shaped our kitchen standards and seasonal menu.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <img
+              src="../images/baker-kitchen.svg"
+              alt="The Sweet Oven brick-arch home bakery kitchen in Sector F-8/3 Islamabad"
+              class="kitchen-thumb-illustration"
+              width="240"
+              height="170"
+            >
+          </div>
+        </div>
+        <div id="storyTimelineGrid" class="row g-4"></div>
+      </div>
+    </section>
+
+    <!-- Honest Ingredients & Filter (Rendered from JS array) -->
+    <section class="py-5" aria-labelledby="ingredientsHeading">
+      <div class="container">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+          <div>
+            <span class="badge badge-pink rounded-pill mb-2">Kitchen Transparency</span>
+            <h2 id="ingredientsHeading" class="h2 mb-1">What Goes Into Every Batch</h2>
+            <p class="text-muted-bakery mb-0">Filter by pantry group to inspect the ingredients and packaging we trust.</p>
+          </div>
+          <div id="ingredientFilterBar" class="d-flex flex-wrap gap-2" role="group" aria-label="Filter kitchen ingredients"></div>
+        </div>
+
+        <div id="ingredientsGrid" class="row g-3 g-md-4"></div>
+
+        <div id="ingredientsEmptyState" class="empty-state-box mt-3 d-none" role="status" aria-live="polite">
+          <p class="mb-2 fw-bold">No ingredients found for this filter.</p>
+          <button type="button" id="resetIngredientFilterBtn" class="btn btn-bakery btn-sm">Show All Ingredients</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Saved Dietary & Kitchen Preferences (localStorage persistence) -->
+    <section class="pb-5" aria-labelledby="dietaryHeading">
+      <div class="container">
+        <div class="dietary-panel p-4 p-md-5">
+          <div class="row g-4 align-items-start">
+            <div class="col-lg-6">
+              <span class="badge badge-pink rounded-pill mb-2">Saved for Future Orders</span>
+              <h2 id="dietaryHeading" class="h3 mb-2">Kitchen Dietary &amp; Allergy Preferences</h2>
+              <p class="text-muted-bakery mb-3">
+                Select any dietary notes our baker should keep in mind for you (saved on this device across visits), or add a custom kitchen note.
+              </p>
+
+              <form id="dietaryForm" novalidate>
+                <div class="mb-3">
+                  <label for="dietarySelect" class="form-label">Common Kitchen Request</label>
+                  <select id="dietarySelect" class="form-select">
+                    <option value="">Choose a standard request...</option>
+                    <option value="Nut-Free Preparation">Nut-Free Preparation (no walnuts/almonds)</option>
+                    <option value="Less-Sugar Frosting">Less-Sugar Frosting</option>
+                    <option value="Eggless Sponge Option">Eggless Sponge Option (48h notice)</option>
+                    <option value="No Food Colouring">No Artificial Food Colouring</option>
+                    <option value="Birthday Message Card">Include Handwritten Message Card</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="customDietaryInput" class="form-label">Or Write a Custom Note</label>
+                  <input
+                    type="text"
+                    id="customDietaryInput"
+                    class="form-control"
+                    maxlength="80"
+                    placeholder="e.g., Separate box for gluten-sensitive guest"
+                  >
+                </div>
+
+                <div id="dietaryError" class="field-error-msg mb-2 d-none" role="alert"></div>
+
+                <div class="d-flex flex-wrap gap-2">
+                  <button type="submit" class="btn btn-bakery">Save Preference</button>
+                  <button type="button" id="clearDietaryBtn" class="btn btn-outline-bakery">Clear All</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-lg-6">
+              <h3 class="h5 mb-3">Your Saved Kitchen Notes</h3>
+              <div id="dietarySavedBanner" class="saved-banner mb-3 d-none" role="status" aria-live="polite"></div>
+              <div id="savedDietaryList" class="d-flex flex-wrap gap-2"></div>
+              <div id="emptyDietaryState" class="empty-state-box">
+                <p class="mb-1 fw-bold">No dietary preferences saved yet.</p>
+                <p class="text-muted-bakery small mb-0">Pick a request on the left to store it in your browser for quick reference.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer (pages/ folder version) -->
+  <footer class="site-footer py-4 py-md-5 mt-auto">
+    <div class="container">
+      <div class="footer-mobile-hours d-md-none text-center mb-3">
+        <p class="mb-0 fw-bold">Open: Mon to Sun, 8am to 8pm.</p>
+      </div>
+
+      <div class="row g-4 d-none d-md-flex">
+        <div class="col-md-4">
+          <h2 class="footer-heading">The Sweet Oven</h2>
+          <p class="mb-2">Handcrafted weekly bakes, pastries, and custom cakes.</p>
+          <p class="mb-1"><strong>Opening Hours:</strong></p>
+          <p class="mb-0">Open: Mon to Sun, 8am to 8pm.</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Contact Us</h2>
+          <p class="mb-2">
+            <strong>Phone:</strong>
+            <a href="tel:+923001234567">+92 300 1234567</a>
+          </p>
+          <p class="mb-0">Fresh pickups in F-8/3 &amp; local delivery available daily.</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Quick Links</h2>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="my-orders.html">My orders</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="footer-divider my-3 my-md-4 d-none d-md-block">
+
+      <div class="text-center footer-copyright">
+        <small>&copy; 2026 The Sweet Oven. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/site-nav.js"></script>
+  <script src="../js/about.js"></script>
+</body>
+</html>

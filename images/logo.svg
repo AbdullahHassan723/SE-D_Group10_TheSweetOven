@@ -1,7 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="The Sweet Oven logo">
-  <circle cx="32" cy="32" r="30" fill="#FFF8EE" stroke="#4A2C1D" stroke-width="3"/>
-  <path d="M16 36c0-9 7-16 16-16s16 7 16 16v8H16v-8z" fill="#B5601E"/>
-  <path d="M22 38h20v6H22z" fill="#4A2C1D"/>
-  <circle cx="32" cy="28" r="6" fill="#F3B6C0"/>
-  <path d="M27 16c0-3 2-5 5-5s5 2 5 5" fill="none" stroke="#4A2C1D" stroke-width="2.5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="logoTitle">
+  <title id="logoTitle">The Sweet Oven Logo</title>
+  <!-- Cream circular badge with caramel border -->
+  <circle cx="32" cy="32" r="30" fill="#FFF8EE" stroke="#B5601E" stroke-width="3" />
+  <!-- Soft pink inner highlight ring -->
+  <circle cx="32" cy="32" r="25" fill="none" stroke="#F3B6C0" stroke-width="2" />
+
+  <!-- Subtle rising aroma / steam curls -->
+  <path d="M24 18 C22 15, 25 13, 24 10" fill="none" stroke="#B5601E" stroke-width="2" stroke-linecap="round" />
+  <path d="M32 16 C30 13, 33 11, 32 8" fill="none" stroke="#B5601E" stroke-width="2" stroke-linecap="round" />
+  <path d="M40 18 C38 15, 41 13, 40 10" fill="none" stroke="#B5601E" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Brick / artisan oven arch -->
+  <path d="M16 46 L16 32 A16 14 0 0 1 48 32 L48 46 Z" fill="#B5601E" stroke="#4A2C1D" stroke-width="2.2" stroke-linejoin="round" />
+  <!-- Inner warm oven opening -->
+  <path d="M22 46 L22 34 A10 9 0 0 1 42 34 L42 46 Z" fill="#4A2C1D" />
+
+  <!-- Pink cupcake / sweet loaf inside the oven -->
+  <path d="M26 42 Q32 33 38 42 Z" fill="#F3B6C0" />
+  <rect x="25" y="42" width="14" height="4" rx="1.5" fill="#FFF8EE" />
+
+  <!-- Oven hearth base line -->
+  <line x1="13" y1="46" x2="51" y2="46" stroke="#4A2C1D" stroke-width="2.5" stroke-linecap="round" />
 </svg>
