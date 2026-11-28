@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offers &amp; Combos | The Sweet Oven</title>
+
+  <!-- Google Fonts: Playfair Display & Nunito -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS via CDN (CSS only, no Bootstrap JS) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Page-Specific Stylesheet -->
+  <link rel="stylesheet" href="../css/offers.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <img src="../images/logo.svg" alt="The Sweet Oven logo" class="brand-logo" width="42" height="42">
+          <span>The Sweet Oven</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 mt-3 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="offers.html">Offers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="party-calculator.html">Party Calculator</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="faq.html">FAQ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-cart" href="cart.html">Cart <span id="navCartBadge" class="badge bg-light text-dark ms-1">0</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" class="py-4 py-md-5">
+    <div class="container">
+      <!-- Page Hero -->
+      <section class="offers-hero section-highlight p-4 p-md-5 mb-4" aria-labelledby="offersPageTitle">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <span class="badge badge-pink rounded-pill mb-2 px-3 py-2">Weekly Bakery Deals &amp; Value Boxes</span>
+            <h1 id="offersPageTitle" class="display-6 mb-2">Freshly Baked Offers &amp; Combos</h1>
+            <p class="mb-0 text-muted-bakery">
+              Save on curated tea-time boxes, birthday cake bundles, and family dessert platters handcrafted in our Islamabad kitchen. All prices are in PKR.
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <div class="promo-spotlight p-3 rounded-3">
+              <p class="small text-uppercase fw-bold mb-1">Active Storewide Code</p>
+              <div class="d-flex align-items-center justify-content-between gap-2">
+                <code id="featuredPromoCode" class="promo-code-text">SWEET10</code>
+                <button type="button" id="copyFeaturedCodeBtn" class="btn btn-bakery btn-sm">Copy Code</button>
+              </div>
+              <p id="featuredCopyStatus" class="small mb-0 mt-2 text-muted-bakery" aria-live="polite">
+                10% off orders over PKR 3,000 at checkout.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Feedback Banner -->
+      <div id="offersStatusBanner" class="alert offers-alert d-none mb-4" role="status" aria-live="polite"></div>
+
+      <!-- Filter & Search Controls -->
+      <section class="card p-3 p-md-4 mb-4" aria-label="Filter and search offers">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-6">
+            <label for="offerSearch" class="form-label">Search Offers or Items</label>
+            <input type="search" id="offerSearch" class="form-control" placeholder="e.g. brownies, birthday, tea-time, lotus...">
+          </div>
+          <div class="col-md-4">
+            <label for="offerSort" class="form-label">Sort By</label>
+            <select id="offerSort" class="form-select">
+              <option value="featured">Featured Deals</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="savings-desc">Highest Savings (PKR)</option>
+            </select>
+          </div>
+          <div class="col-md-2 d-grid">
+            <button type="button" id="resetOffersBtn" class="btn btn-outline-bakery">Reset</button>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-top">
+          <span class="d-block small fw-bold mb-2 text-muted-bakery">Filter by Category:</span>
+          <div id="offerCategoryFilters" class="d-flex flex-wrap gap-2" role="group" aria-label="Offer categories"></div>
+        </div>
+      </section>
+
+      <!-- Results Count -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <p id="offersResultCount" class="mb-0 fw-semibold text-muted-bakery">Showing offers...</p>
+        <a href="party-calculator.html" class="btn btn-pink btn-sm">Planning a bigger event? Try Party Calculator</a>
+      </div>
+
+      <!-- Offers Grid (populated by js/offers.js) -->
+      <section aria-label="Available offers and combos">
+        <div id="offersGrid" class="row g-4"></div>
+
+        <!-- Empty / No Results State -->
+        <div id="offersEmptyState" class="card p-5 text-center d-none">
+          <h2 class="h4 mb-2">No Matching Offers Found</h2>
+          <p class="text-muted-bakery mb-3">
+            We couldn't find any combos matching your search or selected category. Try another keyword or view all deals.
+          </p>
+          <div>
+            <button type="button" id="emptyResetBtn" class="btn btn-bakery">Show All Offers</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Saved Offers Section (persisted in localStorage) -->
+      <section class="mt-5" aria-labelledby="savedOffersHeading">
+        <div class="card p-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+              <h2 id="savedOffersHeading" class="h4 mb-1">Your Saved Offers</h2>
+              <p class="small text-muted-bakery mb-0">Saved combos stay bookmarked here even if you reload the page.</p>
+            </div>
+            <button type="button" id="clearSavedOffersBtn" class="btn btn-outline-bakery btn-sm">Clear Saved</button>
+          </div>
+          <div id="savedOffersList" class="row g-3"></div>
+          <p id="savedOffersEmpty" class="text-muted-bakery mb-0 d-none">
+            You haven't saved any offers yet. Click "Save Offer" on any combo above to bookmark it for later.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h2 class="footer-heading">The Sweet Oven</h2>
+          <p class="mb-2">Handcrafted weekly bakes, pastries, and custom cakes.</p>
+          <p class="mb-1"><strong>Opening Hours:</strong></p>
+          <p class="mb-1">Mon – Sat: 8:00 AM – 8:00 PM</p>
+          <p class="mb-0">Sunday: 9:00 AM – 5:00 PM</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Contact Us</h2>
+          <p class="mb-2">
+            <strong>Phone:</strong>
+            <a href="tel:+923001234567">+92 300 1234567</a>
+          </p>
+          <p class="mb-0">Fresh pickups &amp; local delivery available daily.</p>
+        </div>
+
+        <div class="col-md-4">
+          <h2 class="footer-heading">Quick Links</h2>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="party-calculator.html">Party Calculator</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="footer-divider my-4">
+
+      <div class="text-center footer-copyright">
+        <small>&copy; 2026 The Sweet Oven. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/nav.js"></script>
+  <script src="../js/offers.js"></script>
+</body>
+</html>
