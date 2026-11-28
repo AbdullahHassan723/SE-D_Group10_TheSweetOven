@@ -63,35 +63,318 @@
   </header>
   <!-- COPY TO HERE -->
 
-  <!-- Placeholder main content for Login -->
-  <main id="main-content" class="py-5">
+  <main id="main-content" class="py-4 py-md-5 login-main">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-5">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Account Access</span>
-              <span class="badge badge-pink rounded-pill">Placeholder</span>
-            </div>
-            <div class="card-body p-4">
-              <h1 class="h3 mb-2">Login to The Sweet Oven</h1>
-              <p class="text-muted-bakery mb-4">
-                Placeholder page using the shared header, footer, and stylesheet. Full login and signup features will be added here.
-              </p>
+      <div class="row justify-content-center align-items-stretch g-4">
+        <div class="col-12 col-lg-6">
+          <div class="card auth-card h-100">
+            <div class="card-body p-4 p-md-5">
+              <!-- Logged-out View: Tabs + Login / Sign Up / Forgot Password Forms -->
+              <div id="authView">
+                <span class="auth-card-eyebrow mb-2">The Sweet Oven Account</span>
+                <h1 id="authHeading" class="h2 mb-1">Welcome back</h1>
+                <p id="authSubtitle" class="text-muted-bakery mb-4">
+                  Sign in to view your Sweet Oven points and orders.
+                </p>
 
-              <!-- Sample form demonstrating shared input & button styling -->
-              <form action="#" method="post">
-                <div class="mb-3">
-                  <label for="loginEmail" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="loginEmail" placeholder="you@example.com" required>
+                <!-- Login / Sign Up Tabs -->
+                <div id="authTabs" class="auth-tabs mb-4" role="tablist" aria-label="Account options">
+                  <button
+                    type="button"
+                    id="loginTabBtn"
+                    class="auth-tab-btn is-active"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="loginPanel"
+                    tabindex="0"
+                  >
+                    Login
+                  </button>
+                  <button
+                    type="button"
+                    id="signupTabBtn"
+                    class="auth-tab-btn"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="signupPanel"
+                    tabindex="-1"
+                  >
+                    Sign Up
+                  </button>
                 </div>
-                <div class="mb-4">
-                  <label for="loginPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required>
+
+                <!-- Status Message Banner -->
+                <div id="authFeedback" class="auth-feedback d-none mb-3" role="alert" aria-live="polite"></div>
+
+                <!-- Login Form Panel -->
+                <div id="loginPanel" role="tabpanel" aria-labelledby="loginTabBtn">
+                  <form id="loginForm" novalidate>
+                    <div class="mb-3">
+                      <label for="loginEmail" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                      >
+                      <div id="loginEmailError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <div class="mb-2">
+                      <label for="loginPassword" class="form-label">Password</label>
+                      <div class="password-field-wrap">
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="loginPassword"
+                          placeholder="Enter your password"
+                          autocomplete="current-password"
+                          required
+                        >
+                        <button
+                          type="button"
+                          class="password-toggle-btn"
+                          data-target="loginPassword"
+                          data-show-label="Show login password"
+                          data-hide-label="Hide login password"
+                          aria-label="Show login password"
+                          aria-pressed="false"
+                        >
+                          Show
+                        </button>
+                      </div>
+                      <div id="loginPasswordError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mb-3">
+                      <a href="#forgot-password" id="forgotPasswordLink" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" id="loginSubmitBtn" class="btn btn-login-green w-100">Login</button>
+                  </form>
                 </div>
-                <button type="submit" class="btn btn-bakery w-100">Sign In</button>
-              </form>
+
+                <!-- Sign Up Form Panel -->
+                <div id="signupPanel" class="d-none" role="tabpanel" aria-labelledby="signupTabBtn">
+                  <form id="signupForm" novalidate>
+                    <div class="mb-2">
+                      <label for="signupName" class="form-label">Full Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="signupName"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                      >
+                      <div id="signupNameError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <div class="mb-2">
+                      <label for="signupEmail" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="signupEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                      >
+                      <div id="signupEmailError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <div class="mb-2">
+                      <label for="signupPhone" class="form-label">Phone</label>
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="signupPhone"
+                        placeholder="03XXXXXXXXX"
+                        autocomplete="tel"
+                        required
+                      >
+                      <div id="signupPhoneError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <div class="mb-2">
+                      <label for="signupPassword" class="form-label">Password</label>
+                      <div class="password-field-wrap">
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="signupPassword"
+                          placeholder="Min 8 chars, letter & number"
+                          autocomplete="new-password"
+                          required
+                        >
+                        <button
+                          type="button"
+                          class="password-toggle-btn"
+                          data-target="signupPassword"
+                          data-show-label="Show sign up password"
+                          data-hide-label="Hide sign up password"
+                          aria-label="Show sign up password"
+                          aria-pressed="false"
+                        >
+                          Show
+                        </button>
+                      </div>
+                      <div id="signupPasswordError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
+                      <div class="password-field-wrap">
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="signupConfirmPassword"
+                          placeholder="Re-enter your password"
+                          autocomplete="new-password"
+                          required
+                        >
+                        <button
+                          type="button"
+                          class="password-toggle-btn"
+                          data-target="signupConfirmPassword"
+                          data-show-label="Show confirm password"
+                          data-hide-label="Hide confirm password"
+                          aria-label="Show confirm password"
+                          aria-pressed="false"
+                        >
+                          Show
+                        </button>
+                      </div>
+                      <div id="signupConfirmPasswordError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <button type="submit" id="signupSubmitBtn" class="btn btn-bakery w-100">Sign Up</button>
+                  </form>
+                </div>
+
+                <!-- Forgot Password Panel -->
+                <div id="forgotPanel" class="forgot-panel d-none" aria-label="Reset password">
+                  <form id="forgotForm" novalidate>
+                    <div class="mb-3">
+                      <label for="forgotEmail" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="forgotEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                      >
+                      <div id="forgotEmailError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <button type="submit" id="forgotSubmitBtn" class="btn btn-bakery w-100">Send Reset Link</button>
+
+                    <div id="forgotFeedback" class="auth-feedback d-none mt-3" role="status" aria-live="polite"></div>
+                  </form>
+
+                  <form id="resetPasswordForm" class="d-none" novalidate>
+                    <div class="mb-2">
+                      <label for="resetNewPassword" class="form-label">New Password</label>
+                      <div class="password-field-wrap">
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="resetNewPassword"
+                          placeholder="Min 8 chars, letter & number"
+                          autocomplete="new-password"
+                          required
+                        >
+                        <button
+                          type="button"
+                          class="password-toggle-btn"
+                          data-target="resetNewPassword"
+                          data-show-label="Show new password"
+                          data-hide-label="Hide new password"
+                          aria-label="Show new password"
+                          aria-pressed="false"
+                        >
+                          Show
+                        </button>
+                      </div>
+                      <div id="resetNewPasswordError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="resetConfirmPassword" class="form-label">Confirm New Password</label>
+                      <div class="password-field-wrap">
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="resetConfirmPassword"
+                          placeholder="Re-enter new password"
+                          autocomplete="new-password"
+                          required
+                        >
+                        <button
+                          type="button"
+                          class="password-toggle-btn"
+                          data-target="resetConfirmPassword"
+                          data-show-label="Show confirm new password"
+                          data-hide-label="Hide confirm new password"
+                          aria-label="Show confirm new password"
+                          aria-pressed="false"
+                        >
+                          Show
+                        </button>
+                      </div>
+                      <div id="resetConfirmPasswordError" class="field-error-text" aria-live="polite"></div>
+                    </div>
+
+                    <button type="submit" id="resetPasswordSubmitBtn" class="btn btn-bakery w-100">Reset Password</button>
+                  </form>
+
+                  <div class="text-center mt-3">
+                    <a href="#login" id="backToLoginLink" class="forgot-link">Back to Login</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Logged-in View -->
+              <div id="accountView" class="d-none">
+                <span class="auth-card-eyebrow mb-3">Sweet Oven Member</span>
+                <h1 id="welcomeUserHeading" class="h2 mb-1">Hi, Member</h1>
+                <p id="loggedInEmail" class="text-muted-bakery mb-4"></p>
+
+                <div class="points-card mb-4">
+                  <div>
+                    <div class="small text-muted-bakery fw-bold text-uppercase">Bakery Rewards</div>
+                    <div id="userPointsText" class="points-value">Points: 0</div>
+                  </div>
+                  <span class="points-pill">Active Member</span>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+                  <a href="my-orders.html" id="myOrdersBtn" class="btn btn-bakery flex-grow-1">My Orders</a>
+                  <button type="button" id="logoutBtn" class="btn btn-outline-bakery flex-grow-1">Logout</button>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Cake Picture (Right on Desktop, Below on Mobile) -->
+        <div class="col-12 col-lg-5 d-flex">
+          <div class="cake-showcase-card w-100 d-flex flex-column justify-content-center align-items-center text-center p-4 p-xl-5">
+            <img
+              src="../images/custom-cake.svg"
+              alt="Two-tier celebration cake frosted with cream and pink buttercream from The Sweet Oven"
+              class="cake-showcase-img mb-4"
+              width="320"
+              height="240"
+            >
+            <span class="cake-showcase-badge mb-2">Freshly Frosted Daily</span>
+            <h2 class="h4 mb-2">Sweet Rewards With Every Slice</h2>
+            <p class="text-muted-bakery mb-0">
+              Track your custom cake requests, view past bakery orders, and earn loyalty points on every treat.
+            </p>
           </div>
         </div>
       </div>
@@ -145,5 +428,7 @@
 
   <!-- Shared Site Script: teammates must include this on every page too -->
   <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/login.js"></script>
 </body>
 </html>
