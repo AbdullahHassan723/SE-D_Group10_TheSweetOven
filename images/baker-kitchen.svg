@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" width="480" height="340" role="img" aria-labelledby="bakerKitchenTitle">
+  <title id="bakerKitchenTitle">Illustration of The Sweet Oven home kitchen in F-8/3 Islamabad</title>
+  <rect x="10" y="10" width="460" height="320" rx="24" fill="#FFF8EE" stroke="#DFCBB7" stroke-width="2"/>
+  <rect x="30" y="30" width="420" height="210" rx="16" fill="#FCE8EC" opacity="0.65"/>
+
+  <!-- Brick oven arch -->
+  <path d="M135 256 L135 148 A105 92 0 0 1 345 148 L345 256 Z" fill="#B5601E" stroke="#4A2C1D" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M170 256 L170 162 A70 62 0 0 1 310 162 L310 256 Z" fill="#4A2C1D"/>
+
+  <!-- Warm loaf / cake inside oven -->
+  <ellipse cx="240" cy="236" rx="52" ry="12" fill="#FFF8EE"/>
+  <path d="M198 234 Q240 182 282 234 Z" fill="#D4843E" stroke="#F3B6C0" stroke-width="3"/>
+  <path d="M220 212 Q240 202 260 212" fill="none" stroke="#FFF8EE" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Counter & rolling pin + whisk -->
+  <rect x="44" y="256" width="392" height="20" rx="8" fill="#4A2C1D"/>
+  <rect x="74" y="226" width="52" height="30" rx="6" fill="#FFFFFF" stroke="#4A2C1D" stroke-width="2.2"/>
+  <text x="100" y="245" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#B5601E">FLOUR</text>
+
+  <!-- Mixing bowl -->
+  <path d="M352 224 L412 224 Q408 256 382 256 Q356 256 352 224 Z" fill="#F3B6C0" stroke="#4A2C1D" stroke-width="2.5"/>
+  <line x1="386" y1="196" x2="398" y2="224" stroke="#4A2C1D" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Aroma curls -->
+  <path d="M210 82 Q204 66 216 54" fill="none" stroke="#B5601E" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M240 74 Q234 58 246 46" fill="none" stroke="#B5601E" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M270 82 Q264 66 276 54" fill="none" stroke="#B5601E" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Location pill -->
+  <rect x="132" y="288" width="216" height="28" rx="14" fill="#FFFFFF" stroke="#B5601E" stroke-width="1.8"/>
+  <text x="240" y="306" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#4A2C1D">Sector F-8/3 Kitchen &bull; Est. 2021</text>
+</svg>

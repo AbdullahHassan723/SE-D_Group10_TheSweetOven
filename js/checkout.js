@@ -6,6 +6,7 @@
   var DRAFT_STORAGE_KEY = "sweetOvenCheckoutDraft";
   var LAST_ORDER_KEY = "sweetOvenLastOrder";
   var ALL_ORDERS_KEY = "sweetOvenOrders";
+  var MIN_ORDER_SUBTOTAL = 500;
 
   var deliveryAreas = [
     {
@@ -99,11 +100,13 @@
   var cartItems = loadCart();
   var activePromo = loadPromo();
 
-  var navToggle = document.getElementById("navToggle");
-  var primaryMenu = document.getElementById("primaryMenu");
+  var navbarToggler = document.querySelector(".navbar-toggler");
+  var mainNavbar = document.getElementById("mainNavbar");
   var navCartCount = document.getElementById("navCartCount");
 
   var emptyCheckoutAlert = document.getElementById("emptyCheckoutAlert");
+  var minOrderAlert = document.getElementById("minOrderAlert");
+  var minOrderAlertText = document.getElementById("minOrderAlertText");
   var formAlert = document.getElementById("formAlert");
   var checkoutForm = document.getElementById("checkoutForm");
   var placeOrderBtn = document.getElementById("placeOrderBtn");
@@ -282,8 +285,12 @@
     navCartCount.textContent = String(summary.itemCount);
     checkoutItemsList.innerHTML = "";
 
-    if (cartItems.length === 0) {
+    var isEmpty = cartItems.length === 0;
+    var isBelowMinimum = !isEmpty && summary.subtotal < MIN_ORDER_SUBTOTAL;
+
+    if (isEmpty) {
       emptyCheckoutAlert.classList.remove("d-none");
+      minOrderAlert.classList.add("d-none");
       placeOrderBtn.disabled = true;
       var emptyLi = document.createElement("li");
       emptyLi.className = "text-muted-brown small py-2";
@@ -291,7 +298,15 @@
       checkoutItemsList.appendChild(emptyLi);
     } else {
       emptyCheckoutAlert.classList.add("d-none");
-      placeOrderBtn.disabled = false;
+
+      if (isBelowMinimum) {
+        minOrderAlertText.textContent = "Minimum order Rs. 500 required. Current subtotal: " + formatPKR(summary.subtotal) + ".";
+        minOrderAlert.classList.remove("d-none");
+        placeOrderBtn.disabled = true;
+      } else {
+        minOrderAlert.classList.add("d-none");
+        placeOrderBtn.disabled = false;
+      }
 
       for (var i = 0; i < cartItems.length; i += 1) {
         var item = cartItems[i];
@@ -583,12 +598,24 @@
     return slotId;
   }
 
+  function initNavbarToggle() {
+    if (!navbarToggler || !mainNavbar) {
+      return;
+    }
+    navbarToggler.addEventListener("click", function () {
+      var isOpen = mainNavbar.classList.toggle("show");
+      navbarToggler.setAttribute("aria-expanded", String(isOpen));
+    });
+    mainNavbar.addEventListener("click", function (event) {
+      if (event.target.closest(".nav-link") && mainNavbar.classList.contains("show")) {
+        mainNavbar.classList.remove("show");
+        navbarToggler.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
   // Event listeners
-  navToggle.addEventListener("click", function () {
-    var expanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!expanded));
-    primaryMenu.classList.toggle("is-open", !expanded);
-  });
+  initNavbarToggle();
 
   fullNameInput.addEventListener("input", function () { validateFullName(); saveDraft(); });
   phoneInput.addEventListener("input", function () { validatePhone(); saveDraft(); });
@@ -617,8 +644,16 @@
   checkoutForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
+    var summary = calculateSummary();
+
     if (cartItems.length === 0) {
       formAlert.textContent = "Your basket is empty. Add bakery items before placing an order.";
+      formAlert.classList.remove("d-none");
+      return;
+    }
+
+    if (summary.subtotal < MIN_ORDER_SUBTOTAL) {
+      formAlert.textContent = "Minimum order Rs. 500 required";
       formAlert.classList.remove("d-none");
       return;
     }
@@ -652,7 +687,6 @@
 
     formAlert.classList.add("d-none");
 
-    var summary = calculateSummary();
     var selectedArea = summary.selectedArea;
     var selectedPayment = findPaymentById(getSelectedPaymentId());
 

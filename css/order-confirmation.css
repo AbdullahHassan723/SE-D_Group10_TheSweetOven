@@ -2,121 +2,14 @@
   --so-cream: #FFF8EE;
   --so-brown: #4A2C1D;
   --so-caramel: #B5601E;
-  --so-caramel-dark: #934B14;
+  --so-caramel-dark: #8F4812;
   --so-pink: #F3B6C0;
-  --so-pink-soft: #FDECEF;
-  --so-border: #E8D5C4;
+  --so-pink-soft: #FCE8EC;
+  --so-border: #DFCBB7;
   --so-card: #FFFFFF;
 }
 
-body {
-  background-color: var(--so-cream);
-  color: var(--so-brown);
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-  line-height: 1.55;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-}
-
-/* Header & Navigation */
-.site-header {
-  background-color: var(--so-brown);
-  color: var(--so-cream);
-  border-bottom: 4px solid var(--so-caramel);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  padding: 0.85rem 0;
-}
-
-.brand-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--so-cream);
-  text-decoration: none;
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.brand-text strong {
-  font-size: 1.15rem;
-}
-
-.brand-text small {
-  color: var(--so-pink);
-  font-size: 0.75rem;
-}
-
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  background: transparent;
-  border: 1.5px solid var(--so-pink);
-  border-radius: 8px;
-  padding: 0.45rem 0.55rem;
-  cursor: pointer;
-}
-
-.hamburger-bar {
-  width: 22px;
-  height: 2.5px;
-  background-color: var(--so-cream);
-  border-radius: 2px;
-  display: block;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: var(--so-cream);
-  text-decoration: none;
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-.nav-links a:hover,
-.nav-links a:focus-visible {
-  background-color: rgba(243, 182, 192, 0.2);
-  color: var(--so-pink);
-}
-
-.nav-links a.active {
-  background-color: var(--so-caramel);
-  color: #FFFFFF;
-}
-
+/* Cart count badge inside shared navbar Cart link */
 .nav-badge {
   background-color: var(--so-pink);
   color: var(--so-brown);
@@ -125,6 +18,7 @@ main {
   min-width: 1.35rem;
   height: 1.35rem;
   padding: 0 0.35rem;
+  margin-left: 0.25rem;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
@@ -394,52 +288,6 @@ main {
   font-weight: 500;
 }
 
-/* Footer */
-.site-footer {
-  background-color: var(--so-brown);
-  color: var(--so-cream);
-  padding: 2.5rem 0 1.5rem;
-  border-top: 4px solid var(--so-pink);
-}
-
-.footer-brand {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--so-pink);
-}
-
-.footer-heading {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--so-pink);
-  margin-bottom: 0.65rem;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.35rem;
-}
-
-.footer-links a {
-  color: var(--so-cream);
-  text-decoration: none;
-  font-size: 0.92rem;
-}
-
-.footer-links a:hover {
-  color: var(--so-pink);
-  text-decoration: underline;
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(255, 248, 238, 0.2);
-  color: #EAD8CA;
-}
-
 @media (max-width: 991.98px) {
   .timeline-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -447,28 +295,6 @@ main {
 }
 
 @media (max-width: 767.98px) {
-  .nav-toggle {
-    display: flex;
-  }
-
-  .nav-links {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(255, 248, 238, 0.18);
-  }
-
-  .nav-links.is-open {
-    display: flex;
-  }
-
-  .nav-links a {
-    border-radius: 10px;
-    padding: 0.6rem 0.85rem;
-  }
-
   .timeline-grid {
     grid-template-columns: 1fr;
   }
