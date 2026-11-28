@@ -12,7 +12,7 @@
     {
       label: "Phone & WhatsApp Orders",
       value: "+92 300 1234567",
-      detail: "Mon – Sat: 8:00 AM – 8:00 PM • Sunday: 9:00 AM – 5:00 PM",
+      detail: "Open: Mon to Sun, 8am to 8pm.",
       href: "tel:+923001234567",
       linkText: "Call Kitchen Desk"
     },
@@ -20,7 +20,7 @@
       label: "Home Kitchen Pickup",
       value: "Street 14, Sector F-8/3",
       detail: "Islamabad • Free self-pickup during your chosen dispatch slot.",
-      href: "#estimatorHeading",
+      href: "#deliveryCheckerHeading",
       linkText: "Check Pickup Slots"
     },
     {
@@ -40,9 +40,8 @@
       city: "Islamabad",
       filterGroup: "Self-Pickup",
       fee: 0,
-      eta: "Ready at selected slot (No delivery charge)",
-      keywords: ["pickup", "self pickup", "self-pickup", "f-8/3", "f8/3", "street 14"],
-      isPickup: true
+      eta: "Ready at selected slot (Free pickup)",
+      keywords: ["pickup", "self pickup", "self-pickup", "f-8/3", "f8/3", "street 14"]
     },
     {
       id: "isb-f6-f8",
@@ -51,8 +50,7 @@
       filterGroup: "Islamabad",
       fee: 200,
       eta: "35–45 mins rider delivery",
-      keywords: ["f-6", "f6", "f-7", "f7", "f-8", "f8"],
-      isPickup: false
+      keywords: ["f-6", "f6", "f-7", "f7", "f-8", "f8"]
     },
     {
       id: "isb-f10-f11",
@@ -61,8 +59,7 @@
       filterGroup: "Islamabad",
       fee: 250,
       eta: "45–60 mins rider delivery",
-      keywords: ["f-10", "f10", "f-11", "f11"],
-      isPickup: false
+      keywords: ["f-10", "f10", "f-11", "f11"]
     },
     {
       id: "isb-g9-g11",
@@ -71,8 +68,7 @@
       filterGroup: "Islamabad",
       fee: 250,
       eta: "45–60 mins rider delivery",
-      keywords: ["g-9", "g9", "g-10", "g10", "g-11", "g11"],
-      isPickup: false
+      keywords: ["g-9", "g9", "g-10", "g10", "g-11", "g11"]
     },
     {
       id: "isb-e11-d12",
@@ -81,8 +77,7 @@
       filterGroup: "Islamabad",
       fee: 300,
       eta: "50–70 mins rider delivery",
-      keywords: ["e-11", "e11", "d-12", "d12"],
-      isPickup: false
+      keywords: ["e-11", "e11", "d-12", "d12"]
     },
     {
       id: "rwp-chaklala",
@@ -91,8 +86,7 @@
       filterGroup: "Rawalpindi",
       fee: 350,
       eta: "60–75 mins chilled van delivery",
-      keywords: ["chaklala", "scheme 3", "scheme iii", "saddar", "rawalpindi"],
-      isPickup: false
+      keywords: ["chaklala", "scheme 3", "scheme iii", "saddar", "rawalpindi"]
     },
     {
       id: "isb-dha-bahria",
@@ -101,8 +95,7 @@
       filterGroup: "Rawalpindi",
       fee: 450,
       eta: "75–90 mins chilled van delivery",
-      keywords: ["dha", "bahria", "bahria town", "phase 1", "phase 2", "phase 3", "phase 4", "phase 5", "phase 6", "phase 7"],
-      isPickup: false
+      keywords: ["dha", "bahria", "bahria town", "phase 1", "phase 2", "phase 3", "phase 4", "phase 5", "phase 6", "phase 7"]
     }
   ];
 
@@ -168,12 +161,6 @@
     }
   }
 
-  var zoneFilter = "All";
-  var zoneSearch = "";
-  var preferredSlotId = loadPreferredSlot();
-  var checkerState = initCheckerState();
-  var inquiryHistory = loadInquiries();
-
   function safeParseJSON(raw, fallback) {
     if (!raw) {
       return fallback;
@@ -200,25 +187,35 @@
     return el;
   }
 
-  function initCheckerState() {
-    var saved = safeGet(PREFERRED_AREA_KEY);
-    if (!saved) {
-      return { status: "none", zone: null, customQuery: "" };
-    }
-    if (saved === "not-served") {
-      return { status: "unserved", zone: null, customQuery: "" };
-    }
-    var matchedZone = deliveryZones.find(function (z) { return z.id === saved; });
-    if (matchedZone) {
-      return { status: "served", zone: matchedZone, customQuery: "" };
-    }
-    return { status: "none", zone: null, customQuery: "" };
-  }
+  var zoneFilter = "All";
+  var zoneSearch = "";
+  var preferredSlotId = loadPreferredSlot();
+  var checkerState = initCheckerState();
+  var inquiryHistory = loadInquiries();
 
   function loadPreferredSlot() {
     var saved = safeGet(PREFERRED_SLOT_KEY);
     var exists = deliverySlots.some(function (s) { return s.id === saved; });
     return exists ? saved : deliverySlots[1].id;
+  }
+
+  function initCheckerState() {
+    var savedArea = safeGet(PREFERRED_AREA_KEY);
+    if (!savedArea) {
+      return { status: "none", zone: null, customQuery: "" };
+    }
+    if (savedArea === "outside") {
+      return { status: "unserved", zone: null, customQuery: "" };
+    }
+    var matched = deliveryZones.find(function (z) { return z.id === savedArea; });
+    if (!matched) {
+      return { status: "none", zone: null, customQuery: "" };
+    }
+    var savedNote = safeParseJSON(safeGet(DELIVERY_NOTE_KEY), null);
+    if (savedNote && savedNote.zoneId === matched.id) {
+      return { status: "saved", zone: matched, customQuery: "" };
+    }
+    return { status: "served", zone: matched, customQuery: "" };
   }
 
   function loadInquiries() {
@@ -252,175 +249,58 @@
     contactChannels.forEach(function (channel) {
       var col = createEl("div", "col-md-4");
       var card = createEl("article", "card channel-card card-hover");
-      var label = createEl("p", "small fw-bold text-muted-bakery mb-1", channel.label);
-      var val = createEl("h3", "h5 mb-2", channel.value);
-      var detail = createEl("p", "small text-muted-bakery mb-3", channel.detail);
+      card.appendChild(createEl("p", "small fw-bold text-muted-bakery mb-1", channel.label));
+      card.appendChild(createEl("h3", "h5 mb-2", channel.value));
+      card.appendChild(createEl("p", "small text-muted-bakery mb-3", channel.detail));
       var link = createEl("a", "btn btn-outline-bakery btn-sm align-self-start", channel.linkText);
       link.href = channel.href;
-
-      card.appendChild(label);
-      card.appendChild(val);
-      card.appendChild(detail);
       card.appendChild(link);
       col.appendChild(card);
       grid.appendChild(col);
     });
   }
 
-  function populateSelects() {
-    var estimatorArea = document.getElementById("estimatorAreaSelect");
-    var estimatorSlot = document.getElementById("estimatorSlotSelect");
-    var contactArea = document.getElementById("contactArea");
+  function populateCheckerDropdowns() {
+    var select = document.getElementById("deliveryAreaSelect");
+    var slotSelect = document.getElementById("estimatorSlotSelect");
 
-    if (estimatorArea) {
-      estimatorArea.innerHTML = "";
-
-      var chooseOpt = document.createElement("option");
-      chooseOpt.value = "";
-      chooseOpt.textContent = "-- Choose an area --";
-      estimatorArea.appendChild(chooseOpt);
+    if (select) {
+      select.innerHTML = "";
+      var placeholderOpt = document.createElement("option");
+      placeholderOpt.value = "";
+      placeholderOpt.textContent = "Select area";
+      select.appendChild(placeholderOpt);
 
       deliveryZones.forEach(function (zone) {
         var opt = document.createElement("option");
         opt.value = zone.id;
         opt.textContent = zone.name + " (" + (zone.fee === 0 ? "Free" : formatPKR(zone.fee)) + ")";
-        estimatorArea.appendChild(opt);
+        select.appendChild(opt);
       });
 
       var outsideOpt = document.createElement("option");
-      outsideOpt.value = "not-served";
-      outsideOpt.textContent = "Other / Outside Listed Sectors";
-      estimatorArea.appendChild(outsideOpt);
+      outsideOpt.value = "outside";
+      outsideOpt.textContent = "Other / Outside Islamabad & Rawalpindi";
+      select.appendChild(outsideOpt);
 
-      if (checkerState.status === "served" && checkerState.zone) {
-        estimatorArea.value = checkerState.zone.id;
+      if ((checkerState.status === "served" || checkerState.status === "saved") && checkerState.zone) {
+        select.value = checkerState.zone.id;
       } else if (checkerState.status === "unserved") {
-        estimatorArea.value = "not-served";
+        select.value = "outside";
       } else {
-        estimatorArea.value = "";
+        select.value = "";
       }
     }
 
-    if (estimatorSlot) {
-      estimatorSlot.innerHTML = "";
+    if (slotSelect) {
+      slotSelect.innerHTML = "";
       deliverySlots.forEach(function (slot) {
         var opt = document.createElement("option");
         opt.value = slot.id;
         opt.textContent = slot.label;
-        estimatorSlot.appendChild(opt);
+        slotSelect.appendChild(opt);
       });
-      estimatorSlot.value = preferredSlotId;
-    }
-
-    if (contactArea) {
-      contactArea.innerHTML = "";
-      var defaultOpt = document.createElement("option");
-      defaultOpt.value = "";
-      defaultOpt.textContent = "Not sure yet / Ask baker";
-      contactArea.appendChild(defaultOpt);
-
-      deliveryZones.forEach(function (zone) {
-        var opt = document.createElement("option");
-        opt.value = zone.name;
-        opt.textContent = zone.name;
-        contactArea.appendChild(opt);
-      });
-    }
-  }
-
-  function renderDeliveryChecker() {
-    var output = document.getElementById("estimatorOutput");
-    var addBtn = document.getElementById("addFeeToNoteBtn");
-    var confirmBox = document.getElementById("addFeeConfirm");
-
-    if (!output) {
-      return;
-    }
-
-    output.innerHTML = "";
-    output.classList.remove("is-unserved", "is-served");
-
-    if (confirmBox && checkerState.status !== "served") {
-      confirmBox.classList.add("d-none");
-    }
-
-    // State (a): No area chosen
-    if (checkerState.status === "none") {
-      if (addBtn) {
-        addBtn.disabled = true;
-      }
-      output.appendChild(createEl("strong", "d-block mb-1", "No area selected yet"));
-      output.appendChild(
-        createEl(
-          "p",
-          "small text-muted-bakery mb-0",
-          "Please select an area from the dropdown or enter your sector above to check delivery availability and PKR fee."
-        )
-      );
-      return;
-    }
-
-    // State (b): Area not served
-    if (checkerState.status === "unserved") {
-      output.classList.add("is-unserved");
-      if (addBtn) {
-        addBtn.disabled = true;
-      }
-      var areaLabel = checkerState.customQuery ? '"' + checkerState.customQuery + '"' : "that area";
-      output.appendChild(createEl("strong", "d-block mb-1", "We do not deliver to " + areaLabel + " yet"));
-      output.appendChild(
-        createEl(
-          "p",
-          "small mb-0",
-          "Currently we only deliver to Sectors F-6 to F-11, G-9 to G-11, E-11, D-12, Chaklala Scheme III & Saddar, and DHA / Bahria Town (Phases 1–7), or you can collect free from our F-8/3 kitchen."
-        )
-      );
-      return;
-    }
-
-    // State (c): Area served
-    output.classList.add("is-served");
-    if (addBtn) {
-      addBtn.disabled = false;
-    }
-
-    var zone = checkerState.zone;
-    var slot = deliverySlots.find(function (s) { return s.id === preferredSlotId; }) || deliverySlots[0];
-    var cartSubtotal = getSavedCartSubtotal();
-
-    var topLine = createEl("div", "d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2");
-    topLine.appendChild(createEl("strong", "", zone.name));
-    topLine.appendChild(
-      createEl(
-        "span",
-        "badge badge-pink rounded-pill",
-        zone.fee === 0 ? "Free Pickup (" + formatPKR(0) + ")" : "Delivery Fee: " + formatPKR(zone.fee)
-      )
-    );
-
-    var etaLine = createEl("p", "small mb-1", "Estimated Arrival: " + zone.eta);
-    var slotLine = createEl("p", "small text-muted-bakery mb-1", "Selected Dispatch Slot: " + slot.label);
-
-    output.appendChild(topLine);
-    output.appendChild(etaLine);
-    output.appendChild(slotLine);
-
-    if (cartSubtotal > 0) {
-      output.appendChild(
-        createEl(
-          "p",
-          "small fw-bold mb-0 mt-2",
-          "Your current basket (" + formatPKR(cartSubtotal) + ") + delivery = " + formatPKR(cartSubtotal + zone.fee)
-        )
-      );
-    } else {
-      output.appendChild(
-        createEl(
-          "p",
-          "small text-muted-bakery mb-0 mt-2",
-          "Use \"Add fee to order note\" to attach this PKR rate to your inquiry message."
-        )
-      );
+      slotSelect.value = preferredSlotId;
     }
   }
 
@@ -436,6 +316,251 @@
     }) || null;
   }
 
+  function renderDeliveryResult() {
+    var box = document.getElementById("deliveryResultBox");
+    var addBtn = document.getElementById("addFeeToNoteBtn");
+    var confirmText = document.getElementById("addFeeConfirm");
+
+    if (!box) {
+      return;
+    }
+
+    box.innerHTML = "";
+    box.classList.remove("is-served", "is-unserved", "is-saved");
+
+    if (confirmText) {
+      confirmText.classList.add("d-none");
+      confirmText.textContent = "";
+    }
+
+    // State 1: Initial / No area selected
+    if (checkerState.status === "none") {
+      if (addBtn) { addBtn.classList.add("d-none"); }
+      box.appendChild(createEl("strong", "d-block mb-1", "No area selected yet."));
+      box.appendChild(
+        createEl(
+          "p",
+          "small text-muted-bakery mb-0",
+          "Choose an area from the dropdown and click Check to view delivery availability and PKR fee."
+        )
+      );
+      return;
+    }
+
+    // State 2: Area not served
+    if (checkerState.status === "unserved") {
+      box.classList.add("is-unserved");
+      if (addBtn) { addBtn.classList.add("d-none"); }
+      var queryLabel = checkerState.customQuery ? '"' + checkerState.customQuery + '"' : "this area";
+      box.appendChild(createEl("strong", "d-block mb-1", "We do not deliver to " + queryLabel + " yet."));
+      box.appendChild(
+        createEl(
+          "p",
+          "small mb-0",
+          "Currently we serve Islamabad Sectors F-6 to F-11, G-9 to G-11, E-11, D-12, Chaklala Scheme III & Saddar, and DHA / Bahria Town (Phases 1–7). Free self-pickup is available from Street 14, F-8/3."
+        )
+      );
+      return;
+    }
+
+    var zone = checkerState.zone;
+    var slot = deliverySlots.find(function (s) { return s.id === preferredSlotId; }) || deliverySlots[0];
+    var feeText = zone.fee === 0 ? "Free (PKR 0)" : formatPKR(zone.fee);
+    var subtotal = getSavedCartSubtotal();
+
+    // State 3 (Served) & State 4 (Saved / Added to order note)
+    box.classList.add("is-served");
+    if (checkerState.status === "saved") {
+      box.classList.add("is-saved");
+    }
+    if (addBtn) {
+      addBtn.classList.remove("d-none");
+      addBtn.textContent = checkerState.status === "saved" ? "Update order note" : "Add fee to order note";
+    }
+
+    var titleRow = createEl("div", "d-flex flex-wrap justify-content-between align-items-center gap-2 mb-1");
+    titleRow.appendChild(createEl("strong", "", zone.name));
+    titleRow.appendChild(createEl("span", "badge badge-pink rounded-pill", "Delivery Fee: " + feeText));
+    box.appendChild(titleRow);
+
+    box.appendChild(createEl("p", "small mb-1", "Estimated Arrival: " + zone.eta));
+    box.appendChild(createEl("p", "small text-muted-bakery mb-1", "Dispatch Slot: " + slot.label));
+
+    if (subtotal > 0) {
+      box.appendChild(
+        createEl(
+          "p",
+          "small fw-bold mb-0",
+          "Current Cart (" + formatPKR(subtotal) + ") + Delivery (" + feeText + ") = " + formatPKR(subtotal + zone.fee)
+        )
+      );
+    }
+
+    if (checkerState.status === "saved" && confirmText) {
+      confirmText.textContent = "Delivery fee saved to your order note (" + zone.name + " — " + feeText + ").";
+      confirmText.classList.remove("d-none");
+    }
+  }
+
+  function setFieldError(inputEl, errorEl, message) {
+    if (!inputEl || !errorEl) {
+      return;
+    }
+    if (message) {
+      errorEl.textContent = message;
+      errorEl.classList.remove("d-none");
+      inputEl.classList.add("is-invalid-field");
+      inputEl.setAttribute("aria-invalid", "true");
+    } else {
+      errorEl.textContent = "";
+      errorEl.classList.add("d-none");
+      inputEl.classList.remove("is-invalid-field");
+      inputEl.removeAttribute("aria-invalid");
+    }
+  }
+
+  function initDeliveryChecker() {
+    var form = document.getElementById("deliveryCheckerForm");
+    var select = document.getElementById("deliveryAreaSelect");
+    var slotSelect = document.getElementById("estimatorSlotSelect");
+    var errorEl = document.getElementById("deliveryCheckerError");
+    var customForm = document.getElementById("customAreaCheckForm");
+    var customInput = document.getElementById("customAreaCheckInput");
+    var customError = document.getElementById("customAreaError");
+    var addFeeBtn = document.getElementById("addFeeToNoteBtn");
+
+    function runDropdownCheck() {
+      var val = select ? select.value : "";
+
+      if (!val) {
+        if (errorEl) {
+          errorEl.textContent = "Please select an area first.";
+          errorEl.classList.remove("d-none");
+        }
+        if (select) {
+          select.classList.add("is-invalid-field");
+          select.focus();
+        }
+        checkerState = { status: "none", zone: null, customQuery: "" };
+        safeRemove(PREFERRED_AREA_KEY);
+        renderDeliveryResult();
+        renderDeliveryZones();
+        return;
+      }
+
+      if (errorEl) { errorEl.classList.add("d-none"); }
+      if (select) { select.classList.remove("is-invalid-field"); }
+      setFieldError(customInput, customError, "");
+
+      if (val === "outside") {
+        checkerState = { status: "unserved", zone: null, customQuery: "" };
+        safeSet(PREFERRED_AREA_KEY, "outside");
+      } else {
+        var matched = deliveryZones.find(function (z) { return z.id === val; });
+        if (matched) {
+          var existingNote = safeParseJSON(safeGet(DELIVERY_NOTE_KEY), null);
+          var alreadySaved = Boolean(existingNote && existingNote.zoneId === matched.id);
+          checkerState = { status: alreadySaved ? "saved" : "served", zone: matched, customQuery: "" };
+          safeSet(PREFERRED_AREA_KEY, matched.id);
+        }
+      }
+
+      renderDeliveryResult();
+      renderDeliveryZones();
+    }
+
+    if (form) {
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        runDropdownCheck();
+      });
+    }
+
+    if (select) {
+      select.addEventListener("change", function () {
+        if (errorEl) { errorEl.classList.add("d-none"); }
+        select.classList.remove("is-invalid-field");
+      });
+    }
+
+    if (slotSelect) {
+      slotSelect.addEventListener("change", function () {
+        preferredSlotId = slotSelect.value;
+        safeSet(PREFERRED_SLOT_KEY, preferredSlotId);
+        renderDeliveryResult();
+      });
+    }
+
+    if (customForm && customInput && customError) {
+      customForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var raw = customInput.value.trim();
+
+        if (!raw) {
+          setFieldError(customInput, customError, "Please enter a sector or neighbourhood name to check.");
+          customInput.focus();
+          return;
+        }
+
+        if (!/[a-zA-Z]{2,}/.test(raw) && !/^[fgeFGE]-?\d{1,2}$/.test(raw)) {
+          setFieldError(customInput, customError, "Enter a valid area name (e.g., F-7, Bahria Town, or Rawat).");
+          customInput.focus();
+          return;
+        }
+
+        setFieldError(customInput, customError, "");
+        if (errorEl) { errorEl.classList.add("d-none"); }
+        if (select) { select.classList.remove("is-invalid-field"); }
+
+        var matchedZone = findServedZoneByQuery(raw);
+        if (matchedZone) {
+          var existingNote = safeParseJSON(safeGet(DELIVERY_NOTE_KEY), null);
+          var alreadySaved = Boolean(existingNote && existingNote.zoneId === matchedZone.id);
+          checkerState = { status: alreadySaved ? "saved" : "served", zone: matchedZone, customQuery: raw };
+          safeSet(PREFERRED_AREA_KEY, matchedZone.id);
+          if (select) { select.value = matchedZone.id; }
+        } else {
+          checkerState = { status: "unserved", zone: null, customQuery: raw };
+          safeSet(PREFERRED_AREA_KEY, "outside");
+          if (select) { select.value = "outside"; }
+        }
+
+        renderDeliveryResult();
+        renderDeliveryZones();
+      });
+    }
+
+    if (addFeeBtn) {
+      addFeeBtn.addEventListener("click", function () {
+        if (!checkerState.zone) {
+          return;
+        }
+        var zone = checkerState.zone;
+        var slot = deliverySlots.find(function (s) { return s.id === preferredSlotId; }) || deliverySlots[0];
+        var feeText = zone.fee === 0 ? "Free (PKR 0)" : formatPKR(zone.fee);
+        var noteLine = "[Delivery Area: " + zone.name + " — " + feeText + " | " + slot.label + "]";
+
+        var messageInput = document.getElementById("contactMessage");
+        if (messageInput) {
+          var existing = messageInput.value.trim().replace(/\[Delivery Area:[^\]]*\]/g, "").trim();
+          messageInput.value = existing ? existing + "\n" + noteLine : noteLine;
+          messageInput.dispatchEvent(new Event("input"));
+        }
+
+        safeSet(DELIVERY_NOTE_KEY, JSON.stringify({
+          zoneId: zone.id,
+          zoneName: zone.name,
+          fee: zone.fee,
+          slot: slot.label,
+          note: noteLine
+        }));
+
+        checkerState = { status: "saved", zone: zone, customQuery: checkerState.customQuery };
+        renderDeliveryResult();
+      });
+    }
+  }
+
   function renderZoneFilterBar() {
     var bar = document.getElementById("zoneFilterBar");
     if (!bar) {
@@ -443,8 +568,7 @@
     }
     bar.innerHTML = "";
 
-    var groups = ["All", "Islamabad", "Rawalpindi", "Self-Pickup"];
-    groups.forEach(function (group) {
+    ["All", "Islamabad", "Rawalpindi", "Self-Pickup"].forEach(function (group) {
       var btn = createEl(
         "button",
         "zone-filter-btn" + (zoneFilter === group ? " is-active" : ""),
@@ -468,23 +592,24 @@
     if (!grid || !emptyState) {
       return;
     }
-    grid.innerHTML = "";
 
+    grid.innerHTML = "";
     var query = zoneSearch.trim().toLowerCase();
+
     var filtered = deliveryZones.filter(function (zone) {
       var matchesGroup = zoneFilter === "All" || zone.filterGroup === zoneFilter;
-      var matchesSearch = !query ||
+      var matchesQuery = !query ||
         zone.name.toLowerCase().indexOf(query) !== -1 ||
         zone.city.toLowerCase().indexOf(query) !== -1 ||
         zone.eta.toLowerCase().indexOf(query) !== -1;
-      return matchesGroup && matchesSearch;
+      return matchesGroup && matchesQuery;
     });
 
     if (filtered.length === 0) {
       emptyState.classList.remove("d-none");
       if (emptyText) {
         emptyText.textContent = query
-          ? 'No delivery areas matched "' + zoneSearch.trim() + '". Message us below for custom rider quotes.'
+          ? 'No delivery areas matched "' + zoneSearch.trim() + '".'
           : "No zones match the selected filter.";
       }
       return;
@@ -493,45 +618,41 @@
     emptyState.classList.add("d-none");
 
     filtered.forEach(function (zone) {
-      var isPreferred = checkerState.status === "served" && checkerState.zone && checkerState.zone.id === zone.id;
-      var col = createEl("div", "col-md-6 col-lg-4");
-      var card = createEl("article", "card zone-card card-hover" + (isPreferred ? " is-preferred" : ""));
+      var isSelected = checkerState.zone && checkerState.zone.id === zone.id;
+      var col = createEl("div", "col-sm-6");
+      var card = createEl("article", "card zone-card card-hover" + (isSelected ? " is-preferred" : ""));
 
       var top = createEl("div", "");
-      var cityTag = createEl("p", "small fw-bold text-muted-bakery mb-1", zone.city);
-      var title = createEl("h3", "h5 mb-2", zone.name);
-      var eta = createEl("p", "small text-muted-bakery mb-3", zone.eta);
-
-      top.appendChild(cityTag);
-      top.appendChild(title);
-      top.appendChild(eta);
+      top.appendChild(createEl("p", "small fw-bold text-muted-bakery mb-1", zone.city));
+      top.appendChild(createEl("h3", "h6 mb-1", zone.name));
+      top.appendChild(createEl("p", "small text-muted-bakery mb-2", zone.eta));
 
       var bottom = createEl("div", "d-flex justify-content-between align-items-center pt-2 border-top");
-      var fee = createEl("span", "zone-fee", zone.fee === 0 ? "Free" : formatPKR(zone.fee));
+      bottom.appendChild(createEl("span", "zone-fee", zone.fee === 0 ? "Free" : formatPKR(zone.fee)));
+
       var selectBtn = createEl(
         "button",
-        "btn btn-sm " + (isPreferred ? "btn-bakery" : "btn-outline-bakery"),
-        isPreferred ? "Selected Zone" : "Select Zone"
+        "btn btn-sm " + (isSelected ? "btn-bakery" : "btn-outline-bakery"),
+        isSelected ? "Checked" : "Check"
       );
       selectBtn.type = "button";
       selectBtn.addEventListener("click", function () {
+        var select = document.getElementById("deliveryAreaSelect");
+        var errorEl = document.getElementById("deliveryCheckerError");
+        if (select) {
+          select.value = zone.id;
+          select.classList.remove("is-invalid-field");
+        }
+        if (errorEl) {
+          errorEl.classList.add("d-none");
+        }
         checkerState = { status: "served", zone: zone, customQuery: "" };
         safeSet(PREFERRED_AREA_KEY, zone.id);
-        var estimatorArea = document.getElementById("estimatorAreaSelect");
-        if (estimatorArea) {
-          estimatorArea.value = zone.id;
-        }
-        var customError = document.getElementById("customAreaError");
-        if (customError) {
-          customError.classList.add("d-none");
-        }
-        renderDeliveryChecker();
+        renderDeliveryResult();
         renderDeliveryZones();
       });
 
-      bottom.appendChild(fee);
       bottom.appendChild(selectBtn);
-
       card.appendChild(top);
       card.appendChild(bottom);
       col.appendChild(card);
@@ -556,182 +677,9 @@
     });
   }
 
-  function renderInquiryHistory() {
-    var list = document.getElementById("inquiryHistoryList");
-    var empty = document.getElementById("emptyInquiriesState");
-    if (!list || !empty) {
-      return;
-    }
-
-    list.innerHTML = "";
-
-    if (inquiryHistory.length === 0) {
-      empty.classList.remove("d-none");
-      return;
-    }
-
-    empty.classList.add("d-none");
-
-    inquiryHistory.forEach(function (entry, index) {
-      var card = createEl("article", "card inquiry-item-card");
-      var headerRow = createEl("div", "d-flex justify-content-between align-items-start gap-2 mb-1");
-      headerRow.appendChild(createEl("strong", "small", entry.ref + " • " + entry.topic));
-
-      var delBtn = createEl("button", "btn btn-sm btn-outline-bakery py-0 px-2", "Remove");
-      delBtn.type = "button";
-      delBtn.setAttribute("aria-label", "Remove inquiry " + entry.ref);
-      delBtn.addEventListener("click", function () {
-        inquiryHistory.splice(index, 1);
-        saveInquiries();
-        renderInquiryHistory();
-      });
-
-      headerRow.appendChild(delBtn);
-
-      var meta = createEl("p", "small text-muted-bakery mb-1", entry.name + " • " + entry.submittedAt);
-      var msg = createEl("p", "small mb-0", entry.message);
-
-      card.appendChild(headerRow);
-      card.appendChild(meta);
-      card.appendChild(msg);
-      list.appendChild(card);
-    });
-  }
-
-  function initDeliveryCheckerEvents() {
-    var areaSelect = document.getElementById("estimatorAreaSelect");
-    var slotSelect = document.getElementById("estimatorSlotSelect");
-    var customForm = document.getElementById("customAreaCheckForm");
-    var customInput = document.getElementById("customAreaCheckInput");
-    var customError = document.getElementById("customAreaError");
-    var addFeeBtn = document.getElementById("addFeeToNoteBtn");
-    var addFeeConfirm = document.getElementById("addFeeConfirm");
+  function initZoneSearch() {
     var searchInput = document.getElementById("zoneSearchInput");
     var resetBtn = document.getElementById("resetZoneFilterBtn");
-
-    if (areaSelect) {
-      areaSelect.addEventListener("change", function () {
-        var val = areaSelect.value;
-        if (customError) {
-          customError.classList.add("d-none");
-        }
-        if (customInput) {
-          customInput.classList.remove("is-invalid-field");
-        }
-
-        if (!val) {
-          checkerState = { status: "none", zone: null, customQuery: "" };
-          safeRemove(PREFERRED_AREA_KEY);
-        } else if (val === "not-served") {
-          checkerState = { status: "unserved", zone: null, customQuery: "" };
-          safeSet(PREFERRED_AREA_KEY, "not-served");
-        } else {
-          var matched = deliveryZones.find(function (z) { return z.id === val; });
-          if (matched) {
-            checkerState = { status: "served", zone: matched, customQuery: "" };
-            safeSet(PREFERRED_AREA_KEY, matched.id);
-          } else {
-            checkerState = { status: "none", zone: null, customQuery: "" };
-          }
-        }
-        renderDeliveryChecker();
-        renderDeliveryZones();
-      });
-    }
-
-    if (slotSelect) {
-      slotSelect.addEventListener("change", function () {
-        preferredSlotId = slotSelect.value;
-        safeSet(PREFERRED_SLOT_KEY, preferredSlotId);
-        renderDeliveryChecker();
-      });
-    }
-
-    if (customForm && customInput && customError) {
-      customForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        var raw = customInput.value.trim();
-
-        if (!raw) {
-          setFieldError(customInput, customError, "Please enter a sector or neighbourhood name to check.");
-          customInput.focus();
-          return;
-        }
-
-        // Must contain at least 2 letters (prevents symbols or numbers-only invalid input)
-        if (!/[a-zA-Z]{2,}/.test(raw) && !/^[fgeFGE]-?\d{1,2}$/.test(raw)) {
-          setFieldError(customInput, customError, "Please enter a valid area name (e.g., F-7, G-10, Bahria Town, or Rawat).");
-          customInput.focus();
-          return;
-        }
-
-        setFieldError(customInput, customError, "");
-        var matchedZone = findServedZoneByQuery(raw);
-
-        if (matchedZone) {
-          checkerState = { status: "served", zone: matchedZone, customQuery: raw };
-          safeSet(PREFERRED_AREA_KEY, matchedZone.id);
-          if (areaSelect) {
-            areaSelect.value = matchedZone.id;
-          }
-        } else {
-          checkerState = { status: "unserved", zone: null, customQuery: raw };
-          safeSet(PREFERRED_AREA_KEY, "not-served");
-          if (areaSelect) {
-            areaSelect.value = "not-served";
-          }
-        }
-
-        renderDeliveryChecker();
-        renderDeliveryZones();
-      });
-    }
-
-    // State (d): Add fee to order note
-    if (addFeeBtn) {
-      addFeeBtn.addEventListener("click", function () {
-        if (checkerState.status !== "served" || !checkerState.zone) {
-          return;
-        }
-
-        var zone = checkerState.zone;
-        var slot = deliverySlots.find(function (s) { return s.id === preferredSlotId; }) || deliverySlots[0];
-        var feeText = zone.fee === 0 ? "Free (PKR 0)" : formatPKR(zone.fee);
-        var noteLine = "[Delivery Estimate: " + zone.name + " — " + feeText + " | " + slot.label + "]";
-
-        var messageInput = document.getElementById("contactMessage");
-        var contactArea = document.getElementById("contactArea");
-
-        if (contactArea) {
-          contactArea.value = zone.name;
-        }
-
-        if (messageInput) {
-          var existing = messageInput.value.trim();
-          var cleaned = existing.replace(/\[Delivery Estimate:[^\]]*\]/g, "").trim();
-          messageInput.value = cleaned ? cleaned + "\n" + noteLine : noteLine;
-          messageInput.dispatchEvent(new Event("input"));
-        }
-
-        var saved = safeSet(
-          DELIVERY_NOTE_KEY,
-          JSON.stringify({
-            zoneId: zone.id,
-            zoneName: zone.name,
-            fee: zone.fee,
-            slot: slot.label,
-            note: noteLine
-          })
-        );
-
-        if (addFeeConfirm) {
-          addFeeConfirm.textContent = saved
-            ? 'Added "' + zone.name + " (" + feeText + ')" to your inquiry message and saved it to your order note.'
-            : 'Added "' + zone.name + " (" + feeText + ')" to your inquiry message for this session.';
-          addFeeConfirm.classList.remove("d-none");
-        }
-      });
-    }
 
     if (searchInput) {
       searchInput.addEventListener("input", function () {
@@ -753,71 +701,91 @@
     }
   }
 
-  function setFieldError(inputEl, errorEl, message) {
-    if (!inputEl || !errorEl) {
+  function renderInquiryHistory() {
+    var list = document.getElementById("inquiryHistoryList");
+    var empty = document.getElementById("emptyInquiriesState");
+    if (!list || !empty) {
       return;
     }
-    if (message) {
-      errorEl.textContent = message;
-      errorEl.classList.remove("d-none");
-      inputEl.classList.add("is-invalid-field");
-      inputEl.setAttribute("aria-invalid", "true");
-    } else {
-      errorEl.textContent = "";
-      errorEl.classList.add("d-none");
-      inputEl.classList.remove("is-invalid-field");
-      inputEl.removeAttribute("aria-invalid");
+    list.innerHTML = "";
+
+    if (inquiryHistory.length === 0) {
+      empty.classList.remove("d-none");
+      return;
     }
+
+    empty.classList.add("d-none");
+
+    inquiryHistory.forEach(function (entry, index) {
+      var card = createEl("article", "card inquiry-item-card");
+      var top = createEl("div", "d-flex justify-content-between align-items-start gap-2 mb-1");
+      top.appendChild(createEl("strong", "small", entry.ref + " • " + entry.subject));
+
+      var removeBtn = createEl("button", "btn btn-sm btn-outline-bakery py-0 px-2", "Remove");
+      removeBtn.type = "button";
+      removeBtn.setAttribute("aria-label", "Remove message " + entry.ref);
+      removeBtn.addEventListener("click", function () {
+        inquiryHistory.splice(index, 1);
+        saveInquiries();
+        renderInquiryHistory();
+      });
+
+      top.appendChild(removeBtn);
+      card.appendChild(top);
+      card.appendChild(createEl("p", "small text-muted-bakery mb-1", entry.name + " • " + entry.submittedAt));
+      card.appendChild(createEl("p", "small mb-0", entry.message));
+      list.appendChild(card);
+    });
+  }
+
+  function showFormStatus(type, message) {
+    var banner = document.getElementById("contactFormStatus");
+    if (!banner) {
+      return;
+    }
+    banner.textContent = message;
+    banner.classList.remove("d-none", "is-success", "is-error");
+    banner.classList.add(type === "success" ? "is-success" : "is-error");
   }
 
   function initContactForm() {
     var form = document.getElementById("contactForm");
     var nameInput = document.getElementById("contactName");
-    var phoneInput = document.getElementById("contactPhone");
     var emailInput = document.getElementById("contactEmail");
-    var topicSelect = document.getElementById("contactTopic");
-    var areaSelect = document.getElementById("contactArea");
+    var subjectInput = document.getElementById("contactSubject");
     var messageInput = document.getElementById("contactMessage");
-    var feedback = document.getElementById("inquiryFeedback");
     var resetBtn = document.getElementById("resetContactFormBtn");
-    var clearInquiriesBtn = document.getElementById("clearInquiriesBtn");
+    var clearHistoryBtn = document.getElementById("clearInquiriesBtn");
 
     var nameErr = document.getElementById("contactNameError");
-    var phoneErr = document.getElementById("contactPhoneError");
     var emailErr = document.getElementById("contactEmailError");
-    var topicErr = document.getElementById("contactTopicError");
+    var subjectErr = document.getElementById("contactSubjectError");
     var messageErr = document.getElementById("contactMessageError");
 
     if (!form) {
       return;
     }
 
-    // Restore saved draft from localStorage
     var draft = safeParseJSON(safeGet(CONTACT_DRAFT_KEY), null);
     if (draft) {
       if (draft.name) { nameInput.value = draft.name; }
-      if (draft.phone) { phoneInput.value = draft.phone; }
       if (draft.email) { emailInput.value = draft.email; }
-      if (draft.topic) { topicSelect.value = draft.topic; }
-      if (draft.area) { areaSelect.value = draft.area; }
+      if (draft.subject) { subjectInput.value = draft.subject; }
       if (draft.message) { messageInput.value = draft.message; }
     }
 
     function saveDraft() {
       safeSet(CONTACT_DRAFT_KEY, JSON.stringify({
         name: nameInput.value,
-        phone: phoneInput.value,
         email: emailInput.value,
-        topic: topicSelect.value,
-        area: areaSelect.value,
+        subject: subjectInput.value,
         message: messageInput.value
       }));
     }
 
-    [nameInput, phoneInput, emailInput, topicSelect, areaSelect, messageInput].forEach(function (field) {
+    [nameInput, emailInput, subjectInput, messageInput].forEach(function (field) {
       if (field) {
         field.addEventListener("input", saveDraft);
-        field.addEventListener("change", saveDraft);
       }
     });
 
@@ -825,30 +793,19 @@
       event.preventDefault();
 
       var nameVal = nameInput.value.trim();
-      var phoneDigits = phoneInput.value.replace(/[\s\-()]/g, "");
       var emailVal = emailInput.value.trim();
-      var topicVal = topicSelect.value.trim();
-      var areaVal = areaSelect.value.trim() || "Unspecified area";
+      var subjectVal = subjectInput.value.trim();
       var messageVal = messageInput.value.trim();
 
       var isValid = true;
       var firstInvalid = null;
 
       if (nameVal.length < 2) {
-        setFieldError(nameInput, nameErr, "Please enter your full name (at least 2 characters).");
+        setFieldError(nameInput, nameErr, "Please enter your name (at least 2 characters).");
         isValid = false;
         firstInvalid = firstInvalid || nameInput;
       } else {
         setFieldError(nameInput, nameErr, "");
-      }
-
-      var phonePattern = /^(\+92|0)?3\d{9}$/;
-      if (!phonePattern.test(phoneDigits)) {
-        setFieldError(phoneInput, phoneErr, "Enter a valid Pakistani mobile number (e.g., 0300-1234567 or +923001234567).");
-        isValid = false;
-        firstInvalid = firstInvalid || phoneInput;
-      } else {
-        setFieldError(phoneInput, phoneErr, "");
       }
 
       var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -860,16 +817,16 @@
         setFieldError(emailInput, emailErr, "");
       }
 
-      if (!topicVal) {
-        setFieldError(topicSelect, topicErr, "Please select an inquiry topic.");
+      if (subjectVal.length < 3) {
+        setFieldError(subjectInput, subjectErr, "Please enter a subject (at least 3 characters).");
         isValid = false;
-        firstInvalid = firstInvalid || topicSelect;
+        firstInvalid = firstInvalid || subjectInput;
       } else {
-        setFieldError(topicSelect, topicErr, "");
+        setFieldError(subjectInput, subjectErr, "");
       }
 
-      if (messageVal.length < 12) {
-        setFieldError(messageInput, messageErr, "Please share at least 12 characters so our baker can help you.");
+      if (messageVal.length < 10) {
+        setFieldError(messageInput, messageErr, "Please write a message of at least 10 characters.");
         isValid = false;
         firstInvalid = firstInvalid || messageInput;
       } else {
@@ -877,9 +834,7 @@
       }
 
       if (!isValid) {
-        if (feedback) {
-          feedback.classList.add("d-none");
-        }
+        showFormStatus("error", "Please fix the errors below before sending your message.");
         if (firstInvalid) {
           firstInvalid.focus();
         }
@@ -887,28 +842,20 @@
       }
 
       var refCode = "TSO-INQ-" + Math.floor(1000 + Math.random() * 9000);
-      var newInquiry = {
+      inquiryHistory.unshift({
         ref: refCode,
         name: nameVal,
-        phone: phoneInput.value.trim(),
         email: emailVal,
-        topic: topicVal,
-        area: areaVal,
+        subject: subjectVal,
         message: messageVal,
         submittedAt: new Date().toLocaleString("en-PK", { dateStyle: "medium", timeStyle: "short" })
-      };
-
-      inquiryHistory.unshift(newInquiry);
+      });
       saveInquiries();
       renderInquiryHistory();
 
       safeRemove(CONTACT_DRAFT_KEY);
       form.reset();
-
-      if (feedback) {
-        feedback.textContent = "Thank you, " + nameVal + "! Inquiry " + refCode + " has been saved. Our F-8/3 kitchen desk responds within 2 hours during bakery hours.";
-        feedback.classList.remove("d-none");
-      }
+      showFormStatus("success", "Message sent! Reference " + refCode + " has been saved.");
     });
 
     if (resetBtn) {
@@ -916,18 +863,18 @@
         form.reset();
         safeRemove(CONTACT_DRAFT_KEY);
         setFieldError(nameInput, nameErr, "");
-        setFieldError(phoneInput, phoneErr, "");
         setFieldError(emailInput, emailErr, "");
-        setFieldError(topicSelect, topicErr, "");
+        setFieldError(subjectInput, subjectErr, "");
         setFieldError(messageInput, messageErr, "");
-        if (feedback) {
-          feedback.classList.add("d-none");
+        var banner = document.getElementById("contactFormStatus");
+        if (banner) {
+          banner.classList.add("d-none");
         }
       });
     }
 
-    if (clearInquiriesBtn) {
-      clearInquiriesBtn.addEventListener("click", function () {
+    if (clearHistoryBtn) {
+      clearHistoryBtn.addEventListener("click", function () {
         inquiryHistory = [];
         saveInquiries();
         renderInquiryHistory();
@@ -936,14 +883,15 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    populateCheckerDropdowns();
+    renderDeliveryResult();
+    initDeliveryChecker();
     renderContactChannels();
-    populateSelects();
-    renderDeliveryChecker();
     renderZoneFilterBar();
     renderDeliveryZones();
     renderGuidelines();
+    initZoneSearch();
     renderInquiryHistory();
-    initDeliveryCheckerEvents();
     initContactForm();
   });
 })();
