@@ -2,12 +2,172 @@
    The Sweet Oven - Custom Cake Request Page Styles
    ========================================================================== */
 
+/* 5-Step Progress Indicator */
+.cake-stepper {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.cake-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.35rem;
+  padding: 0.65rem 0.5rem;
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.cake-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-brown);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cake-step-icon {
+  color: var(--color-caramel);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cake-step-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.cake-step.is-active {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-brown);
+  color: var(--color-brown);
+}
+
+.cake-step.is-active .cake-step-num,
+.cake-step.is-done .cake-step-num {
+  background-color: var(--color-pink);
+  border-color: var(--color-brown);
+}
+
+.cake-step.is-done {
+  background-color: var(--color-cream);
+  border-color: var(--color-caramel);
+  color: var(--color-brown);
+}
+
+@media (max-width: 767.98px) {
+  .cake-stepper {
+    grid-template-columns: 1fr;
+  }
+
+  .cake-step {
+    flex-direction: row;
+    text-align: left;
+    padding: 0.55rem 0.75rem;
+    gap: 0.6rem;
+  }
+}
+
+/* Step 1 Dashed-Border Upload Box */
+.upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-height: 148px;
+  padding: 1.25rem;
+  background-color: var(--color-cream);
+  border: 2px dashed var(--color-caramel);
+  border-radius: var(--radius-md);
+  color: var(--color-brown);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.is-dragover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-brown);
+}
+
+.upload-camera-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-pink-soft);
+  border: 1.5px solid var(--color-pink);
+  color: var(--color-brown);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-preview-card {
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.upload-preview-thumb {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.preset-option-btn {
+  width: 100%;
+  text-align: left;
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.75rem;
+  color: var(--color-brown);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.preset-option-btn:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+.preset-option-btn.is-selected {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-brown);
+  box-shadow: inset 0 0 0 1px var(--color-brown);
+}
+
+.extra-custom-box {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
 .topping-option {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  background-color: var(--color-cream);
+  background-color: var(--color-surface);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-sm);
   padding: 0.55rem 0.75rem;
@@ -90,9 +250,9 @@
 
 .pricing-total dt,
 .pricing-total dd {
-  color: var(--color-brown);
+  color: #B83352;
   font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
 }
 

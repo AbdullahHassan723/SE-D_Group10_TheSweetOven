@@ -4,6 +4,7 @@
   var DRAFT_KEY = "sweetOvenCustomCakeDraft";
   var REQUESTS_KEY = "sweetOvenCustomCakeRequests";
   var MIN_NOTICE_DAYS = 2;
+  var MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 
   var data = window.SweetOvenData;
   var shared = window.SweetOvenShared;
@@ -18,20 +19,33 @@
   var customFeedback = document.getElementById("customFeedback");
   var resetCustomFormBtn = document.getElementById("resetCustomFormBtn");
   var addCustomToCartBtn = document.getElementById("addCustomToCartBtn");
+  var stepperItems = document.querySelectorAll("#cakeProcessStepper .cake-step");
 
-  var occasionSelect = document.getElementById("cakeOccasion");
+  // Step 1 Upload & Presets
+  var uploadDropzone = document.getElementById("uploadDropzone");
+  var designUploadInput = document.getElementById("designUploadInput");
+  var designUploadError = document.getElementById("designUploadError");
+  var uploadPreviewCard = document.getElementById("uploadPreviewCard");
+  var uploadPreviewImg = document.getElementById("uploadPreviewImg");
+  var uploadFileName = document.getElementById("uploadFileName");
+  var removeUploadBtn = document.getElementById("removeUploadBtn");
+  var designPresetsContainer = document.getElementById("designPresetsContainer");
+
+  // Step 2-4 Controls & Extra Options
   var sizeSelect = document.getElementById("cakeSize");
   var spongeSelect = document.getElementById("cakeSponge");
+  var cakeMessageInput = document.getElementById("cakeMessage");
+  var cakeMessageCount = document.getElementById("cakeMessageCount");
+  var cakeMessageError = document.getElementById("cakeMessageError");
+
+  var occasionSelect = document.getElementById("cakeOccasion");
   var fillingSelect = document.getElementById("cakeFilling");
   var frostingSelect = document.getElementById("cakeFrosting");
   var dietarySelect = document.getElementById("cakeDietary");
   var toppingsContainer = document.getElementById("toppingsContainer");
-
-  var cakeMessageInput = document.getElementById("cakeMessage");
-  var cakeMessageCount = document.getElementById("cakeMessageCount");
-  var cakeMessageError = document.getElementById("cakeMessageError");
   var cakeThemeNotes = document.getElementById("cakeThemeNotes");
 
+  // Step 5 Schedule & Contact
   var eventDateInput = document.getElementById("eventDate");
   var eventDateError = document.getElementById("eventDateError");
   var deliveryAreaSelect = document.getElementById("deliveryArea");
@@ -42,6 +56,7 @@
   var customerEmailInput = document.getElementById("customerEmail");
   var customerEmailError = document.getElementById("customerEmailError");
 
+  // Live Summary
   var previewOccasion = document.getElementById("previewOccasion");
   var previewTitle = document.getElementById("previewTitle");
   var previewInscription = document.getElementById("previewInscription");
@@ -56,6 +71,16 @@
   var savedRequestsGrid = document.getElementById("savedRequestsGrid");
   var savedRequestsEmpty = document.getElementById("savedRequestsEmpty");
   var clearAllRequestsBtn = document.getElementById("clearAllRequestsBtn");
+
+  var selectedPresetId = opts.designPresets[0].id;
+  var uploadedDesign = {
+    fileName: "",
+    dataUrl: ""
+  };
+
+  function formatRs(amount) {
+    return data.formatRs ? data.formatRs(amount) : shared.formatPKR(amount);
+  }
 
   function getMinDateString() {
     var d = new Date();
@@ -86,17 +111,81 @@
     }
   }
 
+  function renderDesignPresets() {
+    designPresetsContainer.innerHTML = "";
+    for (var i = 0; i < opts.designPresets.length; i += 1) {
+      var preset = opts.designPresets[i];
+      var col = document.createElement("div");
+      col.className = "col-sm-6";
+
+      var isSelected = !uploadedDesign.fileName && selectedPresetId === preset.id;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "preset-option-btn" + (isSelected ? " is-selected" : "");
+      btn.setAttribute("role", "radio");
+      btn.setAttribute("aria-checked", isSelected ? "true" : "false");
+      btn.setAttribute("data-preset-id", preset.id);
+
+      var title = document.createElement("strong");
+      title.className = "d-block small";
+      title.textContent = preset.label;
+
+      var note = document.createElement("small");
+      note.className = "text-muted-bakery";
+      note.textContent = preset.note;
+
+      btn.appendChild(title);
+      btn.appendChild(note);
+      col.appendChild(btn);
+      designPresetsContainer.appendChild(col);
+    }
+  }
+
+  function updateUploadPreviewUI() {
+    if (uploadedDesign.fileName) {
+      uploadPreviewCard.classList.remove("d-none");
+      uploadFileName.textContent = uploadedDesign.fileName;
+      uploadPreviewImg.src = uploadedDesign.dataUrl || "../images/custom-cake.svg";
+    } else {
+      uploadPreviewCard.classList.add("d-none");
+      uploadFileName.textContent = "";
+      uploadPreviewImg.src = "../images/custom-cake.svg";
+    }
+    renderDesignPresets();
+  }
+
+  function handleSelectedFile(file) {
+    designUploadError.textContent = "";
+    if (!file) {
+      return;
+    }
+    if (!file.type || file.type.indexOf("image/") !== 0) {
+      designUploadError.textContent = "Please choose a valid image file (PNG, JPG, or WEBP).";
+      return;
+    }
+    if (file.size > MAX_UPLOAD_BYTES) {
+      designUploadError.textContent = "Image is too large (max 5 MB). Please pick a smaller image or choose a preset style below.";
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      uploadedDesign.fileName = file.name;
+      uploadedDesign.dataUrl = typeof ev.target.result === "string" && ev.target.result.length < 300000
+        ? ev.target.result
+        : "../images/custom-cake.svg";
+      updateUploadPreviewUI();
+      updateSummary();
+      saveDraft();
+    };
+    reader.readAsDataURL(file);
+  }
+
   function populateFormOptions() {
-    populateSelect(
-      occasionSelect,
-      opts.occasions,
-      function (item) { return item; },
-      function (item) { return item; }
-    );
     populateSelect(
       sizeSelect,
       opts.sizes,
-      function (item) { return item.label + " — " + shared.formatPKR(item.basePrice); },
+      function (item) { return item.label + " — " + formatRs(item.basePrice); },
       function (item) { return item.id; }
     );
     populateSelect(
@@ -104,17 +193,23 @@
       opts.sponges,
       function (item) {
         return item.extraPrice > 0
-          ? item.label + " (+ " + shared.formatPKR(item.extraPrice) + ")"
+          ? item.label + " (+ " + formatRs(item.extraPrice) + ")"
           : item.label;
       },
       function (item) { return item.id; }
+    );
+    populateSelect(
+      occasionSelect,
+      opts.occasions,
+      function (item) { return item; },
+      function (item) { return item; }
     );
     populateSelect(
       fillingSelect,
       opts.fillings,
       function (item) {
         return item.extraPrice > 0
-          ? item.label + " (+ " + shared.formatPKR(item.extraPrice) + ")"
+          ? item.label + " (+ " + formatRs(item.extraPrice) + ")"
           : item.label;
       },
       function (item) { return item.id; }
@@ -124,7 +219,7 @@
       opts.frostings,
       function (item) {
         return item.extraPrice > 0
-          ? item.label + " (+ " + shared.formatPKR(item.extraPrice) + ")"
+          ? item.label + " (+ " + formatRs(item.extraPrice) + ")"
           : item.label;
       },
       function (item) { return item.id; }
@@ -134,7 +229,7 @@
       opts.dietaryOptions,
       function (item) {
         return item.extraPrice > 0
-          ? item.label + " (+ " + shared.formatPKR(item.extraPrice) + ")"
+          ? item.label + " (+ " + formatRs(item.extraPrice) + ")"
           : item.label;
       },
       function (item) { return item.id; }
@@ -144,12 +239,13 @@
       opts.deliveryAreas,
       function (item) {
         return item.fee > 0
-          ? item.label + " (+ " + shared.formatPKR(item.fee) + ")"
+          ? item.label + " (+ " + formatRs(item.fee) + ")"
           : item.label;
       },
       function (item) { return item.id; }
     );
 
+    renderDesignPresets();
     renderToppingCheckboxes([]);
     eventDateInput.min = getMinDateString();
   }
@@ -187,7 +283,7 @@
 
       var priceSpan = document.createElement("span");
       priceSpan.className = "topping-price";
-      priceSpan.textContent = "+ " + shared.formatPKR(topping.price);
+      priceSpan.textContent = "+ " + formatRs(topping.price);
 
       label.appendChild(left);
       label.appendChild(priceSpan);
@@ -218,6 +314,7 @@
     var frosting = findOptionById(opts.frostings, frostingSelect.value);
     var dietary = findOptionById(opts.dietaryOptions, dietarySelect.value);
     var area = findOptionById(opts.deliveryAreas, deliveryAreaSelect.value);
+    var preset = findOptionById(opts.designPresets, selectedPresetId);
 
     var selectedToppingIds = getSelectedToppingIds();
     var selectedToppings = opts.toppings.filter(function (t) {
@@ -235,7 +332,14 @@
     var deliveryFee = area.fee;
     var total = cakeSubtotal + deliveryFee;
 
+    var designChoiceLabel = uploadedDesign.fileName
+      ? "Uploaded: " + uploadedDesign.fileName
+      : preset.label;
+
     return {
+      designChoiceLabel: designChoiceLabel,
+      presetId: preset.id,
+      uploadedFileName: uploadedDesign.fileName,
       occasion: occasionSelect.value || opts.occasions[0],
       size: size,
       sponge: sponge,
@@ -263,19 +367,38 @@
     };
   }
 
+  function updateStepperProgress(cfg) {
+    var step1Done = Boolean(uploadedDesign.fileName || selectedPresetId);
+    var step2Done = Boolean(cfg.size && cfg.size.id);
+    var step3Done = Boolean(cfg.sponge && cfg.sponge.id);
+    var step4Done = cfg.message.length > 0;
+    var step5Ready = Boolean(cfg.customerName && cfg.customerPhone && cfg.eventDate);
+
+    var doneFlags = [step1Done, step2Done, step3Done, step4Done, step5Ready];
+    for (var i = 0; i < stepperItems.length; i += 1) {
+      var item = stepperItems[i];
+      var isDone = doneFlags[i];
+      var isActive = (i === 4 && step1Done && step2Done && step3Done) || (i === 0 && !step1Done);
+      item.classList.toggle("is-done", isDone);
+      item.classList.toggle("is-active", isActive || (i === 3 && step4Done));
+    }
+  }
+
   function updateSummary() {
     var cfg = getCurrentConfig();
 
     previewOccasion.textContent = cfg.occasion;
-    previewTitle.textContent = cfg.size.label;
+    previewTitle.textContent = cfg.size.label + " — " + cfg.sponge.label;
     previewInscription.textContent = cfg.message
       ? "\"" + cfg.message + "\""
-      : "No cake inscription added";
+      : "No cake message added";
 
     cakeMessageCount.textContent = String(cakeMessageInput.value.length);
 
     var specRows = [
-      { label: "Sponge", value: cfg.sponge.label },
+      { label: "Design", value: cfg.designChoiceLabel },
+      { label: "Size", value: cfg.size.label + " (" + cfg.size.servings + ")" },
+      { label: "Flavor", value: cfg.sponge.label },
       { label: "Filling", value: cfg.filling.label },
       { label: "Frosting", value: cfg.frosting.label },
       { label: "Dietary", value: cfg.dietary.label },
@@ -302,18 +425,22 @@
       summarySpecsList.appendChild(row);
     }
 
-    priceBase.textContent = shared.formatPKR(cfg.pricing.basePrice);
-    priceUpgrades.textContent = shared.formatPKR(cfg.pricing.upgradePrice);
-    priceDietary.textContent = shared.formatPKR(cfg.pricing.dietaryPrice);
-    priceToppings.textContent = shared.formatPKR(cfg.pricing.toppingsPrice);
+    priceBase.textContent = formatRs(cfg.pricing.basePrice);
+    priceUpgrades.textContent = formatRs(cfg.pricing.upgradePrice);
+    priceDietary.textContent = formatRs(cfg.pricing.dietaryPrice);
+    priceToppings.textContent = formatRs(cfg.pricing.toppingsPrice);
     priceDelivery.textContent = cfg.pricing.deliveryFee === 0
       ? "Free Pickup"
-      : shared.formatPKR(cfg.pricing.deliveryFee);
-    priceTotal.textContent = shared.formatPKR(cfg.pricing.total);
+      : formatRs(cfg.pricing.deliveryFee);
+    priceTotal.textContent = formatRs(cfg.pricing.total);
+
+    updateStepperProgress(cfg);
   }
 
   function saveDraft() {
     var draft = {
+      presetId: selectedPresetId,
+      uploadedFileName: uploadedDesign.fileName,
       occasion: occasionSelect.value,
       sizeId: sizeSelect.value,
       spongeId: spongeSelect.value,
@@ -348,6 +475,10 @@
         eventDateInput.value = getMinDateString();
         return;
       }
+      if (draft.presetId) selectedPresetId = findOptionById(opts.designPresets, draft.presetId).id;
+      if (draft.uploadedFileName) {
+        uploadedDesign.fileName = String(draft.uploadedFileName);
+      }
       if (draft.occasion && opts.occasions.indexOf(draft.occasion) !== -1) {
         occasionSelect.value = draft.occasion;
       }
@@ -365,6 +496,7 @@
       customerNameInput.value = typeof draft.customerName === "string" ? draft.customerName : "";
       customerPhoneInput.value = typeof draft.customerPhone === "string" ? draft.customerPhone : "";
       customerEmailInput.value = typeof draft.customerEmail === "string" ? draft.customerEmail : "";
+      updateUploadPreviewUI();
     } catch (err) {
       eventDateInput.value = getMinDateString();
     }
@@ -380,7 +512,7 @@
 
     var msgVal = cakeMessageInput.value.trim();
     if (msgVal.length > 50) {
-      setFieldError(cakeMessageInput, cakeMessageError, "Cake inscription cannot exceed 50 characters.");
+      setFieldError(cakeMessageInput, cakeMessageError, "Cake message cannot exceed 50 characters.");
       firstInvalid = firstInvalid || cakeMessageInput;
     } else {
       setFieldError(cakeMessageInput, cakeMessageError, "");
@@ -451,8 +583,8 @@
     if (showCartLink) {
       var link = document.createElement("a");
       link.href = "cart.html";
-      link.className = "btn btn-sm btn-bakery";
-      link.textContent = "Go to Basket";
+      link.className = "btn btn-sm btn-pink";
+      link.textContent = "Go to Cart";
       customFeedback.appendChild(link);
     }
     customFeedback.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -521,31 +653,28 @@
 
       var statusBadge = document.createElement("span");
       statusBadge.className = "badge badge-pink rounded-pill";
-      statusBadge.textContent = req.status || "Pending Baker Review";
+      statusBadge.textContent = req.status || "Order Placed";
 
       headerRow.appendChild(idEl);
       headerRow.appendChild(statusBadge);
 
       var specsEl = document.createElement("p");
       specsEl.className = "small text-muted-bakery mb-2";
-      specsEl.textContent = req.sizeLabel + " | " + req.spongeLabel + " | " + req.fillingLabel + " | " + req.frostingLabel;
+      specsEl.textContent = req.sizeLabel + " | " + req.spongeLabel + " | " + (req.designChoice || "Custom Design");
 
       var dateEl = document.createElement("p");
       dateEl.className = "small mb-2";
       dateEl.textContent = "Event Date: " + req.eventDate + " • For " + req.customerName + " (" + req.customerPhone + ")";
 
+      card.appendChild(headerRow);
+      card.appendChild(specsEl);
+      card.appendChild(dateEl);
+
       if (req.message) {
         var msgEl = document.createElement("p");
         msgEl.className = "small fst-italic mb-2";
-        msgEl.textContent = "Inscription: \"" + req.message + "\"";
-        card.appendChild(headerRow);
-        card.appendChild(specsEl);
-        card.appendChild(dateEl);
+        msgEl.textContent = "Message: \"" + req.message + "\"";
         card.appendChild(msgEl);
-      } else {
-        card.appendChild(headerRow);
-        card.appendChild(specsEl);
-        card.appendChild(dateEl);
       }
 
       var footerRow = document.createElement("div");
@@ -553,17 +682,18 @@
 
       var priceEl = document.createElement("strong");
       priceEl.className = "fs-5";
-      priceEl.textContent = shared.formatPKR(req.cakeSubtotal);
+      priceEl.style.color = "#B83352";
+      priceEl.textContent = formatRs(req.cakeSubtotal);
 
       var btnGroup = document.createElement("div");
       btnGroup.className = "d-flex gap-2";
 
       var addBtn = document.createElement("button");
       addBtn.type = "button";
-      addBtn.className = "btn btn-bakery btn-sm";
+      addBtn.className = "btn btn-pink btn-sm";
       addBtn.setAttribute("data-action", "add-request-cart");
       addBtn.setAttribute("data-request-id", req.requestId);
-      addBtn.textContent = "Add to Basket";
+      addBtn.textContent = "Add to Cart";
 
       var removeBtn = document.createElement("button");
       removeBtn.type = "button";
@@ -589,7 +719,13 @@
     } catch (err) {
       // Ignore storage error
     }
+    uploadedDesign = { fileName: "", dataUrl: "" };
+    designUploadInput.value = "";
+    designUploadError.textContent = "";
+    selectedPresetId = opts.designPresets[0].id;
+
     populateFormOptions();
+    updateUploadPreviewUI();
     cakeMessageInput.value = "";
     cakeThemeNotes.value = "";
     eventDateInput.value = getMinDateString();
@@ -604,8 +740,55 @@
     setFieldError(customerEmailInput, customerEmailError, "");
 
     updateSummary();
-    showFeedback("Custom cake builder reset to defaults.", false, false);
+    showFeedback("Custom cake builder reset to defaults (Small 1kg, Chocolate).", false, false);
   }
+
+  // Step 1 Upload & Preset Events
+  designUploadInput.addEventListener("change", function () {
+    if (designUploadInput.files && designUploadInput.files[0]) {
+      handleSelectedFile(designUploadInput.files[0]);
+    }
+  });
+
+  uploadDropzone.addEventListener("dragover", function (event) {
+    event.preventDefault();
+    uploadDropzone.classList.add("is-dragover");
+  });
+
+  uploadDropzone.addEventListener("dragleave", function () {
+    uploadDropzone.classList.remove("is-dragover");
+  });
+
+  uploadDropzone.addEventListener("drop", function (event) {
+    event.preventDefault();
+    uploadDropzone.classList.remove("is-dragover");
+    if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) {
+      handleSelectedFile(event.dataTransfer.files[0]);
+    }
+  });
+
+  removeUploadBtn.addEventListener("click", function () {
+    uploadedDesign = { fileName: "", dataUrl: "" };
+    designUploadInput.value = "";
+    designUploadError.textContent = "";
+    updateUploadPreviewUI();
+    updateSummary();
+    saveDraft();
+  });
+
+  designPresetsContainer.addEventListener("click", function (event) {
+    var btn = event.target.closest("[data-preset-id]");
+    if (!btn) {
+      return;
+    }
+    selectedPresetId = btn.getAttribute("data-preset-id");
+    uploadedDesign = { fileName: "", dataUrl: "" };
+    designUploadInput.value = "";
+    designUploadError.textContent = "";
+    updateUploadPreviewUI();
+    updateSummary();
+    saveDraft();
+  });
 
   form.addEventListener("input", function () {
     updateSummary();
@@ -621,14 +804,14 @@
 
   addCustomToCartBtn.addEventListener("click", function () {
     if (!validateForm(false)) {
-      showFeedback("Please choose a valid event date (at least 48 hours ahead) before adding to basket.", false, true);
+      showFeedback("Please choose a valid event date (at least 48 hours ahead) before adding to cart.", false, true);
       return;
     }
     var cfg = getCurrentConfig();
-    var desc = cfg.size.servings + " • " + cfg.sponge.label + " & " + cfg.filling.label + " (Date: " + cfg.eventDate + ")";
+    var desc = cfg.size.label + " • " + cfg.sponge.label + " • " + cfg.designChoiceLabel + " (Date: " + cfg.eventDate + ")";
     var uniqueId = "custom-cake-" + cfg.size.id + "-" + cfg.sponge.id + "-" + cfg.eventDate;
     addCustomCakeConfigToCart(
-      "Custom " + cfg.occasion + " Cake",
+      "Custom " + cfg.sponge.label + " Cake",
       desc,
       cfg.pricing.cakeSubtotal,
       uniqueId
@@ -638,7 +821,7 @@
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     if (!validateForm(true)) {
-      showFeedback("Please fix the highlighted fields before submitting your custom cake request.", false, true);
+      showFeedback("Please fix the highlighted fields before placing your custom cake order.", false, true);
       return;
     }
 
@@ -647,7 +830,8 @@
     var requestRecord = {
       requestId: "TSO-CAKE-" + randomCode,
       createdAt: new Date().toISOString(),
-      status: "Pending Baker Review",
+      status: "Order Placed",
+      designChoice: cfg.designChoiceLabel,
       occasion: cfg.occasion,
       sizeLabel: cfg.size.label,
       servings: cfg.size.servings,
@@ -680,8 +864,8 @@
 
     renderSavedRequests();
     showFeedback(
-      "Request " + requestRecord.requestId + " saved! Our baker will confirm your design on WhatsApp (" + cfg.customerPhone + ").",
-      false,
+      "Order " + requestRecord.requestId + " placed! Estimated quote: " + formatRs(requestRecord.total) + ". Our baker will confirm on WhatsApp (" + cfg.customerPhone + ").",
+      true,
       false
     );
   });
@@ -701,7 +885,7 @@
       });
       saveRequests(updated);
       renderSavedRequests();
-      showFeedback("Removed custom cake request " + reqId + ".", false, false);
+      showFeedback("Removed custom cake order " + reqId + ".", false, false);
       return;
     }
 
@@ -725,7 +909,7 @@
   clearAllRequestsBtn.addEventListener("click", function () {
     saveRequests([]);
     renderSavedRequests();
-    showFeedback("Cleared all saved custom cake requests.", false, false);
+    showFeedback("Cleared all saved custom cake orders.", false, false);
   });
 
   populateFormOptions();

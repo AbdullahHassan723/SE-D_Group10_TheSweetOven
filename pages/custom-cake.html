@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Cake Request | The Sweet Oven</title>
+  <title>Design Your Cake | The Sweet Oven</title>
 
   <!-- Google Fonts: Playfair Display (headings) & Nunito (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,7 +68,7 @@
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
           <li class="breadcrumb-item"><a href="menu.html">Menu</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Custom Cake Request</li>
+          <li class="breadcrumb-item active" aria-current="page">Design Your Cake</li>
         </ol>
       </nav>
 
@@ -77,9 +77,10 @@
         <div class="row align-items-center g-4">
           <div class="col-md-8">
             <span class="badge badge-pink rounded-pill px-3 py-2 mb-2">Bespoke Home Bakery</span>
-            <h1 id="customCakeHeading" class="display-6 mb-2">Design Your Custom Celebration Cake</h1>
-            <p class="text-muted-bakery mb-3">
-              Pick your tiers, sponge, house-made filling, frosting, and toppings for an instant PKR estimate. Please book at least <strong>48 hours in advance</strong> so we can bake your sponge fresh.
+            <h1 id="customCakeHeading" class="display-5 mb-2">Design Your Cake</h1>
+            <p class="lead text-muted-bakery mb-2">Create your perfect cake!</p>
+            <p class="small text-muted-bakery mb-3">
+              Upload your inspiration design or pick a style, select your cake size and flavour for an instant PKR quote, and add an optional cake message. Please order at least <strong>48 hours in advance</strong>.
             </p>
             <a href="menu.html" class="btn btn-outline-bakery btn-sm">Browse Ready-to-Order Menu</a>
           </div>
@@ -95,6 +96,68 @@
         </div>
       </section>
 
+      <!-- 5-Step Custom Cake Process Indicator -->
+      <section class="card p-3 p-md-4 mb-4" aria-label="5-step custom cake process">
+        <ol class="cake-stepper list-unstyled mb-0" id="cakeProcessStepper">
+          <li class="cake-step is-active" data-step="1">
+            <span class="cake-step-num" aria-hidden="true">1</span>
+            <span class="cake-step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </span>
+            <span class="cake-step-label">Upload Design (or Choose Option)</span>
+          </li>
+
+          <li class="cake-step" data-step="2">
+            <span class="cake-step-num" aria-hidden="true">2</span>
+            <span class="cake-step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v4"></path>
+                <path d="M17 15v-3a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v3"></path>
+                <line x1="12" y1="4" x2="12" y2="10"></line>
+                <line x1="2" y1="21" x2="22" y2="21"></line>
+              </svg>
+            </span>
+            <span class="cake-step-label">Select Cake Size</span>
+          </li>
+
+          <li class="cake-step" data-step="3">
+            <span class="cake-step-num" aria-hidden="true">3</span>
+            <span class="cake-step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </span>
+            <span class="cake-step-label">Choose Flavor</span>
+          </li>
+
+          <li class="cake-step" data-step="4">
+            <span class="cake-step-num" aria-hidden="true">4</span>
+            <span class="cake-step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </span>
+            <span class="cake-step-label">Add Message (Optional)</span>
+          </li>
+
+          <li class="cake-step" data-step="5">
+            <span class="cake-step-num" aria-hidden="true">5</span>
+            <span class="cake-step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="9 12 11.5 14.5 16 9.5"></polyline>
+              </svg>
+            </span>
+            <span class="cake-step-label">Place Order</span>
+          </li>
+        </ol>
+      </section>
+
       <!-- Feedback Banner -->
       <div id="customFeedback" class="custom-feedback d-none mb-4" role="status" aria-live="polite"></div>
 
@@ -104,150 +167,200 @@
           <form id="customCakeForm" class="card p-4 p-md-5" novalidate>
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-3 border-bottom">
               <div>
-                <h2 class="h4 mb-1">1. Cake Flavours &amp; Styling</h2>
-                <p class="small text-muted-bakery mb-0">Every selection updates your live PKR estimate.</p>
+                <h2 class="h4 mb-1">Build Your Custom Cake</h2>
+                <p class="small text-muted-bakery mb-0">Follow the 5 steps below — your PKR quote updates live.</p>
               </div>
               <button type="button" id="resetCustomFormBtn" class="btn btn-outline-bakery btn-sm">
                 Reset Form
               </button>
             </div>
 
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label for="cakeOccasion" class="form-label">Occasion</label>
-                <select id="cakeOccasion" class="form-select" required></select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="cakeSize" class="form-label">Cake Size &amp; Tiers</label>
-                <select id="cakeSize" class="form-select" required></select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="cakeSponge" class="form-label">Sponge Flavour</label>
-                <select id="cakeSponge" class="form-select" required></select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="cakeFilling" class="form-label">Filling Layer</label>
-                <select id="cakeFilling" class="form-select" required></select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="cakeFrosting" class="form-label">Frosting &amp; Finish</label>
-                <select id="cakeFrosting" class="form-select" required></select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="cakeDietary" class="form-label">Dietary Preference</label>
-                <select id="cakeDietary" class="form-select" required></select>
-              </div>
-            </div>
-
-            <!-- Add-on Toppings -->
-            <div class="mt-4">
-              <span class="form-label d-block">Optional Toppings &amp; Decorations</span>
-              <div id="toppingsContainer" class="row g-2"></div>
-            </div>
-
-            <!-- Cake Inscription & Notes -->
-            <div class="row g-3 mt-2">
-              <div class="col-12">
-                <label for="cakeMessage" class="form-label">
-                  Message Written on Cake <span class="fw-normal text-muted-bakery">(Optional, max 50 characters)</span>
-                </label>
+            <!-- Step 1: Dashed-Border Upload Box (or choose an option) -->
+            <div class="form-step-block mb-4">
+              <h3 class="h5 mb-2">Step 1: Upload Design (or Choose Option)</h3>
+              <label for="designUploadInput" id="uploadDropzone" class="upload-dropzone mb-3">
                 <input
-                  type="text"
-                  id="cakeMessage"
-                  class="form-control"
-                  maxlength="50"
-                  placeholder="e.g., Happy 25th Birthday Zara!"
+                  type="file"
+                  id="designUploadInput"
+                  class="visually-hidden"
+                  accept="image/*"
                 >
-                <div class="d-flex justify-content-between mt-1">
-                  <div id="cakeMessageError" class="invalid-feedback d-block m-0"></div>
-                  <small class="text-muted-bakery ms-auto"><span id="cakeMessageCount">0</span>/50</small>
+                <span class="upload-camera-icon" aria-hidden="true">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                </span>
+                <span class="fw-bold d-block">Upload Your Design (or choose an option)</span>
+                <span class="small text-muted-bakery">Click to upload PNG, JPG, or WEBP (max 5 MB) or drag an image here</span>
+              </label>
+
+              <div id="designUploadError" class="invalid-feedback d-block mb-2"></div>
+
+              <!-- Preview when user uploads a photo -->
+              <div id="uploadPreviewCard" class="upload-preview-card p-3 mb-3 d-none">
+                <div class="d-flex align-items-center gap-3">
+                  <img id="uploadPreviewImg" src="../images/custom-cake.svg" alt="Uploaded cake design reference preview" class="upload-preview-thumb" width="72" height="72">
+                  <div class="flex-grow-1">
+                    <strong id="uploadFileName" class="d-block small">design.jpg</strong>
+                    <small class="text-muted-bakery">Reference photo attached</small>
+                  </div>
+                  <button type="button" id="removeUploadBtn" class="btn btn-outline-bakery btn-sm">Remove</button>
                 </div>
               </div>
 
-              <div class="col-12">
+              <!-- Or Choose a Preset Design Option -->
+              <div>
+                <span class="form-label d-block small">Or Choose a Signature Style Option</span>
+                <div id="designPresetsContainer" class="row g-2" role="radiogroup" aria-label="Preset cake design options"></div>
+              </div>
+            </div>
+
+            <!-- Step 2 & Step 3: Cake Size & Flavor -->
+            <div class="form-step-block mb-4">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="cakeSize" class="form-label">Step 2: Cake Size</label>
+                  <select id="cakeSize" class="form-select" required></select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="cakeSponge" class="form-label">Step 3: Flavor</label>
+                  <select id="cakeSponge" class="form-select" required></select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Add Message (Optional) -->
+            <div class="form-step-block mb-4">
+              <label for="cakeMessage" class="form-label">
+                Step 4: Add Message (Optional)
+              </label>
+              <input
+                type="text"
+                id="cakeMessage"
+                class="form-control"
+                maxlength="50"
+                placeholder="e.g. Happy Birthday!"
+              >
+              <div class="d-flex justify-content-between mt-1">
+                <div id="cakeMessageError" class="invalid-feedback d-block m-0"></div>
+                <small class="text-muted-bakery ms-auto"><span id="cakeMessageCount">0</span>/50 characters</small>
+              </div>
+            </div>
+
+            <!-- Extra Bakery Customization (Fillings, Frosting, Dietary & Toppings) -->
+            <div class="extra-custom-box p-3 p-md-4 mb-4">
+              <h3 class="h5 mb-1">Customize Filling, Frosting &amp; Toppings</h3>
+              <p class="small text-muted-bakery mb-3">Optional upgrades included automatically in your PKR quote.</p>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="cakeOccasion" class="form-label">Occasion</label>
+                  <select id="cakeOccasion" class="form-select" required></select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="cakeFilling" class="form-label">Filling Layer</label>
+                  <select id="cakeFilling" class="form-select" required></select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="cakeFrosting" class="form-label">Frosting &amp; Finish</label>
+                  <select id="cakeFrosting" class="form-select" required></select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="cakeDietary" class="form-label">Dietary Preference</label>
+                  <select id="cakeDietary" class="form-select" required></select>
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <span class="form-label d-block">Optional Toppings &amp; Decorations</span>
+                <div id="toppingsContainer" class="row g-2"></div>
+              </div>
+
+              <div class="mt-3">
                 <label for="cakeThemeNotes" class="form-label">
-                  Colour Palette &amp; Design Notes <span class="fw-normal text-muted-bakery">(Optional)</span>
+                  Colour Palette &amp; Allergen Notes <span class="fw-normal text-muted-bakery">(Optional)</span>
                 </label>
                 <textarea
                   id="cakeThemeNotes"
                   class="form-control"
-                  rows="3"
+                  rows="2"
                   maxlength="240"
                   placeholder="Share preferred icing colours, minimal/floral style, or allergen precautions..."
                 ></textarea>
               </div>
             </div>
 
-            <hr class="my-4">
+            <!-- Step 5: Schedule, Contact & Place Order -->
+            <div class="form-step-block">
+              <h3 class="h5 mb-1">Step 5: Event Schedule &amp; Place Order</h3>
+              <p class="small text-muted-bakery mb-3">Our baker confirms availability on WhatsApp before baking begins.</p>
 
-            <h2 class="h4 mb-1">2. Event Schedule &amp; Contact Details</h2>
-            <p class="small text-muted-bakery mb-3">Our baker confirms availability on WhatsApp before baking begins.</p>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="eventDate" class="form-label">Event / Pickup Date *</label>
+                  <input type="date" id="eventDate" class="form-control" required>
+                  <div id="eventDateError" class="invalid-feedback d-block"></div>
+                </div>
 
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label for="eventDate" class="form-label">Event / Pickup Date *</label>
-                <input type="date" id="eventDate" class="form-control" required>
-                <div id="eventDateError" class="invalid-feedback d-block"></div>
+                <div class="col-md-6">
+                  <label for="deliveryArea" class="form-label">Pickup or Delivery Area *</label>
+                  <select id="deliveryArea" class="form-select" required></select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="customerName" class="form-label">Your Full Name *</label>
+                  <input
+                    type="text"
+                    id="customerName"
+                    class="form-control"
+                    placeholder="e.g., Abdullah Shahid"
+                    autocomplete="name"
+                    required
+                  >
+                  <div id="customerNameError" class="invalid-feedback d-block"></div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="customerPhone" class="form-label">Pakistani Mobile / WhatsApp *</label>
+                  <input
+                    type="tel"
+                    id="customerPhone"
+                    class="form-control"
+                    placeholder="e.g., 0300-5550192"
+                    autocomplete="tel"
+                    required
+                  >
+                  <div id="customerPhoneError" class="invalid-feedback d-block"></div>
+                </div>
+
+                <div class="col-12">
+                  <label for="customerEmail" class="form-label">
+                    Email Address <span class="fw-normal text-muted-bakery">(Optional)</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="customerEmail"
+                    class="form-control"
+                    placeholder="e.g., you@example.com"
+                    autocomplete="email"
+                  >
+                  <div id="customerEmailError" class="invalid-feedback d-block"></div>
+                </div>
               </div>
 
-              <div class="col-md-6">
-                <label for="deliveryArea" class="form-label">Pickup or Delivery Area *</label>
-                <select id="deliveryArea" class="form-select" required></select>
+              <div class="d-grid gap-2 mt-4 pt-3 border-top">
+                <button type="submit" id="placeOrderBtn" class="btn btn-pink btn-lg w-100">
+                  Place Order
+                </button>
+                <button type="button" id="addCustomToCartBtn" class="btn btn-outline-bakery">
+                  Add Cake Quote to Cart
+                </button>
               </div>
-
-              <div class="col-md-6">
-                <label for="customerName" class="form-label">Your Full Name *</label>
-                <input
-                  type="text"
-                  id="customerName"
-                  class="form-control"
-                  placeholder="e.g., Abdullah Shahid"
-                  autocomplete="name"
-                  required
-                >
-                <div id="customerNameError" class="invalid-feedback d-block"></div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="customerPhone" class="form-label">Pakistani Mobile / WhatsApp *</label>
-                <input
-                  type="tel"
-                  id="customerPhone"
-                  class="form-control"
-                  placeholder="e.g., 0300-5550192"
-                  autocomplete="tel"
-                  required
-                >
-                <div id="customerPhoneError" class="invalid-feedback d-block"></div>
-              </div>
-
-              <div class="col-12">
-                <label for="customerEmail" class="form-label">
-                  Email Address <span class="fw-normal text-muted-bakery">(Optional)</span>
-                </label>
-                <input
-                  type="email"
-                  id="customerEmail"
-                  class="form-control"
-                  placeholder="e.g., you@example.com"
-                  autocomplete="email"
-                >
-                <div id="customerEmailError" class="invalid-feedback d-block"></div>
-              </div>
-            </div>
-
-            <div class="d-flex flex-wrap gap-2 mt-4 pt-3 border-top">
-              <button type="submit" class="btn btn-bakery btn-lg flex-grow-1">
-                Submit Custom Cake Request
-              </button>
-              <button type="button" id="addCustomToCartBtn" class="btn btn-outline-bakery btn-lg">
-                Add Cake to Basket
-              </button>
             </div>
           </form>
         </section>
@@ -256,14 +369,14 @@
         <aside class="col-lg-5" aria-label="Live custom cake summary">
           <div class="card p-4 summary-sticky">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h2 class="h4 mb-0">Live Cake Summary</h2>
+              <h2 class="h4 mb-0">Live Cake Quote</h2>
               <span class="badge badge-pink rounded-pill">Auto-Saved Draft</span>
             </div>
 
             <div class="preview-plaque p-3 mb-3 text-center">
               <p class="small text-uppercase fw-bold text-muted-bakery mb-1" id="previewOccasion">Birthday Celebration</p>
-              <p class="font-heading fs-5 mb-1" id="previewTitle">1 lb Single Tier</p>
-              <p class="small fst-italic mb-0" id="previewInscription">No cake inscription added</p>
+              <p class="font-heading fs-5 mb-1" id="previewTitle">Small (1kg) — Chocolate</p>
+              <p class="small fst-italic mb-0" id="previewInscription">No cake message added</p>
             </div>
 
             <dl class="summary-specs mb-3" id="summarySpecsList"></dl>
@@ -273,33 +386,33 @@
             <dl class="summary-pricing mb-3">
               <div class="pricing-row">
                 <dt>Base Cake Size</dt>
-                <dd id="priceBase">PKR 0</dd>
+                <dd id="priceBase">Rs. 1,800</dd>
               </div>
               <div class="pricing-row">
                 <dt>Flavour &amp; Finish Upgrades</dt>
-                <dd id="priceUpgrades">PKR 0</dd>
+                <dd id="priceUpgrades">Rs. 0</dd>
               </div>
               <div class="pricing-row">
                 <dt>Dietary Adjustment</dt>
-                <dd id="priceDietary">PKR 0</dd>
+                <dd id="priceDietary">Rs. 0</dd>
               </div>
               <div class="pricing-row">
                 <dt>Toppings &amp; Add-ons</dt>
-                <dd id="priceToppings">PKR 0</dd>
+                <dd id="priceToppings">Rs. 0</dd>
               </div>
               <div class="pricing-row">
                 <dt>Estimated Delivery Fee</dt>
-                <dd id="priceDelivery">PKR 0</dd>
+                <dd id="priceDelivery">Free Pickup</dd>
               </div>
               <div class="pricing-divider"></div>
               <div class="pricing-row pricing-total">
                 <dt>Estimated Total</dt>
-                <dd id="priceTotal">PKR 0</dd>
+                <dd id="priceTotal">Rs. 1,800</dd>
               </div>
             </dl>
 
             <p class="small text-muted-bakery mb-0">
-              Final total includes selected delivery area fee. 50% advance via JazzCash, Easypaisa, or IBFT is requested once the baker confirms your design.
+              Final quote includes your selected size, flavour, toppings, and delivery area fee.
             </p>
           </div>
         </aside>
@@ -309,20 +422,20 @@
       <section id="savedRequestsSection" class="mt-5" aria-labelledby="savedRequestsHeading">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
           <div>
-            <h2 id="savedRequestsHeading" class="h4 mb-1">Your Saved Custom Cake Requests</h2>
-            <p class="small text-muted-bakery mb-0">Stored in your browser so you can review or add them to your basket anytime.</p>
+            <h2 id="savedRequestsHeading" class="h4 mb-1">Your Saved Custom Cake Orders</h2>
+            <p class="small text-muted-bakery mb-0">Saved in your browser so your requests stay after reload.</p>
           </div>
           <button type="button" id="clearAllRequestsBtn" class="btn btn-outline-bakery btn-sm d-none">
-            Clear Saved Requests
+            Clear Saved Orders
           </button>
         </div>
 
         <div id="savedRequestsGrid" class="row g-3"></div>
 
         <div id="savedRequestsEmpty" class="card p-4 text-center">
-          <p class="mb-1 fw-semibold">No custom cake requests submitted yet.</p>
+          <p class="mb-1 fw-semibold">No custom cake orders placed yet.</p>
           <p class="small text-muted-bakery mb-0">
-            Configure your celebration cake above and click <strong>Submit Custom Cake Request</strong> to save it here.
+            Complete the 5 steps above and click <strong>Place Order</strong> to save your custom cake request here.
           </p>
         </div>
       </section>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bakery Menu | The Sweet Oven</title>
+  <title>Our Menu | The Sweet Oven</title>
 
   <!-- Google Fonts: Playfair Display (headings) & Nunito (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,17 +67,18 @@
       <section class="menu-hero section-highlight p-4 p-md-5 mb-4" aria-labelledby="menuHeading">
         <div class="row align-items-center g-4">
           <div class="col-lg-8">
-            <span class="badge badge-pink rounded-pill px-3 py-2 mb-2">Freshly Baked in Islamabad</span>
-            <h1 id="menuHeading" class="display-6 mb-2">Our Weekly Bakery Menu</h1>
-            <p class="text-muted-bakery mb-3 mb-lg-0">
-              Small-batch signature cakes, milk cake tubs, warm cinnamon rolls, and fudgy brownies made to order with real dairy butter and Belgian chocolate. All prices are in PKR.
+            <span class="badge badge-pink rounded-pill px-3 py-2 mb-2">Freshly Baked Daily</span>
+            <h1 id="menuHeading" class="display-5 mb-2">Our Menu</h1>
+            <p class="lead text-muted-bakery mb-2">Delicious cakes for every occasion!</p>
+            <p class="small text-muted-bakery mb-0">
+              Handcrafted cakes, cupcakes, milk cake tubs, and custom celebration bakes made fresh in our home kitchen. All prices in PKR.
             </p>
           </div>
           <div class="col-lg-4 text-lg-end">
-            <a href="custom-cake.html" class="btn btn-bakery btn-lg w-100 w-lg-auto">
-              Design a Custom Cake
+            <a href="custom-cake.html" class="btn btn-pink btn-lg w-100 w-lg-auto">
+              Design Your Cake
             </a>
-            <p class="small text-muted-bakery mt-2 mb-0">48-hour notice for tiered celebration cakes</p>
+            <p class="small text-muted-bakery mt-2 mb-0">48-hour notice for custom tiered cakes</p>
           </div>
         </div>
       </section>
@@ -85,8 +86,23 @@
       <!-- Live Cart / Favorites Feedback Banner -->
       <div id="menuFeedback" class="menu-feedback d-none mb-4" role="status" aria-live="polite"></div>
 
-      <!-- Search, Filter, and Sort Controls -->
+      <!-- Filter Chips, Search, and Sort Controls -->
       <section class="card p-3 p-md-4 mb-4" aria-label="Menu filters and search">
+        <!-- Category Chips Row (All selected pink by default) -->
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
+          <div id="categoryFilterList" class="category-pills" role="group" aria-label="Filter by bakery category"></div>
+          <div class="d-flex align-items-center gap-3 flex-shrink-0">
+            <button type="button" id="favoritesOnlyBtn" class="btn btn-sm btn-outline-bakery" aria-pressed="false">
+              Saved Favourites (<span id="favoritesCount">0</span>)
+            </button>
+            <button type="button" id="resetFiltersBtn" class="btn btn-sm btn-link text-decoration-none p-0 d-none">
+              Reset Filters
+            </button>
+          </div>
+        </div>
+
+        <hr class="my-3">
+
         <div class="row g-3 align-items-end">
           <div class="col-md-6 col-lg-5">
             <label for="menuSearchInput" class="form-label">Search Menu</label>
@@ -95,7 +111,7 @@
                 type="search"
                 id="menuSearchInput"
                 class="form-control"
-                placeholder="Search cakes, brownies, biscoff, eggless..."
+                placeholder="Search chocolate, strawberry, vanilla, cupcakes..."
                 autocomplete="off"
               >
               <button type="button" id="clearSearchBtn" class="btn btn-outline-bakery d-none" aria-label="Clear search">
@@ -110,23 +126,8 @@
           </div>
 
           <div class="col-sm-6 col-md-3 col-lg-4">
-            <span class="form-label d-block">Quick Filters</span>
+            <span class="form-label d-block">Dietary &amp; Quick Filters</span>
             <div id="dietaryFiltersContainer" class="d-flex flex-wrap gap-2"></div>
-          </div>
-        </div>
-
-        <hr class="my-3">
-
-        <!-- Category Pills -->
-        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
-          <div id="categoryFilterList" class="category-pills" role="group" aria-label="Filter by bakery category"></div>
-          <div class="d-flex align-items-center gap-3 flex-shrink-0">
-            <button type="button" id="favoritesOnlyBtn" class="btn btn-sm btn-outline-bakery" aria-pressed="false">
-              Saved Favourites (<span id="favoritesCount">0</span>)
-            </button>
-            <button type="button" id="resetFiltersBtn" class="btn btn-sm btn-link text-decoration-none p-0 d-none">
-              Reset Filters
-            </button>
           </div>
         </div>
       </section>
@@ -134,7 +135,7 @@
       <!-- Active Results Count -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <p id="resultsSummary" class="mb-0 fw-semibold text-muted-bakery" aria-live="polite">Loading bakery treats...</p>
-        <a href="cart.html" class="small fw-bold text-decoration-none">Go to Basket &rarr;</a>
+        <a href="cart.html" class="small fw-bold text-decoration-none">View Cart &rarr;</a>
       </div>
 
       <!-- Menu Item Grid (populated dynamically from js/bakery-data.js) -->
@@ -146,10 +147,10 @@
           <img src="../images/cinnamon-rolls.svg" alt="No matching bakery treats found" width="140" height="105" class="mx-auto mb-3">
           <h2 class="h4 mb-2">No treats match your current filters</h2>
           <p id="emptyStateHint" class="text-muted-bakery mb-4">
-            Try clearing your search term or switching back to all bakery categories.
+            Try clearing your search term or switching back to All categories.
           </p>
           <div>
-            <button type="button" id="emptyResetBtn" class="btn btn-bakery">Show All Bakery Items</button>
+            <button type="button" id="emptyResetBtn" class="btn btn-pink">Show All Menu Items</button>
           </div>
         </div>
       </section>
@@ -162,18 +163,70 @@
           </div>
           <div class="col-md-6">
             <span class="badge badge-pink rounded-pill mb-2">Made-to-Order Celebrations</span>
-            <h2 id="customBannerTitle" class="h3 mb-2">Planning a Birthday, Nikkah, or Tea Party?</h2>
+            <h2 id="customBannerTitle" class="h3 mb-2">Want a Custom Cake?</h2>
             <p class="text-muted-bakery mb-0">
-              Choose your sponge, filling, buttercream finish, dietary preference, and cake inscription with instant PKR pricing.
+              Upload your design inspiration, choose your size and flavour, add a cake message, and get an instant PKR quote.
             </p>
           </div>
           <div class="col-md-3 text-md-end">
-            <a href="custom-cake.html" class="btn btn-bakery w-100 w-md-auto">Build Custom Cake</a>
+            <a href="custom-cake.html" class="btn btn-pink w-100 w-md-auto">Design Your Cake</a>
           </div>
         </div>
       </section>
     </div>
   </main>
+
+  <!-- Quick View / Details Modal (Vanilla JS, no Bootstrap JS) -->
+  <div id="menuDetailsModal" class="bakery-modal-backdrop d-none" role="dialog" aria-modal="true" aria-labelledby="modalItemTitle" aria-hidden="true">
+    <div class="bakery-modal-dialog card p-4 p-md-5">
+      <button type="button" id="closeModalBtn" class="bakery-modal-close" aria-label="Close item details modal">
+        &times;
+      </button>
+
+      <div class="row g-4 align-items-start">
+        <div class="col-md-5">
+          <div class="modal-peach-box p-3 text-center">
+            <img id="modalItemImage" src="../images/chocolate-fudge-cake.svg" alt="Selected cake preview" class="img-fluid modal-item-img" width="240" height="180">
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <span id="modalItemCategory" class="menu-card-category d-block mb-1">Cakes</span>
+          <h2 id="modalItemTitle" class="h3 mb-2">Chocolate Cake</h2>
+
+          <div class="d-flex flex-wrap align-items-center gap-3 mb-2">
+            <span id="modalItemPrice" class="modal-price-highlight">Rs. 1,800</span>
+            <span id="modalItemRating" class="rating-inline">
+              <span class="stars-gold" aria-hidden="true">★★★★★</span>
+              <span id="modalRatingText">4.8 (1.2k reviews)</span>
+            </span>
+          </div>
+
+          <p id="modalItemDesc" class="text-muted-bakery mb-3"></p>
+
+          <!-- Modal Tabs (Overview / Allergens / Storage) -->
+          <div class="modal-tabs mb-3">
+            <div class="modal-tablist" role="tablist" aria-label="Item information tabs">
+              <button type="button" class="modal-tab-btn is-active" role="tab" aria-selected="true" data-modal-tab="ingredients">Ingredients</button>
+              <button type="button" class="modal-tab-btn" role="tab" aria-selected="false" data-modal-tab="allergens">Allergens</button>
+              <button type="button" class="modal-tab-btn" role="tab" aria-selected="false" data-modal-tab="storage">Storage</button>
+            </div>
+            <div id="modalTabPanel" class="modal-tabpanel p-3" role="tabpanel"></div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center gap-2 pt-2">
+            <div class="modal-qty-stepper" aria-label="Choose quantity">
+              <button type="button" id="modalQtyMinus" class="btn btn-outline-bakery btn-sm" aria-label="Decrease quantity">&minus;</button>
+              <span id="modalQtyValue" class="modal-qty-num">1</span>
+              <button type="button" id="modalQtyPlus" class="btn btn-outline-bakery btn-sm" aria-label="Increase quantity">+</button>
+            </div>
+            <button type="button" id="modalAddToCartBtn" class="btn btn-pink flex-grow-1">Add to Cart</button>
+            <a id="modalFullDetailsLink" href="item-details.html" class="btn btn-outline-bakery">Full Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Shared Footer (pages/ folder version) -->
   <footer class="site-footer py-5 mt-auto">
