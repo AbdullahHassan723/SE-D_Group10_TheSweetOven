@@ -5,6 +5,7 @@
   var CART_INIT_KEY = "sweetOvenCartInitialized";
   var PROMO_STORAGE_KEY = "sweetOvenPromo";
   var MAX_ITEM_QTY = 20;
+  var MIN_ORDER_SUBTOTAL = 1000;
 
   var defaultCartItems = [
     {
@@ -107,8 +108,8 @@
   var cartItems = loadCart();
   var activePromoCode = loadPromo();
 
-  var navToggle = document.getElementById("navToggle");
-  var primaryMenu = document.getElementById("primaryMenu");
+  var navbarToggler = document.querySelector(".navbar-toggler");
+  var mainNavbar = document.getElementById("mainNavbar");
   var navCartCount = document.getElementById("navCartCount");
   var cartItemsContainer = document.getElementById("cartItemsContainer");
   var emptyCartState = document.getElementById("emptyCartState");
@@ -127,6 +128,7 @@
   var appliedCodeLabel = document.getElementById("appliedCodeLabel");
   var summaryDiscount = document.getElementById("summaryDiscount");
   var summaryTotal = document.getElementById("summaryTotal");
+  var minOrderWarning = document.getElementById("minOrderWarning");
   var proceedCheckoutBtn = document.getElementById("proceedCheckoutBtn");
 
   var quickAddGrid = document.getElementById("quickAddGrid");
@@ -284,8 +286,18 @@
     }
 
     var isEmpty = cartItems.length === 0;
+    var isBelowMinimum = !isEmpty && totals.subtotal < MIN_ORDER_SUBTOTAL;
     clearCartBtn.disabled = isEmpty;
-    if (isEmpty) {
+
+    if (isBelowMinimum) {
+      minOrderWarning.textContent = "Minimum order Rs. 1000 required (current subtotal: " + formatPKR(totals.subtotal) + ").";
+      minOrderWarning.classList.remove("d-none");
+    } else {
+      minOrderWarning.textContent = "";
+      minOrderWarning.classList.add("d-none");
+    }
+
+    if (isEmpty || isBelowMinimum) {
       proceedCheckoutBtn.classList.add("disabled");
       proceedCheckoutBtn.setAttribute("aria-disabled", "true");
       proceedCheckoutBtn.setAttribute("tabindex", "-1");
@@ -576,12 +588,24 @@
     }
   }
 
+  function initNavbarToggle() {
+    if (!navbarToggler || !mainNavbar) {
+      return;
+    }
+    navbarToggler.addEventListener("click", function () {
+      var isOpen = mainNavbar.classList.toggle("show");
+      navbarToggler.setAttribute("aria-expanded", String(isOpen));
+    });
+    mainNavbar.addEventListener("click", function (event) {
+      if (event.target.closest(".nav-link") && mainNavbar.classList.contains("show")) {
+        mainNavbar.classList.remove("show");
+        navbarToggler.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
   // Event Listeners
-  navToggle.addEventListener("click", function () {
-    var expanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!expanded));
-    primaryMenu.classList.toggle("is-open", !expanded);
-  });
+  initNavbarToggle();
 
   cartItemsContainer.addEventListener("click", function (event) {
     var target = event.target.closest("button[data-action]");
@@ -660,9 +684,15 @@
   });
 
   proceedCheckoutBtn.addEventListener("click", function (event) {
+    var totals = calculateTotals();
     if (cartItems.length === 0) {
       event.preventDefault();
       showFeedback("Your basket is empty. Add at least one bakery item before checking out.", true);
+      return;
+    }
+    if (totals.subtotal < MIN_ORDER_SUBTOTAL) {
+      event.preventDefault();
+      showFeedback("Minimum order Rs. 1000 required", true);
     }
   });
 
