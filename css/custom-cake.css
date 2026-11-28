@@ -1,0 +1,124 @@
+/* ==========================================================================
+   The Sweet Oven - Custom Cake Request Page Styles
+   ========================================================================== */
+
+.topping-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background-color: var(--color-cream);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.topping-option:hover {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+.topping-option.is-checked {
+  background-color: var(--color-pink-soft);
+  border-color: var(--color-caramel);
+}
+
+.topping-price {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-caramel-dark);
+  white-space: nowrap;
+}
+
+.preview-plaque {
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink-soft) 100%);
+  border: 1.5px dashed var(--color-caramel);
+  border-radius: var(--radius-sm);
+}
+
+.summary-specs {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.summary-spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.summary-spec-row dt {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.summary-spec-row dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+.summary-pricing {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.92rem;
+}
+
+.pricing-row dt {
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.pricing-row dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.pricing-divider {
+  border-top: 1px solid var(--color-border);
+  margin: 0.25rem 0;
+}
+
+.pricing-total dt,
+.pricing-total dd {
+  color: var(--color-brown);
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.custom-feedback {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-caramel);
+  border-left: 6px solid var(--color-caramel);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.custom-feedback.is-error {
+  border-color: #9B2C2C;
+  border-left-color: #9B2C2C;
+  background-color: #FFF5F5;
+}
+
+@media (min-width: 992px) {
+  .summary-sticky {
+    position: sticky;
+    top: 5.5rem;
+  }
+}
