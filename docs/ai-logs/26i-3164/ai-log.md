@@ -63,3 +63,18 @@
 - **HTML & CSS Link Checks (`Select-String`):** Confirmed all 3 HTML pages load Google Fonts (`Nunito`, `Playfair Display`), Bootstrap 5.3.3 CSS only (no Bootstrap JS bundle or jQuery), `../css/styles.css`, their page-specific stylesheet, `.skip-link`, `.navbar-toggler`, and `#mainNavbar`.
 - **JS Wiring Checks (`Select-String`):** Confirmed `js/cart.js`, `js/checkout.js`, and `js/order-confirmation.js` reference `#mainNavbar` / `.navbar-toggler` (with old `navToggle` / `primaryMenu` removed), and `js/cart.js` and `js/checkout.js` enforce `MIN_ORDER_SUBTOTAL = 1000`.
 - **Environment Note:** `node` was not installed in the local workspace environment, so automated CLI JS execution was not available; live browser verification is recommended for interactive DOM testing.
+
+## Update - 28 Nov 2026 - Remove Sample Cart & Min Order Rs 500
+
+- **AI Tool:** Antigravity
+- **Task:** Remove sample cart functionality from cart page completely
+- **Prompt Used:**
+  > "Remove sample cart functionality from cart page completely. Delete Restore Sample Basket button, SAMPLE_CART constant, loadSampleCart function, and its event listener. Keep only empty cart state with message 'Your oven basket is empty' and Browse Menu button. Real website should not show sample data. Keep min order Rs 500 as fixed before."
+- **Changes Made:**
+    1. Deleted Restore Sample Basket button from `pages/cart.html`
+    2. Deleted SAMPLE_CART constant from `js/cart.js`
+    3. Deleted loadSampleCart function and its event listener
+    4. Kept only empty cart state: "Your oven basket is empty" + Browse Menu button
+    5. Min order kept as Rs 500 (MIN_ORDER_SUBTOTAL = 500)
+- **Files Edited:** `pages/cart.html`, `pages/checkout.html`, `js/cart.js`, `js/checkout.js`
+- **Verification:** Searched "Sample" - not found, Searched "500" - found, Empty cart shows only empty message
