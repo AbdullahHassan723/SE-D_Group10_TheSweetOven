@@ -13,9 +13,9 @@
   }
 
   var ASSURANCE_POINTS = [
-    "Baked fresh to order in our F-8/3 Islamabad home kitchen",
+    "Baked fresh to order in our Islamabad home kitchen",
     "100% halal dairy butter, couverture chocolate, and pure vanilla",
-    "Packed in insulated cake boxes for safe delivery or self-pickup"
+    "Packed in insulated cake boxes for safe delivery or pickup"
   ];
 
   var params = new URLSearchParams(window.location.search);
@@ -32,8 +32,9 @@
   var detailImage = document.getElementById("detailImage");
   var detailHighlightsList = document.getElementById("detailHighlightsList");
   var detailCategory = document.getElementById("detailCategory");
-  var detailRating = document.getElementById("detailRating");
+  var detailRatingText = document.getElementById("detailRatingText");
   var detailTitle = document.getElementById("detailTitle");
+  var detailShortDesc = document.getElementById("detailShortDesc");
   var detailDescription = document.getElementById("detailDescription");
   var detailUnitPrice = document.getElementById("detailUnitPrice");
   var detailPrepTime = document.getElementById("detailPrepTime");
@@ -49,15 +50,44 @@
   var detailSubtotal = document.getElementById("detailSubtotal");
 
   var detailIngredientsList = document.getElementById("detailIngredientsList");
+  var detailAllergensBadges = document.getElementById("detailAllergensBadges");
   var detailAllergensList = document.getElementById("detailAllergensList");
+  var detailAllergenNote = document.getElementById("detailAllergenNote");
   var detailBakerNote = document.getElementById("detailBakerNote");
   var detailStorage = document.getElementById("detailStorage");
   var relatedItemsGrid = document.getElementById("relatedItemsGrid");
   var recentSection = document.getElementById("recentSection");
   var recentItemsList = document.getElementById("recentItemsList");
 
+  var tabButtons = document.querySelectorAll("[data-tab]");
+  var tabPanels = {
+    ingredients: document.getElementById("panel-ingredients"),
+    allergens: document.getElementById("panel-allergens"),
+    storage: document.getElementById("panel-storage")
+  };
+
+  // Allergen & Details Modal
+  var openAllergenModalBtn = document.getElementById("openAllergenModalBtn");
+  var allergenModal = document.getElementById("allergenModal");
+  var closeAllergenModalBtn = document.getElementById("closeAllergenModalBtn");
+  var confirmAllergenModalBtn = document.getElementById("confirmAllergenModalBtn");
+  var allergenModalTitle = document.getElementById("allergenModalTitle");
+  var allergenModalBadges = document.getElementById("allergenModalBadges");
+  var allergenModalNote = document.getElementById("allergenModalNote");
+  var allergenModalIngredients = document.getElementById("allergenModalIngredients");
+  var allergenModalStorage = document.getElementById("allergenModalStorage");
+
   var currentItem = resolveInitialItem(requestedId);
   var selectedVariantIndex = 0;
+  var lastFocusedBeforeModal = null;
+
+  function formatRs(amount) {
+    return data.formatRs ? data.formatRs(amount) : shared.formatPKR(amount);
+  }
+
+  function formatReviews(count) {
+    return data.formatReviews ? data.formatReviews(count) : count + " reviews";
+  }
 
   function resolveInitialItem(urlId) {
     if (urlId !== null) {
@@ -96,8 +126,8 @@
     if (showCartLink) {
       var link = document.createElement("a");
       link.href = "cart.html";
-      link.className = "btn btn-sm btn-bakery";
-      link.textContent = "Go to Basket";
+      link.className = "btn btn-sm btn-pink";
+      link.textContent = "Go to Cart";
       detailFeedback.appendChild(link);
     }
   }
@@ -122,8 +152,8 @@
         return id !== itemId;
       });
       recent.unshift(itemId);
-      if (recent.length > 4) {
-        recent = recent.slice(0, 4);
+      if (recent.length > 5) {
+        recent = recent.slice(0, 5);
       }
       localStorage.setItem(RECENT_ITEMS_KEY, JSON.stringify(recent));
     } catch (err) {
@@ -189,11 +219,11 @@
 
   function updatePricing() {
     var variant = getSelectedVariant();
-    detailUnitPrice.textContent = shared.formatPKR(variant.price);
+    detailUnitPrice.textContent = formatRs(variant.price);
 
     var qty = validateQuantity();
     var displayQty = qty !== null ? qty : 1;
-    detailSubtotal.textContent = shared.formatPKR(variant.price * displayQty);
+    detailSubtotal.textContent = formatRs(variant.price * displayQty);
 
     qtyDecreaseBtn.disabled = displayQty <= 1;
     qtyIncreaseBtn.disabled = displayQty >= shared.MAX_ITEM_QTY;
@@ -225,7 +255,7 @@
 
       var priceSpan = document.createElement("span");
       priceSpan.className = "fw-bold";
-      priceSpan.textContent = shared.formatPKR(v.price);
+      priceSpan.textContent = formatRs(v.price);
 
       top.appendChild(labelSpan);
       top.appendChild(priceSpan);
@@ -260,6 +290,42 @@
     }
   }
 
+  function renderAllergenBadges(container, item) {
+    container.innerHTML = "";
+    for (var i = 0; i < item.allergens.length; i += 1) {
+      var badge = document.createElement("span");
+      badge.className = "allergen-badge";
+      badge.textContent = item.allergens[i];
+      container.appendChild(badge);
+    }
+    if (item.dietary.indexOf("nut-free") !== -1) {
+      var nf = document.createElement("span");
+      nf.className = "badge badge-pink rounded-pill px-3 py-2";
+      nf.textContent = "Nut-Free Recipe";
+      container.appendChild(nf);
+    }
+    if (item.dietary.indexOf("eggless-option") !== -1) {
+      var eg = document.createElement("span");
+      eg.className = "badge badge-pink rounded-pill px-3 py-2";
+      eg.textContent = "Eggless Option Available";
+      container.appendChild(eg);
+    }
+  }
+
+  function activateTab(tabName) {
+    for (var i = 0; i < tabButtons.length; i += 1) {
+      var btn = tabButtons[i];
+      var isCurrent = btn.getAttribute("data-tab") === tabName;
+      btn.classList.toggle("is-active", isCurrent);
+      btn.setAttribute("aria-selected", isCurrent ? "true" : "false");
+    }
+    Object.keys(tabPanels).forEach(function (key) {
+      if (tabPanels[key]) {
+        tabPanels[key].classList.toggle("d-none", key !== tabName);
+      }
+    });
+  }
+
   function renderRelatedItems() {
     relatedItemsGrid.innerHTML = "";
     var related = data.MENU_ITEMS.filter(function (item) {
@@ -273,41 +339,41 @@
     for (var i = 0; i < related.length; i += 1) {
       var item = related[i];
       var col = document.createElement("div");
-      col.className = "col-md-4";
+      col.className = "col-12 col-md-4";
 
-      var card = document.createElement("article");
-      card.className = "card bakery-card card-hover h-100 overflow-hidden";
+      var cardLink = document.createElement("a");
+      cardLink.href = "item-details.html?id=" + encodeURIComponent(item.id);
+      cardLink.className = "card bakery-card card-hover like-thumb-card h-100";
+
+      var thumbBox = document.createElement("div");
+      thumbBox.className = "like-thumb-box";
 
       var img = document.createElement("img");
       img.src = item.image;
       img.alt = item.alt;
-      img.className = "related-card-img";
-      img.width = 240;
-      img.height = 135;
+      img.className = "like-thumb-img";
+      img.width = 76;
+      img.height = 76;
+      thumbBox.appendChild(img);
 
-      var body = document.createElement("div");
-      body.className = "card-body d-flex flex-column";
+      var info = document.createElement("div");
+      info.className = "d-flex flex-column";
 
-      var title = document.createElement("h3");
-      title.className = "h5 mb-1";
+      var title = document.createElement("strong");
+      title.className = "mb-1";
       title.textContent = item.name;
 
-      var meta = document.createElement("p");
-      meta.className = "small text-muted-bakery mb-3";
-      meta.textContent = item.weight + " • " + shared.formatPKR(item.price);
+      var price = document.createElement("span");
+      price.className = "small fw-bold";
+      price.style.color = "#C23B5A";
+      price.textContent = formatRs(item.price);
 
-      var link = document.createElement("a");
-      link.href = "item-details.html?id=" + encodeURIComponent(item.id);
-      link.className = "btn btn-outline-bakery btn-sm mt-auto";
-      link.textContent = "View Treat";
+      info.appendChild(title);
+      info.appendChild(price);
 
-      body.appendChild(title);
-      body.appendChild(meta);
-      body.appendChild(link);
-
-      card.appendChild(img);
-      card.appendChild(body);
-      col.appendChild(card);
+      cardLink.appendChild(thumbBox);
+      cardLink.appendChild(info);
+      col.appendChild(cardLink);
       relatedItemsGrid.appendChild(col);
     }
   }
@@ -329,7 +395,7 @@
     for (var i = 0; i < recentItems.length; i += 1) {
       var item = recentItems[i];
       var col = document.createElement("div");
-      col.className = "col-md-4";
+      col.className = "col-12 col-md-4";
 
       var linkCard = document.createElement("a");
       linkCard.href = "item-details.html?id=" + encodeURIComponent(item.id);
@@ -347,7 +413,7 @@
       nameEl.textContent = item.name;
       var priceEl = document.createElement("small");
       priceEl.className = "text-muted-bakery";
-      priceEl.textContent = shared.formatPKR(item.price);
+      priceEl.textContent = formatRs(item.price);
 
       info.appendChild(nameEl);
       info.appendChild(priceEl);
@@ -355,6 +421,35 @@
       linkCard.appendChild(info);
       col.appendChild(linkCard);
       recentItemsList.appendChild(col);
+    }
+  }
+
+  function openAllergenModal() {
+    if (!allergenModal || !currentItem) {
+      return;
+    }
+    lastFocusedBeforeModal = document.activeElement;
+    allergenModalTitle.textContent = currentItem.name + " — Allergens & Details";
+    renderAllergenBadges(allergenModalBadges, currentItem);
+    allergenModalNote.textContent = currentItem.allergenNote || "Prepared in a home kitchen that handles dairy, wheat, eggs, and tree nuts.";
+    renderStringList(allergenModalIngredients, currentItem.ingredients);
+    allergenModalStorage.textContent = currentItem.bakerNote + " Storage: " + currentItem.storage;
+
+    allergenModal.classList.remove("d-none");
+    allergenModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    closeAllergenModalBtn.focus();
+  }
+
+  function closeAllergenModal() {
+    if (!allergenModal || allergenModal.classList.contains("d-none")) {
+      return;
+    }
+    allergenModal.classList.add("d-none");
+    allergenModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === "function") {
+      lastFocusedBeforeModal.focus();
     }
   }
 
@@ -379,12 +474,14 @@
     detailImage.src = currentItem.image;
     detailImage.alt = currentItem.alt;
     detailCategory.textContent = currentItem.category;
-    detailRating.textContent = "★ " + currentItem.rating.toFixed(1) + " (" + currentItem.reviewCount + " reviews)";
+    detailRatingText.textContent = currentItem.rating.toFixed(1) + " (" + formatReviews(currentItem.reviewCount) + ")";
     detailTitle.textContent = currentItem.name;
+    detailShortDesc.textContent = currentItem.shortDescription;
     detailDescription.textContent = currentItem.description;
-    detailPrepTime.textContent = currentItem.prepTime;
+    detailPrepTime.textContent = "Ready: " + currentItem.prepTime;
     detailBakerNote.textContent = currentItem.bakerNote;
     detailStorage.textContent = currentItem.storage;
+    detailAllergenNote.textContent = currentItem.allergenNote || "Prepared in a home kitchen that handles dairy, wheat, eggs, and tree nuts.";
 
     if (currentItem.badge) {
       detailBadge.textContent = currentItem.badge;
@@ -396,6 +493,7 @@
     renderStringList(detailHighlightsList, ASSURANCE_POINTS);
     renderStringList(detailIngredientsList, currentItem.ingredients);
     renderStringList(detailAllergensList, currentItem.allergens);
+    renderAllergenBadges(detailAllergensBadges, currentItem);
 
     var savedNote = loadSavedNote(currentItem.id);
     detailNoteInput.value = savedNote;
@@ -404,6 +502,7 @@
     updateFavoriteButton();
     renderVariants();
     updatePricing();
+    activateTab("ingredients");
     renderRelatedItems();
     recordRecentItem(currentItem.id);
     renderRecentItems();
@@ -461,6 +560,28 @@
       false
     );
   });
+
+  for (var t = 0; t < tabButtons.length; t += 1) {
+    tabButtons[t].addEventListener("click", function () {
+      activateTab(this.getAttribute("data-tab"));
+    });
+  }
+
+  if (openAllergenModalBtn && allergenModal) {
+    openAllergenModalBtn.addEventListener("click", openAllergenModal);
+    closeAllergenModalBtn.addEventListener("click", closeAllergenModal);
+    confirmAllergenModalBtn.addEventListener("click", closeAllergenModal);
+    allergenModal.addEventListener("click", function (event) {
+      if (event.target === allergenModal) {
+        closeAllergenModal();
+      }
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !allergenModal.classList.contains("d-none")) {
+        closeAllergenModal();
+      }
+    });
+  }
 
   detailOrderForm.addEventListener("submit", function (event) {
     event.preventDefault();
