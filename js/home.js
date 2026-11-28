@@ -8,29 +8,7 @@
   var LAST_VISIT_KEY = "sweetOvenLastVisit";
   var MAX_ITEM_QTY = 20;
   var CAROUSEL_INTERVAL_MS = 5000;
-
-  var bakeryPromises = [
-    {
-      badge: "01",
-      title: "Baked Fresh Every Morning",
-      description: "No frozen sponges or day-old display trays. Every cake, tub, and pastry box leaves the oven on your delivery day."
-    },
-    {
-      badge: "02",
-      title: "Real Cultured Butter & Belgian Cocoa",
-      description: "We bake with pure dairy cream, Callebaut dark chocolate, and toasted nuts with zero artificial preservatives."
-    },
-    {
-      badge: "03",
-      title: "Chilled Rider Dispatch",
-      description: "Cream cakes and Lotus Tres Leches tubs travel in insulated cooler bags across Islamabad and Rawalpindi."
-    },
-    {
-      badge: "04",
-      title: "Transparent PKR Pricing",
-      description: "Honest portion weights, clear sector-wise delivery charges, and 10% welcome savings with code SWEET10."
-    }
-  ];
+  var CARDS_PER_SLIDE = 3;
 
   var featuredBakes = [
     {
@@ -39,7 +17,7 @@
       category: "Signature Cakes",
       weight: "1 lb (Serves 4-6)",
       price: 2850,
-      badge: "Bestseller",
+      badge: "Best Seller",
       description: "Three moist dark-cocoa sponge layers coated in silky Callebaut chocolate ganache.",
       homeImage: "images/chocolate-fudge-cake.svg",
       cartImage: "../images/chocolate-fudge-cake.svg",
@@ -47,7 +25,7 @@
     },
     {
       id: "tub-lotus-tres-leches",
-      name: "Lotus Biscoff Tres Leches Tub",
+      name: "Lotus Biscoff Tres Leches",
       category: "Milk Cakes",
       weight: "500 g Family Tub",
       price: 1650,
@@ -58,28 +36,28 @@
       alt: "Lotus Biscoff Tres Leches milk cake tub with caramel biscuit crumble"
     },
     {
-      id: "box-cinnamon-rolls",
-      name: "Warm Cream-Cheese Cinnamon Rolls",
-      category: "Breakfast Pastries",
-      weight: "Box of 4",
-      price: 1400,
-      badge: "Morning Batch",
-      description: "Soft brioche swirls layered with Ceylon cinnamon sugar and tangy vanilla cream-cheese glaze.",
-      homeImage: "images/cinnamon-rolls.svg",
-      cartImage: "../images/cinnamon-rolls.svg",
-      alt: "Box of four glazed cinnamon rolls with vanilla cream-cheese icing"
-    },
-    {
       id: "box-red-velvet-cupcakes",
       name: "Classic Red Velvet Cupcakes",
       category: "Cupcakes",
       weight: "Box of 6",
       price: 1800,
-      badge: "Party Favourite",
+      badge: "Customer Pick",
       description: "Velvety cocoa-buttermilk cupcakes piped high with whipped cream-cheese frosting.",
       homeImage: "images/red-velvet-cupcakes.svg",
       cartImage: "../images/red-velvet-cupcakes.svg",
       alt: "Red velvet cupcakes swirled with cream cheese frosting"
+    },
+    {
+      id: "cake-hazelnut-praline",
+      name: "Hazelnut Praline Layer Cake",
+      category: "Signature Cakes",
+      weight: "1.5 lb (Serves 6-8)",
+      price: 3200,
+      badge: "Weekend Special",
+      description: "Roasted hazelnut praline cream layered between tender cocoa and vanilla sponge.",
+      homeImage: "images/hazelnut-praline-cake.svg",
+      cartImage: "../images/hazelnut-praline-cake.svg",
+      alt: "Hazelnut Praline Layer Cake topped with caramelized nuts"
     },
     {
       id: "box-caramel-brownies",
@@ -94,16 +72,37 @@
       alt: "Fudge brownies drizzled with salted caramel and toasted walnuts"
     },
     {
-      id: "pack-almond-croissants",
-      name: "Butter Almond Croissants",
-      category: "Viennoiserie",
-      weight: "Pack of 2",
-      price: 950,
-      badge: "Limited Daily",
-      description: "Twice-baked flaky butter croissants filled with almond frangipane and toasted almond flakes.",
-      homeImage: "images/almond-croissants.svg",
-      cartImage: "../images/almond-croissants.svg",
-      alt: "Flaky golden almond croissants dusted with toasted almonds"
+      id: "box-cinnamon-rolls",
+      name: "Warm Cream-Cheese Cinnamon Rolls",
+      category: "Breakfast Pastries",
+      weight: "Box of 4",
+      price: 1400,
+      badge: "Morning Batch",
+      description: "Soft brioche swirls layered with Ceylon cinnamon sugar and tangy vanilla cream-cheese glaze.",
+      homeImage: "images/cinnamon-rolls.svg",
+      cartImage: "../images/cinnamon-rolls.svg",
+      alt: "Box of four glazed cinnamon rolls with vanilla cream-cheese icing"
+    }
+  ];
+
+  var bakeryHighlights = [
+    {
+      title: "Baked daily",
+      subtitle: "Fresh morning batches in F-8/3",
+      image: "images/icon-cupcake.svg",
+      alt: "Cupcake icon representing fresh daily baking"
+    },
+    {
+      title: "Custom cakes",
+      subtitle: "Personalised tiers & flavours",
+      image: "images/icon-cake-slice.svg",
+      alt: "Cake slice icon representing custom celebration cakes"
+    },
+    {
+      title: "Home delivery",
+      subtitle: "Chilled dispatch across twin cities",
+      image: "images/icon-delivery-truck.svg",
+      alt: "Delivery truck icon representing home delivery"
     }
   ];
 
@@ -111,7 +110,7 @@
     { dayIndex: 1, day: "Monday", focus: "Morning Brioche & Cinnamon Rolls", slot: "10:00 AM Batch", note: "Pre-order by Sunday 8 PM" },
     { dayIndex: 2, day: "Tuesday", focus: "Salted Caramel Walnut Brownie Boxes", slot: "2:00 PM Batch", note: "Ideal for office tea breaks" },
     { dayIndex: 3, day: "Wednesday", focus: "Lotus Biscoff Tres Leches Milk Tubs", slot: "2:00 PM & 6:00 PM", note: "Freshly chilled family tubs" },
-    { dayIndex: 4, day: "Thursday", focus: "Butter Almond Croissants & Pastries", slot: "10:00 AM Batch", note: "Limited 24 packs per morning" },
+    { dayIndex: 4, day: "Thursday", focus: "Hazelnut Praline & Almond Pastries", slot: "10:00 AM Batch", note: "Limited 24 boxes per morning" },
     { dayIndex: 5, day: "Friday", focus: "Signature Belgian Chocolate Fudge Cakes", slot: "All 3 Dispatch Slots", note: "Weekend dawat favourite" },
     { dayIndex: 6, day: "Saturday", focus: "Custom Celebration Cakes & Cupcakes", slot: "10:00 AM – 8:00 PM", note: "48-hour custom slot booking" },
     { dayIndex: 0, day: "Sunday", focus: "Family Brunch Boxes & Red Velvet", slot: "9:00 AM – 5:00 PM", note: "Free pickup from F-8/3 kitchen" }
@@ -134,7 +133,7 @@
       name: "Mariam Tariq",
       area: "Sector E-11, Islamabad",
       rating: "5 / 5",
-      quote: "Honest prices in PKR and the almond croissants remind me of artisan bakeries abroad. Friday drop alerts never miss."
+      quote: "Honest prices in PKR and the hazelnut praline cake reminds me of artisan bakeries abroad. Friday drop alerts never miss."
     }
   ];
 
@@ -182,10 +181,6 @@
     }
   }
 
-  function formatPKR(amount) {
-    return "PKR " + Number(amount).toLocaleString("en-PK");
-  }
-
   function safeParseJSON(raw, fallback) {
     if (!raw) {
       return fallback;
@@ -211,6 +206,10 @@
       category: state.category,
       sort: state.sort
     }));
+  }
+
+  function formatPKR(amount) {
+    return "PKR " + Number(amount).toLocaleString("en-PK");
   }
 
   function createEl(tag, className, text) {
@@ -245,28 +244,6 @@
     safeSet(LAST_VISIT_KEY, todayFormatted);
   }
 
-  function renderPromises() {
-    var grid = document.getElementById("promisesGrid");
-    if (!grid) {
-      return;
-    }
-    grid.innerHTML = "";
-
-    bakeryPromises.forEach(function (item) {
-      var col = createEl("div", "col-sm-6 col-lg-3");
-      var card = createEl("article", "card promise-card card-hover");
-      var badge = createEl("span", "promise-badge", item.badge);
-      var title = createEl("h3", "h5 mb-2", item.title);
-      var desc = createEl("p", "text-muted-bakery mb-0 small", item.description);
-
-      card.appendChild(badge);
-      card.appendChild(title);
-      card.appendChild(desc);
-      col.appendChild(card);
-      grid.appendChild(col);
-    });
-  }
-
   function loadCart() {
     var raw = safeGet(CART_STORAGE_KEY);
     if (!raw) {
@@ -276,6 +253,19 @@
     return Array.isArray(parsed) ? parsed : [];
   }
 
+  function showCartToast(message) {
+    var toast = document.getElementById("homeCartToast");
+    if (!toast) {
+      return;
+    }
+    toast.innerHTML = "";
+    toast.appendChild(createEl("span", "", message + " "));
+    var link = createEl("a", "text-white fw-bold ms-1", "Go to Cart");
+    link.href = "pages/cart.html";
+    toast.appendChild(link);
+    toast.classList.remove("d-none");
+  }
+
   function addItemToCart(item) {
     var cart = loadCart();
     var existing = cart.find(function (entry) {
@@ -283,8 +273,7 @@
     });
 
     if (existing) {
-      var nextQty = Math.min(MAX_ITEM_QTY, (Number(existing.quantity) || 1) + 1);
-      existing.quantity = nextQty;
+      existing.quantity = Math.min(MAX_ITEM_QTY, (Number(existing.quantity) || 1) + 1);
     } else {
       cart.push({
         id: item.id,
@@ -313,17 +302,41 @@
     }
   }
 
-  function showCartToast(message) {
-    var toast = document.getElementById("homeCartToast");
-    if (!toast) {
-      return;
-    }
-    toast.innerHTML = "";
-    toast.appendChild(createEl("span", "", message + " "));
-    var link = createEl("a", "text-white fw-bold ms-1", "Go to Cart");
-    link.href = "pages/cart.html";
-    toast.appendChild(link);
-    toast.classList.remove("d-none");
+  function buildProductCard(item, colClass, buttonLabel) {
+    var col = createEl("div", colClass);
+    var card = createEl("article", "card bake-card card-hover");
+
+    var media = createEl("div", "bake-card-media");
+    media.appendChild(createEl("span", "bake-tag", item.badge));
+    var img = document.createElement("img");
+    img.src = item.homeImage;
+    img.alt = item.alt;
+    img.width = 210;
+    img.height = 150;
+    media.appendChild(img);
+
+    var body = createEl("div", "card-body d-flex flex-column p-3 p-lg-4");
+    body.appendChild(createEl("p", "bake-meta mb-1", item.category + " • " + item.weight));
+    body.appendChild(createEl("h3", "h5 mb-2", item.name));
+    body.appendChild(createEl("p", "text-muted-bakery small mb-3 flex-grow-1", item.description));
+
+    var footer = createEl("div", "d-flex align-items-center justify-content-between gap-2 pt-2 border-top");
+    footer.appendChild(createEl("span", "bake-price", formatPKR(item.price)));
+
+    var addBtn = createEl("button", "btn btn-pink btn-sm px-3", buttonLabel);
+    addBtn.type = "button";
+    addBtn.setAttribute("aria-label", "Add " + item.name + " to cart");
+    addBtn.addEventListener("click", function () {
+      addItemToCart(item);
+    });
+
+    footer.appendChild(addBtn);
+    body.appendChild(footer);
+
+    card.appendChild(media);
+    card.appendChild(body);
+    col.appendChild(card);
+    return col;
   }
 
   function initBestSellersCarousel() {
@@ -358,8 +371,14 @@
 
     if (viewport) { viewport.classList.remove("d-none"); }
     if (emptyState) { emptyState.classList.add("d-none"); }
-    prevBtn.disabled = false;
-    nextBtn.disabled = false;
+
+    var slides = [];
+    for (var i = 0; i < featuredBakes.length; i += CARDS_PER_SLIDE) {
+      slides.push(featuredBakes.slice(i, i + CARDS_PER_SLIDE));
+    }
+
+    prevBtn.disabled = slides.length <= 1;
+    nextBtn.disabled = slides.length <= 1;
 
     var currentIndex = 0;
     var timerId = null;
@@ -371,59 +390,26 @@
     track.innerHTML = "";
     dotsContainer.innerHTML = "";
 
-    featuredBakes.forEach(function (item, idx) {
-      var slide = createEl("article", "carousel-slide");
+    slides.forEach(function (group, slideIdx) {
+      var slide = createEl("div", "carousel-slide");
       slide.setAttribute("role", "group");
       slide.setAttribute("aria-roledescription", "slide");
-      slide.setAttribute("aria-label", (idx + 1) + " of " + featuredBakes.length + ": " + item.name);
+      slide.setAttribute("aria-label", "Best Sellers slide " + (slideIdx + 1) + " of " + slides.length);
 
-      var card = createEl("div", "carousel-slide-card");
-      var row = createEl("div", "row align-items-center g-4");
-
-      var imgCol = createEl("div", "col-md-5 text-center");
-      var img = document.createElement("img");
-      img.src = item.homeImage;
-      img.alt = item.alt;
-      img.className = "carousel-slide-img";
-      img.width = 240;
-      img.height = 175;
-      imgCol.appendChild(img);
-
-      var infoCol = createEl("div", "col-md-7");
-      var badge = createEl("span", "badge badge-pink rounded-pill mb-2", item.badge);
-      var meta = createEl("p", "bake-meta mb-1", item.category + " • " + item.weight);
-      var title = createEl("h3", "h4 mb-2", item.name);
-      var desc = createEl("p", "text-muted-bakery mb-3", item.description);
-
-      var actionRow = createEl("div", "d-flex flex-wrap align-items-center gap-3");
-      var price = createEl("span", "bake-price", formatPKR(item.price));
-      var addBtn = createEl("button", "btn btn-bakery", "Add to Basket");
-      addBtn.type = "button";
-      addBtn.addEventListener("click", function () {
-        addItemToCart(item);
+      var row = createEl("div", "row g-3 g-lg-4");
+      group.forEach(function (item) {
+        row.appendChild(buildProductCard(item, "col-md-4", "Add"));
       });
 
-      actionRow.appendChild(price);
-      actionRow.appendChild(addBtn);
-
-      infoCol.appendChild(badge);
-      infoCol.appendChild(meta);
-      infoCol.appendChild(title);
-      infoCol.appendChild(desc);
-      infoCol.appendChild(actionRow);
-
-      row.appendChild(imgCol);
-      row.appendChild(infoCol);
-      card.appendChild(row);
-      slide.appendChild(card);
+      slide.appendChild(row);
       track.appendChild(slide);
 
-      var dot = createEl("button", "carousel-dot" + (idx === 0 ? " is-active" : ""));
+      var dot = createEl("button", "carousel-dot" + (slideIdx === 0 ? " is-active" : ""));
       dot.type = "button";
-      dot.setAttribute("aria-label", "Go to slide " + (idx + 1) + ": " + item.name);
-      dot.setAttribute("aria-current", idx === 0 ? "true" : "false");
+      dot.setAttribute("aria-label", "Go to best sellers slide " + (slideIdx + 1));
+      dot.setAttribute("aria-current", slideIdx === 0 ? "true" : "false");
       dot.addEventListener("click", function () {
-        goToSlide(idx, true);
+        goToSlide(slideIdx, true);
       });
       dotsContainer.appendChild(dot);
     });
@@ -442,7 +428,7 @@
     }
 
     function goToSlide(targetIndex, shouldAnnounce) {
-      var total = featuredBakes.length;
+      var total = slides.length;
       currentIndex = ((targetIndex % total) + total) % total;
       track.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
 
@@ -454,10 +440,7 @@
       });
 
       if (liveRegion && shouldAnnounce) {
-        var activeItem = featuredBakes[currentIndex];
-        liveRegion.textContent =
-          "Showing best seller " + (currentIndex + 1) + " of " + total + ": " +
-          activeItem.name + ", " + formatPKR(activeItem.price);
+        liveRegion.textContent = "Showing best sellers slide " + (currentIndex + 1) + " of " + total;
       }
     }
 
@@ -470,7 +453,7 @@
 
     function startAutoAdvance() {
       stopAutoAdvance();
-      if (prefersReducedMotion || isHovered || isFocused || featuredBakes.length <= 1) {
+      if (prefersReducedMotion || isHovered || isFocused || slides.length <= 1) {
         updateStatusHint();
         return;
       }
@@ -534,7 +517,7 @@
       });
     }
 
-    goToSlide(0, true);
+    goToSlide(0, false);
     startAutoAdvance();
   }
 
@@ -624,44 +607,35 @@
     emptyBox.classList.add("d-none");
 
     items.forEach(function (item) {
-      var col = createEl("div", "col-md-6 col-lg-4");
-      var card = createEl("article", "card bake-card card-hover");
+      grid.appendChild(buildProductCard(item, "col-md-6 col-lg-4", "Add"));
+    });
+  }
 
-      var media = createEl("div", "bake-card-media");
-      var tag = createEl("span", "bake-tag", item.badge);
+  function renderHighlights() {
+    var container = document.getElementById("bakeryHighlightsGrid");
+    if (!container) {
+      return;
+    }
+    container.innerHTML = "";
+
+    bakeryHighlights.forEach(function (item) {
+      var row = createEl("div", "highlight-item");
+
+      var circle = createEl("div", "highlight-icon-circle");
       var img = document.createElement("img");
-      img.src = item.homeImage;
+      img.src = item.image;
       img.alt = item.alt;
-      img.width = 220;
-      img.height = 155;
-      media.appendChild(tag);
-      media.appendChild(img);
+      img.width = 54;
+      img.height = 54;
+      circle.appendChild(img);
 
-      var body = createEl("div", "card-body d-flex flex-column p-4");
-      var meta = createEl("p", "bake-meta mb-1", item.category + " • " + item.weight);
-      var title = createEl("h3", "h5 mb-2", item.name);
-      var desc = createEl("p", "text-muted-bakery small mb-3 flex-grow-1", item.description);
+      var textWrap = createEl("div", "");
+      textWrap.appendChild(createEl("p", "highlight-caption", item.title));
+      textWrap.appendChild(createEl("p", "highlight-subtext", item.subtitle));
 
-      var footer = createEl("div", "d-flex align-items-center justify-content-between gap-2 pt-2 border-top");
-      var price = createEl("span", "bake-price", formatPKR(item.price));
-      var addBtn = createEl("button", "btn btn-bakery btn-sm", "Add to Basket");
-      addBtn.type = "button";
-      addBtn.addEventListener("click", function () {
-        addItemToCart(item);
-      });
-
-      footer.appendChild(price);
-      footer.appendChild(addBtn);
-
-      body.appendChild(meta);
-      body.appendChild(title);
-      body.appendChild(desc);
-      body.appendChild(footer);
-
-      card.appendChild(media);
-      card.appendChild(body);
-      col.appendChild(card);
-      grid.appendChild(col);
+      row.appendChild(circle);
+      row.appendChild(textWrap);
+      container.appendChild(row);
     });
   }
 
@@ -679,21 +653,16 @@
       var card = createEl("article", "card schedule-card" + (isToday ? " is-today" : ""));
 
       var topRow = createEl("div", "d-flex justify-content-between align-items-center mb-2");
-      var dayTitle = createEl("h3", "h5 mb-0", entry.day);
-      topRow.appendChild(dayTitle);
+      topRow.appendChild(createEl("h3", "h5 mb-0", entry.day));
 
       if (isToday) {
         topRow.appendChild(createEl("span", "today-pill", "Today's Oven"));
       }
 
-      var focus = createEl("p", "fw-bold mb-1", entry.focus);
-      var slot = createEl("p", "small text-muted-bakery mb-1", "Dispatch: " + entry.slot);
-      var note = createEl("p", "small mb-0", entry.note);
-
       card.appendChild(topRow);
-      card.appendChild(focus);
-      card.appendChild(slot);
-      card.appendChild(note);
+      card.appendChild(createEl("p", "fw-bold mb-1", entry.focus));
+      card.appendChild(createEl("p", "small text-muted-bakery mb-1", "Dispatch: " + entry.slot));
+      card.appendChild(createEl("p", "small mb-0", entry.note));
       col.appendChild(card);
       grid.appendChild(col);
     });
@@ -709,15 +678,10 @@
     customerHighlights.forEach(function (review) {
       var col = createEl("div", "col-md-4");
       var card = createEl("article", "card quote-card");
-      var stars = createEl("p", "quote-stars small mb-2", "Rating: " + review.rating);
-      var quote = createEl("p", "mb-3", '"' + review.quote + '"');
-      var author = createEl("p", "fw-bold mb-0", review.name);
-      var area = createEl("p", "small text-muted-bakery mb-0", review.area);
-
-      card.appendChild(stars);
-      card.appendChild(quote);
-      card.appendChild(author);
-      card.appendChild(area);
+      card.appendChild(createEl("p", "quote-stars small mb-2", "Rating: " + review.rating));
+      card.appendChild(createEl("p", "mb-3", '"' + review.quote + '"'));
+      card.appendChild(createEl("p", "fw-bold mb-0", review.name));
+      card.appendChild(createEl("p", "small text-muted-bakery mb-0", review.area));
       col.appendChild(card);
       grid.appendChild(col);
     });
@@ -827,10 +791,10 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     initRememberedVisit();
-    renderPromises();
     initBestSellersCarousel();
     renderCategoryFilters();
     renderFeaturedBakes();
+    renderHighlights();
     renderWeeklySchedule();
     renderCustomerHighlights();
     initSearchAndSort();

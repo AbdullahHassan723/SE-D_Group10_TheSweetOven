@@ -39,7 +39,8 @@
       <div class="container">
         <a class="navbar-brand" href="../index.html">
           <img src="../images/logo.svg" alt="The Sweet Oven logo" class="brand-logo" width="42" height="42">
-          <span>The Sweet Oven</span>
+          <span class="brand-name-desktop">The Sweet Oven</span>
+          <span class="brand-name-mobile">Bakery</span>
         </a>
 
         <button class="navbar-toggler" type="button" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +74,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link nav-link-cart" href="cart.html">
-                Cart <span id="navCartCount" class="nav-cart-badge">0</span>
+                Cart (<span id="navCartCount">0</span>)
               </a>
             </li>
           </ul>
@@ -83,33 +84,48 @@
   </header>
 
   <main id="main-content">
-    <!-- Hero / Story Intro -->
-    <section class="about-hero py-5">
+    <!-- Section 1: Meet the baker (Chef hat on left, bio on right) -->
+    <section class="about-hero py-5" aria-labelledby="meetBakerHeading">
       <div class="container">
+        <h1 id="meetBakerHeading" class="display-5 mb-4">Meet the baker.</h1>
         <div class="row align-items-center g-4 g-lg-5">
-          <div class="col-lg-6">
-            <span class="eyebrow-pill mb-3">Our Home Kitchen Story</span>
-            <h1 class="display-5 mb-3">Meet the Baker Behind The Sweet Oven</h1>
-            <p class="lead text-muted-bakery mb-3">
+          <div class="col-md-5 col-lg-4 text-center">
+            <img
+              src="../images/chef-hat.svg"
+              alt="Baker chef hat emblem for Hira Salman at The Sweet Oven"
+              class="chef-hat-illustration"
+              width="320"
+              height="280"
+            >
+          </div>
+          <div class="col-md-7 col-lg-8">
+            <span class="eyebrow-pill mb-3">Sector F-8/3 &bull; Home Kitchen Since 2021</span>
+            <p class="lead mb-3">
               Founded in 2021 by home pastry chef <strong>Hira Salman</strong> in Street 14, Sector F-8/3, Islamabad, The Sweet Oven began with one convection oven, handwritten family recipes, and a promise never to cut corners with shortening or artificial essence.
             </p>
-            <p class="mb-4">
-              What started as weekend fudge cakes and cinnamon rolls for neighbours now serves hundreds of families across Islamabad and Rawalpindi &mdash; still baked in small, numbered daily batches.
+            <p class="text-muted-bakery mb-3">
+              Every sponge, brownie tray, and Lotus tres leches tub is mixed by hand in small daily batches using real cultured butter and 54% Belgian dark cocoa &mdash; serving hundreds of families across Islamabad and Rawalpindi.
             </p>
             <div class="d-flex flex-wrap gap-3">
-              <a href="../index.html#featured-bakes" class="btn btn-bakery">Browse Signature Bakes</a>
               <a href="contact.html" class="btn btn-outline-bakery">Visit or Contact Kitchen</a>
             </div>
           </div>
-          <div class="col-lg-6 text-center">
-            <img
-              src="../images/baker-kitchen.svg"
-              alt="The Sweet Oven brick-arch home bakery kitchen in Sector F-8/3 Islamabad"
-              class="baker-illustration"
-              width="480"
-              height="340"
-            >
-          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: How we bake (3 square boxes joined by arrows + Pink "See our menu" button) -->
+    <section class="py-5 bg-white border-top border-bottom" aria-labelledby="processHeading">
+      <div class="container">
+        <div class="text-center mb-4">
+          <h2 id="processHeading" class="h2 mb-2">How we bake.</h2>
+          <p class="text-muted-bakery mb-0">Three simple steps from fresh pantry ingredients to your table.</p>
+        </div>
+
+        <ol id="bakingStepsFlow" class="baking-flow list-unstyled mb-4" aria-label="Three-step baking process"></ol>
+
+        <div class="text-center pt-2">
+          <a href="menu.html" class="btn btn-pink btn-lg see-menu-btn">See our menu</a>
         </div>
       </div>
     </section>
@@ -125,9 +141,20 @@
     <!-- Journey Timeline (Rendered from JS array) -->
     <section class="py-5 bg-white border-top border-bottom" aria-labelledby="timelineHeading">
       <div class="container">
-        <div class="mb-4">
-          <h2 id="timelineHeading" class="h2 mb-1">From One Home Oven to Islamabad's Favourite Table</h2>
-          <p class="text-muted-bakery mb-0">Milestones that shaped our kitchen standards and seasonal menu.</p>
+        <div class="row align-items-center g-4 mb-4">
+          <div class="col-lg-8">
+            <h2 id="timelineHeading" class="h2 mb-1">From One Home Oven to Islamabad's Favourite Table</h2>
+            <p class="text-muted-bakery mb-0">Milestones that shaped our kitchen standards and seasonal menu.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <img
+              src="../images/baker-kitchen.svg"
+              alt="The Sweet Oven brick-arch home bakery kitchen in Sector F-8/3 Islamabad"
+              class="kitchen-thumb-illustration"
+              width="240"
+              height="170"
+            >
+          </div>
         </div>
         <div id="storyTimelineGrid" class="row g-4"></div>
       </div>
@@ -151,17 +178,6 @@
           <p class="mb-2 fw-bold">No ingredients found for this filter.</p>
           <button type="button" id="resetIngredientFilterBtn" class="btn btn-bakery btn-sm">Show All Ingredients</button>
         </div>
-      </div>
-    </section>
-
-    <!-- 4-Step Small-Batch Craft (Rendered from JS array) -->
-    <section class="py-5 section-highlight mx-2 mx-md-4 mb-5" aria-labelledby="processHeading">
-      <div class="container">
-        <div class="text-center mb-4">
-          <h2 id="processHeading" class="h2 mb-1">How Your Order Is Prepared</h2>
-          <p class="text-muted-bakery mb-0">Every cake and pastry box follows a 24-hour freshness workflow.</p>
-        </div>
-        <div id="bakingStepsGrid" class="row g-4"></div>
       </div>
     </section>
 
@@ -201,7 +217,7 @@
                   >
                 </div>
 
-                <div id="dietaryError" class="text-danger fw-bold small mb-2 d-none" role="alert"></div>
+                <div id="dietaryError" class="field-error-msg mb-2 d-none" role="alert"></div>
 
                 <div class="d-flex flex-wrap gap-2">
                   <button type="submit" class="btn btn-bakery">Save Preference</button>
@@ -226,15 +242,18 @@
   </main>
 
   <!-- Shared Footer (pages/ folder version) -->
-  <footer class="site-footer py-5 mt-auto">
+  <footer class="site-footer py-4 py-md-5 mt-auto">
     <div class="container">
-      <div class="row g-4">
+      <div class="footer-mobile-hours d-md-none text-center mb-3">
+        <p class="mb-0 fw-bold">Open: Mon to Sun, 8am to 8pm.</p>
+      </div>
+
+      <div class="row g-4 d-none d-md-flex">
         <div class="col-md-4">
           <h2 class="footer-heading">The Sweet Oven</h2>
           <p class="mb-2">Handcrafted weekly bakes, pastries, and custom cakes.</p>
           <p class="mb-1"><strong>Opening Hours:</strong></p>
-          <p class="mb-1">Mon &ndash; Sat: 8:00 AM &ndash; 8:00 PM</p>
-          <p class="mb-0">Sunday: 9:00 AM &ndash; 5:00 PM</p>
+          <p class="mb-0">Open: Mon to Sun, 8am to 8pm.</p>
         </div>
 
         <div class="col-md-4">
@@ -258,7 +277,7 @@
         </div>
       </div>
 
-      <hr class="footer-divider my-4">
+      <hr class="footer-divider my-3 my-md-4 d-none d-md-block">
 
       <div class="text-center footer-copyright">
         <small>&copy; 2026 The Sweet Oven. All rights reserved.</small>

@@ -4,6 +4,24 @@
   var DIETARY_STORAGE_KEY = "sweetOvenDietaryPrefs";
   var INGREDIENT_FILTER_KEY = "sweetOvenIngredientFilter";
 
+  var bakingSteps = [
+    {
+      step: "1",
+      label: "Step 1: Mix Fresh",
+      description: "Weigh cultured butter, farm eggs, and 54% Belgian dark cocoa to order."
+    },
+    {
+      step: "2",
+      label: "Step 2: Bake Small",
+      description: "Bake sponges, brownies, and cinnamon rolls in small numbered trays."
+    },
+    {
+      step: "3",
+      label: "Step 3: Frost & Pack",
+      description: "Cool completely, hand-frost, and pack chilled for pickup or delivery."
+    }
+  ];
+
   var bakerStats = [
     { value: "2021", label: "Year Founded in F-8/3" },
     { value: "1,850+", label: "Small-Batch Cakes Baked" },
@@ -73,29 +91,6 @@
     }
   ];
 
-  var bakingSteps = [
-    {
-      step: "1",
-      title: "Order Cutoff & Fresh Prep",
-      description: "We confirm your slot and weigh farm eggs, cultured butter, and dark cocoa to order."
-    },
-    {
-      step: "2",
-      title: "Small-Batch Oven Bake",
-      description: "Sponges, brownies, and brioche rolls are baked in numbered trays for even caramelisation."
-    },
-    {
-      step: "3",
-      title: "Hand Frosting & Cooling",
-      description: "Cakes cool completely before receiving whipped cream-cheese or Belgian ganache finishes."
-    },
-    {
-      step: "4",
-      title: "Pickup or Chilled Dispatch",
-      description: "Collect free from Street 14, F-8/3 or receive in your chosen morning, afternoon, or evening slot."
-    }
-  ];
-
   function safeGet(key) {
     if (window.SweetOvenNav && typeof window.SweetOvenNav.safeGetStorage === "function") {
       return window.SweetOvenNav.safeGetStorage(key);
@@ -122,9 +117,6 @@
     }
   }
 
-  var activeIngredientFilter = loadIngredientFilter();
-  var savedDietaryPrefs = loadDietaryPrefs();
-
   function safeParseJSON(raw, fallback) {
     if (!raw) {
       return fallback;
@@ -136,14 +128,8 @@
     }
   }
 
-  function loadIngredientFilter() {
-    var saved = safeGet(INGREDIENT_FILTER_KEY);
-    return saved || "All";
-  }
-
-  function saveIngredientFilter(category) {
-    safeSet(INGREDIENT_FILTER_KEY, category);
-  }
+  var activeIngredientFilter = safeGet(INGREDIENT_FILTER_KEY) || "All";
+  var savedDietaryPrefs = loadDietaryPrefs();
 
   function loadDietaryPrefs() {
     var parsed = safeParseJSON(safeGet(DIETARY_STORAGE_KEY), []);
@@ -165,6 +151,32 @@
     return el;
   }
 
+  function renderBakingSteps() {
+    var flow = document.getElementById("bakingStepsFlow");
+    if (!flow) {
+      return;
+    }
+    flow.innerHTML = "";
+
+    bakingSteps.forEach(function (item, idx) {
+      var li = createEl("li", "step-flow-item");
+      var box = createEl("article", "card step-square-box");
+      box.appendChild(createEl("span", "step-badge", item.step));
+      box.appendChild(createEl("h3", "h5 mb-2", item.label));
+      box.appendChild(createEl("p", "text-muted-bakery small mb-0", item.description));
+      li.appendChild(box);
+      flow.appendChild(li);
+
+      if (idx < bakingSteps.length - 1) {
+        var arrowLi = createEl("li", "step-arrow");
+        arrowLi.setAttribute("aria-hidden", "true");
+        arrowLi.appendChild(createEl("span", "step-arrow-horizontal", "\u2192"));
+        arrowLi.appendChild(createEl("span", "step-arrow-vertical", "\u2193"));
+        flow.appendChild(arrowLi);
+      }
+    });
+  }
+
   function renderStats() {
     var grid = document.getElementById("bakerStatsGrid");
     if (!grid) {
@@ -175,11 +187,8 @@
     bakerStats.forEach(function (stat) {
       var col = createEl("div", "col-6 col-lg-3");
       var card = createEl("article", "card stat-card");
-      var val = createEl("p", "stat-value mb-1", stat.value);
-      var lbl = createEl("p", "text-muted-bakery fw-bold small mb-0", stat.label);
-
-      card.appendChild(val);
-      card.appendChild(lbl);
+      card.appendChild(createEl("p", "stat-value mb-1", stat.value));
+      card.appendChild(createEl("p", "text-muted-bakery fw-bold small mb-0", stat.label));
       col.appendChild(card);
       grid.appendChild(col);
     });
@@ -195,13 +204,9 @@
     storyMilestones.forEach(function (item) {
       var col = createEl("div", "col-md-6");
       var card = createEl("article", "card timeline-card card-hover");
-      var year = createEl("span", "timeline-year", item.year);
-      var title = createEl("h3", "h5 mb-2", item.title);
-      var desc = createEl("p", "text-muted-bakery mb-0", item.description);
-
-      card.appendChild(year);
-      card.appendChild(title);
-      card.appendChild(desc);
+      card.appendChild(createEl("span", "timeline-year", item.year));
+      card.appendChild(createEl("h3", "h5 mb-2", item.title));
+      card.appendChild(createEl("p", "text-muted-bakery mb-0", item.description));
       col.appendChild(card);
       grid.appendChild(col);
     });
@@ -239,7 +244,7 @@
       btn.setAttribute("aria-pressed", String(activeIngredientFilter === category));
       btn.addEventListener("click", function () {
         activeIngredientFilter = category;
-        saveIngredientFilter(category);
+        safeSet(INGREDIENT_FILTER_KEY, category);
         renderIngredientFilters();
         renderIngredients();
       });
@@ -268,35 +273,9 @@
     filtered.forEach(function (item) {
       var col = createEl("div", "col-md-6 col-lg-4");
       var card = createEl("article", "card ingredient-card card-hover");
-      var origin = createEl("p", "ingredient-origin mb-1", item.category + " • " + item.origin);
-      var title = createEl("h3", "h5 mb-2", item.name);
-      var detail = createEl("p", "text-muted-bakery small mb-0", item.detail);
-
-      card.appendChild(origin);
-      card.appendChild(title);
-      card.appendChild(detail);
-      col.appendChild(card);
-      grid.appendChild(col);
-    });
-  }
-
-  function renderBakingSteps() {
-    var grid = document.getElementById("bakingStepsGrid");
-    if (!grid) {
-      return;
-    }
-    grid.innerHTML = "";
-
-    bakingSteps.forEach(function (item) {
-      var col = createEl("div", "col-sm-6 col-lg-3");
-      var card = createEl("article", "card step-card");
-      var num = createEl("span", "step-number", item.step);
-      var title = createEl("h3", "h5 mb-2", item.title);
-      var desc = createEl("p", "text-muted-bakery small mb-0", item.description);
-
-      card.appendChild(num);
-      card.appendChild(title);
-      card.appendChild(desc);
+      card.appendChild(createEl("p", "ingredient-origin mb-1", item.category + " • " + item.origin));
+      card.appendChild(createEl("h3", "h5 mb-2", item.name));
+      card.appendChild(createEl("p", "text-muted-bakery small mb-0", item.detail));
       col.appendChild(card);
       grid.appendChild(col);
     });
@@ -354,14 +333,10 @@
     var clearBtn = document.getElementById("clearDietaryBtn");
     var resetFilterBtn = document.getElementById("resetIngredientFilterBtn");
 
-    if (errorEl) {
-      errorEl.className = "field-error-msg mb-2 d-none";
-    }
-
     if (resetFilterBtn) {
       resetFilterBtn.addEventListener("click", function () {
         activeIngredientFilter = "All";
-        saveIngredientFilter("All");
+        safeSet(INGREDIENT_FILTER_KEY, "All");
         renderIngredientFilters();
         renderIngredients();
       });
@@ -406,7 +381,7 @@
       showDietaryBanner(
         persisted
           ? "Saved kitchen note for future visits: " + chosen
-          : "Added kitchen note for this session (browser storage unavailable): " + chosen
+          : "Added kitchen note for this session: " + chosen
       );
 
       select.value = "";
@@ -427,11 +402,11 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    renderBakingSteps();
     renderStats();
     renderTimeline();
     renderIngredientFilters();
     renderIngredients();
-    renderBakingSteps();
     renderDietaryPrefs();
     initDietaryForm();
   });

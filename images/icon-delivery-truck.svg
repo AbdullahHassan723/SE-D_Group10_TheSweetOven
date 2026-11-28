@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="deliveryTruckIconTitle">
+  <title id="deliveryTruckIconTitle">Home delivery truck icon</title>
+  <circle cx="32" cy="32" r="30" fill="#FCE8EC" stroke="#B5601E" stroke-width="2.5"/>
+  <!-- Cargo box -->
+  <rect x="14" y="22" width="24" height="19" rx="3" fill="#FFF8EE" stroke="#4A2C1D" stroke-width="2"/>
+  <rect x="18" y="27" width="16" height="4" rx="1.5" fill="#F3B6C0"/>
+  <!-- Cab -->
+  <path d="M38 27 L46 27 L50 34 L50 41 L38 41 Z" fill="#B5601E" stroke="#4A2C1D" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="40" y="29" width="6" height="5" rx="1" fill="#FFF8EE"/>
+  <!-- Wheels -->
+  <circle cx="22" cy="43" r="4" fill="#4A2C1D" stroke="#FFF8EE" stroke-width="1.5"/>
+  <circle cx="43" cy="43" r="4" fill="#4A2C1D" stroke="#FFF8EE" stroke-width="1.5"/>
+</svg>

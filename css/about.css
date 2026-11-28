@@ -3,20 +3,18 @@
    Loaded AFTER Bootstrap 5.3.3 CSS & ../css/styles.css
    ========================================================================== */
 
-.nav-cart-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.35rem;
-  height: 1.35rem;
-  padding: 0 0.35rem;
-  margin-left: 0.3rem;
-  border-radius: 999px;
-  background-color: var(--color-pink);
-  color: var(--color-brown);
-  font-size: 0.78rem;
-  font-weight: 700;
-  line-height: 1;
+.brand-name-mobile {
+  display: none;
+}
+
+@media (max-width: 575.98px) {
+  .brand-name-desktop {
+    display: none;
+  }
+
+  .brand-name-mobile {
+    display: inline;
+  }
 }
 
 .theme-toggle-btn {
@@ -66,12 +64,107 @@ textarea:focus-visible,
   border-radius: 999px;
 }
 
-.baker-illustration {
+.chef-hat-illustration {
   width: 100%;
-  max-width: 450px;
+  max-width: 290px;
   height: auto;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
+}
+
+.kitchen-thumb-illustration {
+  width: 100%;
+  max-width: 230px;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+/* How we bake: 3 square boxes joined by arrows */
+.baking-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .baking-flow {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1rem;
+  }
+}
+
+.step-flow-item {
+  width: 100%;
+  max-width: 260px;
+  display: flex;
+}
+
+.step-square-box {
+  width: 100%;
+  min-height: 220px;
+  padding: 1.35rem;
+  border: 2px solid var(--color-border);
+  border-top: 5px solid var(--color-caramel);
+  border-radius: var(--radius-md);
+  background-color: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--color-pink);
+  color: var(--color-brown);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.step-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--color-caramel);
+  line-height: 1;
+  user-select: none;
+}
+
+.step-arrow-horizontal {
+  display: none;
+}
+
+.step-arrow-vertical {
+  display: inline-flex;
+}
+
+@media (min-width: 768px) {
+  .step-arrow-horizontal {
+    display: inline-flex;
+  }
+
+  .step-arrow-vertical {
+    display: none;
+  }
+}
+
+.see-menu-btn {
+  min-width: 13rem;
+  border: 2px solid var(--color-brown);
 }
 
 /* Stat Cards */
@@ -141,27 +234,6 @@ textarea:focus-visible,
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--color-caramel-dark);
-}
-
-/* Baking Steps */
-.step-card {
-  height: 100%;
-  padding: 1.35rem;
-}
-
-.step-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 50%;
-  background-color: var(--color-pink);
-  color: var(--color-brown);
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
 }
 
 /* Dietary Preference Saver */
@@ -281,13 +353,8 @@ textarea:focus-visible,
   border-color: #6B4431 !important;
 }
 
-[data-theme="cozy"] .section-highlight {
-  background-color: #3D2417;
-  border-color: #B5601E;
-}
-
 [data-theme="cozy"] .card,
-[data-theme="cozy"] .bakery-card,
+[data-theme="cozy"] .step-square-box,
 [data-theme="cozy"] .dietary-panel,
 [data-theme="cozy"] .empty-state-box {
   background-color: #4A2C1D;
@@ -295,10 +362,7 @@ textarea:focus-visible,
   color: #FFF8EE;
 }
 
-[data-theme="cozy"] .text-muted-bakery {
-  color: #F3D9CE;
-}
-
+[data-theme="cozy"] .step-arrow,
 [data-theme="cozy"] .stat-value,
 [data-theme="cozy"] .ingredient-origin {
   color: #F3B6C0;
@@ -309,15 +373,19 @@ textarea:focus-visible,
   color: #FFFFFF;
 }
 
-[data-theme="cozy"] .btn-outline-bakery,
-[data-theme="cozy"] .ingredient-filter-btn {
+[data-theme="cozy"] .text-muted-bakery {
+  color: #F3D9CE;
+}
+
+[data-theme="cozy"] .ingredient-filter-btn,
+[data-theme="cozy"] .btn-outline-bakery {
   background-color: #361F14;
   border-color: #F3B6C0;
   color: #FFF8EE;
 }
 
-[data-theme="cozy"] .btn-outline-bakery:hover,
-[data-theme="cozy"] .ingredient-filter-btn:hover {
+[data-theme="cozy"] .ingredient-filter-btn:hover,
+[data-theme="cozy"] .btn-outline-bakery:hover {
   background-color: #F3B6C0;
   color: #4A2C1D;
 }
@@ -350,18 +418,5 @@ textarea:focus-visible,
 [data-theme="cozy"] .saved-banner {
   background-color: #2B180F;
   border-color: #F3B6C0;
-}
-
-[data-theme="cozy"] a:focus-visible,
-[data-theme="cozy"] button:focus-visible,
-[data-theme="cozy"] .btn:focus-visible,
-[data-theme="cozy"] .navbar-toggler:focus-visible,
-[data-theme="cozy"] .theme-toggle-btn:focus-visible,
-[data-theme="cozy"] input:focus-visible,
-[data-theme="cozy"] select:focus-visible,
-[data-theme="cozy"] textarea:focus-visible,
-[data-theme="cozy"] .ingredient-filter-btn:focus-visible {
-  outline: 3px solid #B5601E;
-  outline-offset: 3px;
-  box-shadow: 0 0 0 6px rgba(255, 248, 238, 0.35);
+  color: #FFF8EE;
 }
