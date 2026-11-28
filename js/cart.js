@@ -2,43 +2,9 @@
   "use strict";
 
   var CART_STORAGE_KEY = "sweetOvenCart";
-  var CART_INIT_KEY = "sweetOvenCartInitialized";
   var PROMO_STORAGE_KEY = "sweetOvenPromo";
   var MAX_ITEM_QTY = 20;
-  var MIN_ORDER_SUBTOTAL = 1000;
-
-  var defaultCartItems = [
-    {
-      id: "cake-belgian-fudge",
-      name: "Belgian Chocolate Fudge Cake",
-      category: "Signature Cakes",
-      weight: "1 lb (Serves 4-6)",
-      price: 2850,
-      quantity: 1,
-      image: "../images/chocolate-fudge-cake.svg",
-      alt: "Belgian Chocolate Fudge Cake topped with chocolate ganache"
-    },
-    {
-      id: "tub-lotus-tres-leches",
-      name: "Lotus Biscoff Tres Leches Tub",
-      category: "Milk Cakes",
-      weight: "500 g Family Tub",
-      price: 1650,
-      quantity: 2,
-      image: "../images/lotus-tres-leches.svg",
-      alt: "Lotus Biscoff Tres Leches milk cake tub with caramel biscuit crumble"
-    },
-    {
-      id: "box-cinnamon-rolls",
-      name: "Warm Cream-Cheese Cinnamon Rolls",
-      category: "Breakfast Pastries",
-      weight: "Box of 4",
-      price: 1400,
-      quantity: 1,
-      image: "../images/cinnamon-rolls.svg",
-      alt: "Box of four glazed cinnamon rolls with vanilla cream-cheese icing"
-    }
-  ];
+  var MIN_ORDER_SUBTOTAL = 500;
 
   var bakeryCatalog = [
     {
@@ -115,7 +81,6 @@
   var emptyCartState = document.getElementById("emptyCartState");
   var cartFeedback = document.getElementById("cartFeedback");
   var clearCartBtn = document.getElementById("clearCartBtn");
-  var restoreSampleBtn = document.getElementById("restoreSampleBtn");
 
   var promoForm = document.getElementById("promoForm");
   var promoInput = document.getElementById("promoInput");
@@ -169,27 +134,22 @@
 
   function loadCart() {
     try {
-      var initialized = localStorage.getItem(CART_INIT_KEY);
       var raw = localStorage.getItem(CART_STORAGE_KEY);
-      if (!initialized && raw === null) {
-        var initial = defaultCartItems.map(sanitizeCartItem).filter(Boolean);
-        localStorage.setItem(CART_INIT_KEY, "true");
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(initial));
-        return initial;
+      if (!raw) {
+        return [];
       }
-      var parsed = raw ? JSON.parse(raw) : [];
+      var parsed = JSON.parse(raw);
       if (!Array.isArray(parsed)) {
         return [];
       }
       return parsed.map(sanitizeCartItem).filter(Boolean);
     } catch (err) {
-      return defaultCartItems.slice();
+      return [];
     }
   }
 
   function saveCart() {
     try {
-      localStorage.setItem(CART_INIT_KEY, "true");
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
     } catch (err) {
       showFeedback("Unable to save basket in browser storage.", true);
@@ -290,7 +250,7 @@
     clearCartBtn.disabled = isEmpty;
 
     if (isBelowMinimum) {
-      minOrderWarning.textContent = "Minimum order Rs. 1000 required (current subtotal: " + formatPKR(totals.subtotal) + ").";
+      minOrderWarning.textContent = "Minimum order Rs. 500 required (current subtotal: " + formatPKR(totals.subtotal) + ").";
       minOrderWarning.classList.remove("d-none");
     } else {
       minOrderWarning.textContent = "";
@@ -645,13 +605,6 @@
     renderCart();
   });
 
-  restoreSampleBtn.addEventListener("click", function () {
-    cartItems = defaultCartItems.map(sanitizeCartItem).filter(Boolean);
-    saveCart();
-    showFeedback("Sample bakery basket restored.", false);
-    renderCart();
-  });
-
   promoForm.addEventListener("submit", function (event) {
     event.preventDefault();
     var code = promoInput.value.trim().toUpperCase();
@@ -692,7 +645,7 @@
     }
     if (totals.subtotal < MIN_ORDER_SUBTOTAL) {
       event.preventDefault();
-      showFeedback("Minimum order Rs. 1000 required", true);
+      showFeedback("Minimum order Rs. 500 required", true);
     }
   });
 

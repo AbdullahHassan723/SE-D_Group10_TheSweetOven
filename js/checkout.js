@@ -6,7 +6,7 @@
   var DRAFT_STORAGE_KEY = "sweetOvenCheckoutDraft";
   var LAST_ORDER_KEY = "sweetOvenLastOrder";
   var ALL_ORDERS_KEY = "sweetOvenOrders";
-  var MIN_ORDER_SUBTOTAL = 1000;
+  var MIN_ORDER_SUBTOTAL = 500;
 
   var deliveryAreas = [
     {
@@ -300,7 +300,7 @@
       emptyCheckoutAlert.classList.add("d-none");
 
       if (isBelowMinimum) {
-        minOrderAlertText.textContent = "Minimum order Rs. 1000 required. Current subtotal: " + formatPKR(summary.subtotal) + ".";
+        minOrderAlertText.textContent = "Minimum order Rs. 500 required. Current subtotal: " + formatPKR(summary.subtotal) + ".";
         minOrderAlert.classList.remove("d-none");
         placeOrderBtn.disabled = true;
       } else {
@@ -653,7 +653,7 @@
     }
 
     if (summary.subtotal < MIN_ORDER_SUBTOTAL) {
-      formAlert.textContent = "Minimum order Rs. 1000 required";
+      formAlert.textContent = "Minimum order Rs. 500 required";
       formAlert.classList.remove("d-none");
       return;
     }
